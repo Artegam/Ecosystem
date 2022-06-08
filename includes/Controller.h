@@ -12,13 +12,13 @@ namespace Controller {
   /// class ClockSubscriber - 
   class ClockSubscriber {
   private:
-    unsigned int id = 0;
+    string id = "";
   protected:
     bool die = false;
     // Operations
   public:
-    void setId (const unsigned int ident);
-    const unsigned int getId ();
+    void setId (const string ident);
+    const string getId ();
     virtual void update ();
     bool isDying ();
   };
@@ -29,12 +29,12 @@ namespace Controller {
   private:
     static bool running;
     static thread t1;
-    static map<unsigned int, ClockSubscriber *>::iterator it;
+    static map<string, ClockSubscriber *>::iterator it;
     static unsigned int turns;
   public:
     static bool t;
     static unsigned int interval;
-    static map<unsigned int, ClockSubscriber *> subscribers;
+    static map<string, ClockSubscriber *> subscribers;
     // Operations
   public:
     Clock (unsigned int interv = 1000);
@@ -46,7 +46,7 @@ namespace Controller {
     bool isRunning();
     unsigned int subscribersCount ();
     bool getT();
-    map<unsigned int, ClockSubscriber *> getSubscribers();
+    map<string, ClockSubscriber *> getSubscribers();
     static unsigned int getTurns();
   };
 

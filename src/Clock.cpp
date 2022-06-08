@@ -1,15 +1,17 @@
 #include "Controller.h"
 #include <unistd.h>
 #include <cstdio>
+#include "uuid.h"
 
 using namespace std;
 using namespace Controller;
+using namespace uuid;
 
 bool Clock::t = false;
 unsigned int Clock::interval = 1000;
 bool Clock::running = true;
-map<unsigned int, ClockSubscriber *> Clock::subscribers;
-map<unsigned int, ClockSubscriber *>::iterator Clock::it;
+map<string, ClockSubscriber *> Clock::subscribers;
+map<string, ClockSubscriber *>::iterator Clock::it;
 thread Clock::t1(Clock::tick);
 unsigned int Clock::turns = 0;
 
@@ -37,7 +39,7 @@ void Clock::tick () {
 }
 
 void Clock::subscribe (ClockSubscriber * s) {
-  unsigned int id = subscribers.size() + 1;
+  string id = generate_uuid_v4();
   s->setId(id);
   subscribers.insert({id, s});
 }
@@ -59,7 +61,7 @@ bool Clock::getT() {
   return this->t;
 }
 
-map<unsigned int, ClockSubscriber *> Clock::getSubscribers() {
+map<string, ClockSubscriber *> Clock::getSubscribers() {
   return subscribers;
 }
 
