@@ -63,3 +63,11 @@ install:
 
 uninstall:
 	rm $(INSTALL_DIR)$(EXEC)
+
+install-libs:
+	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc
+
+uninstall-libs:
+	sudo apt-get remove libncurses-dev
+
+
