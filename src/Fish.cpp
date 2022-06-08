@@ -28,8 +28,7 @@ void Fish::execute () {
 void Fish::update () {
   //Si le poisson est encore en vie aprÃs 6 tours
   // il y a un enfant
-  if(this->age >= 5) {
-    new Fish(this->world);
+  if(this->age >= 9) {
     new Fish(this->world);
   }
 

@@ -4,11 +4,11 @@
 using namespace Controller;
 
 
-void ClockSubscriber::setId (const unsigned int ident) {
+void ClockSubscriber::setId (const string ident) {
   this->id = ident;
 }
 
-const unsigned int ClockSubscriber::getId () {
+const string ClockSubscriber::getId () {
   return this->id;
 }
 

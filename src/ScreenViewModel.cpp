@@ -31,8 +31,8 @@ unsigned int ScreenViewModel::getWildlifeCount() {
 list<Wildlife *> ScreenViewModel::getWildlife() {
   list<Wildlife *> lst;
 
-  map<unsigned int, ClockSubscriber *>::iterator it;
-  map<unsigned int, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
+  map<string, ClockSubscriber *>::iterator it;
+  map<string, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
     if(this->isWildlife(it->second)) {
@@ -55,8 +55,8 @@ unsigned int ScreenViewModel::getTurns () {
 const unsigned int ScreenViewModel::getAverageAge () {
   unsigned int averageAge = 0;
 
-  map<unsigned int, ClockSubscriber *>::iterator it;
-  map<unsigned int, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
+  map<string, ClockSubscriber *>::iterator it;
+  map<string, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
     if(this->isWildlife(it->second)) {
@@ -77,8 +77,8 @@ const unsigned int ScreenViewModel::getAverageAge () {
 const unsigned int ScreenViewModel::getLifeExpectancy () {
   unsigned int lifeExpectancy = 0;
 
-  map<unsigned int, ClockSubscriber *>::iterator it;
-  map<unsigned int, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
+  map<string, ClockSubscriber *>::iterator it;
+  map<string, ClockSubscriber *> subscribers = this->world->getClock()->getSubscribers();
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
     if(this->isWildlife(it->second)) {
