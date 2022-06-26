@@ -37,15 +37,15 @@ void NCursesView::menu (WINDOW * main) {
   } else {
     mvwprintw(main, 1, 50, "tac");
   }
-  mvwprintw(main, 2, 50, "Nb etres vivants: %u", data->getWildlifeCount());
+  mvwprintw(main, 2, 50, "Living beings number: %u", data->getWildlifeCount());
   if(data->isRunning()) {
-    mvwprintw(main, 3, 50, "execution: en cours...");
+    mvwprintw(main, 3, 50, "execution: running...");
   } else {
-    mvwprintw(main, 3, 50, "execution: stopee");
+    mvwprintw(main, 3, 50, "execution: stopped");
   }
-  mvwprintw(main, 4, 50, "tours: %u", data->getTurns());
-  mvwprintw(main, 5, 50, "moyenne age: %u", data->getAverageAge());
-  mvwprintw(main, 6, 50, "esperance de vie: %u", data->getLifeExpectancy());
+  mvwprintw(main, 4, 50, "turns: %u", data->getTurns());
+  mvwprintw(main, 5, 50, "age average: %u", data->getAverageAge());
+  mvwprintw(main, 6, 50, "life expectancy: %u", data->getLifeExpectancy());
 }
 
 void NCursesView::display (ScreenViewModel * data) {
@@ -72,7 +72,7 @@ void NCursesView::display (ScreenViewModel * data) {
   main = subwin(stdscr, LINES, COLS, 0, 0);
   this->menu(main);
 
-  window= subwin(stdscr, data->getWorldHeight()+2, data->getWorldWidth()+2, 1, 0);
+  window= subwin(stdscr, data->getWorldHeight() + 2, data->getWorldWidth() + 2, 1, 0);
 
   box(window, ACS_VLINE, ACS_HLINE);
 
@@ -90,13 +90,14 @@ void NCursesView::display (ScreenViewModel * data) {
   for(it = lst.begin(); it != lst.end(); it++) {
     attron(COLOR_PAIR(EMPTY_PAIR));
     mvwprintw(window, (*it)->getY(), (*it)->getX(), "%c", (*it)->getDisplayChar());
+    //mvwprintw(window, (*it)->getY(), (*it)->getX(), "$");
     attroff(COLOR_PAIR(EMPTY_PAIR));
   }
   refresh();
   wrefresh(main);
   wrefresh(window);
   usleep(500000);
-  // fin dessin de la fentre
+  // fin dessin de la fenetre
 
   //getch();
 

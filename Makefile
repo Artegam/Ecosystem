@@ -11,18 +11,18 @@ INC = includes/
 OUT = o/
 BIN = bin/
 
-INCLUDES = -g -I $(INC) # -I $(INC_RENDER) -I $(INC_TU)
+INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(INC_TU)
 
 INSTALL_DIR = /usr/bin/
 
 LIBS = -lncurses
 EXEC = Ecosystem
-OPT = -Wall
+OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
 
 #O_PARSER = ObjParser.o MatParser.o Loader.o
 #OBJECTS = $(O_PARSER) Squelette.o Element3D.o Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
-OBJECTS = Clock.o ClockSubscriber.o World.o Wildlife.o Explorer.o Fish.o ScreenViewModel.o ScreenPresenter.o ScreenView.o NCursesView.o
+OBJECTS = Clock.o ClockSubscriber.o World.o WildlifeModel.o Wildlife.o Behavior.o Explorer.o Fish.o ScreenViewModel.o ScreenPresenter.o ScreenView.o NCursesView.o
 THREAD_OBJECTS = Clock.o
 VIEWS_OBJECTS = NCursesView.o
 
