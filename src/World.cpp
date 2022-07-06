@@ -5,6 +5,7 @@ using namespace Controller;
 World::World (int height, int width) {
   this->height = height;
   this->width = width;
+	//this->map = list<Wildlife> map[width][height];
   this->clock = new Clock();
 }
 
@@ -26,4 +27,18 @@ void World::setRefresh(unsigned int interval) {
 
 void World::run(void) {
   this->clock->run();
+}
+
+vector<vector<ClockSubscriber*>> World::getMap() {
+  vector<vector<ClockSubscriber*>> myMap;
+
+  map<string, ClockSubscriber *> subscribers;
+  subscribers = this->clock->getSubscribers();
+  map<string, ClockSubscriber *>::iterator it;
+
+  for(it = subscribers.begin(); it != subscribers.end(); it++) {
+    myMap[it->second->getX()][it->second->getY()] = it->second;
+  }
+
+	return myMap;
 }

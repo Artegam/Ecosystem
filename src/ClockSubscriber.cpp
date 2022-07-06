@@ -16,3 +16,13 @@ void ClockSubscriber::update () {
   printf("update dans ClockSubscriber\n");
 }
 
+int ClockSubscriber::getX () {
+  printf("getX() dans ClockSubscriber\n");
+  return 0;
+}
+
+int ClockSubscriber::getY () {
+  printf("getY() dans ClockSubscriber\n");
+  return 0;
+}
+

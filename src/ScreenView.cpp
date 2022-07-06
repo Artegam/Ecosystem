@@ -8,6 +8,5 @@ ScreenView::ScreenView () {
 
 
 void ScreenView::display (ScreenViewModel * data) {
-
 }
 

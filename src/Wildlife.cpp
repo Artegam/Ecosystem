@@ -1,17 +1,33 @@
 #include "Interactor.h"
-#include <random>
+#include <cstring>
 
 using namespace Interactor;
 using namespace Controller;
 using namespace std;
 
 Wildlife::Wildlife () {
+  data = new WildlifeModel();
 }
 
+/*
+Wildlife::Wildlife (const Wildlife * w) {
+  name        = w->name;
+  lifetime    = w->lifetime;
+  age         = w->age;
+  displayChar = w->displayChar;
+  viewField   = w->viewField;
+  XPosition   = w->XPosition;
+  YPosition   = w->YPosition;
+  action      = w->action;
+  world       = w->world;
+}
+*/
+
 Wildlife::Wildlife (World * world) {
-  this->world = world;
-  this->XPosition = this->random(1, world->getWidth());
-  this->YPosition = this->random(1, world->getHeight());
+  data = new WildlifeModel();
+  data->setWorld(world);
+  data->setX(data->random(1, world->getWidth()));
+  data->setY(data->random(1, world->getHeight()));
   Clock * c = world->getClock();
   c->subscribe(this);
 }
@@ -19,52 +35,98 @@ Wildlife::Wildlife (World * world) {
 Wildlife::~Wildlife () {
 }
 
-char* Wildlife::getName() {
-  return this->name;
-}
-
 void Wildlife::execute () {
   printf("Je m'execute en Wildlife...\n");
 }
 
 void Wildlife::update () {
-  printf("Je me mets a jour en Wildlife...\n");
+  //printf("Je me mets a jour en Wildlife...\n");
+  action->compute(data);
+  //Si l animal est encore en vie aprÃs x tours
+  // il y a un enfant
+  if(data->getAge() >= 9) {
+    this->addWildlife("Fish", data->random(1, 3));
+  }
+
+//############################
+	//TODO: Faire un tableau pour la vue du poisson
+	int originX = this->getX() - this->data->getViewField();//*2 + 1;
+	int originY = this->getY() - this->data->getViewField();
+	int endX = originX * 2 + 1;
+	int endY = originY * 2 + 1;
+
+	//World world = *data->getWorld();
+
+	for (int x = originX; x <= endX; x++) {
+		for (int y = originY; y <= endY; y++) {
+			char key[10] = "";
+			sprintf(key, "%d-%d", x, y);
+			//vision.insert({key, world->map[x][y].size()});
+		}
+	}
+/*
+	// Pour utiliser la map vision faire des tris etc...
+	//https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/
+
+//#### TODO: la partie de tri et de prendre la position vers où aller => à mettre dans l'objet Behavior
+  std::sort(vision.begin(), vision.end(), this->cmp);
+	//Map vision triée
+
+	printf("La plus grosse position connue est : %s, avec la valeur %d\n", vision.begin()->first, vision.begin()->second);
+
+  int pos_delim = vision.begin()->first.find("-");
+	string x = vision.begin()->first.substr(0, pos_delim);
+	string y = vision.begin()->first.substr(pos_delim + 1);
+
+	printf("La position est x: %d y: %d\n", atoi(x), atoi(y));
+
+//###########################
+*/
+
+  this->makeOld();
 }
 
-int Wildlife::random (const int min, const int max) {
-  random_device                  rand_dev;
-  mt19937                        generator(rand_dev());
-  uniform_int_distribution<int>  distr(min, max);
-
-  return distr(generator);
-}
-
-int Wildlife::getX () {
-  return XPosition;
-}
-
-int Wildlife::getY () {
-  return YPosition;
-}
-
-char Wildlife::getDisplayChar () {
-  return displayChar;
-}
-
-const unsigned int Wildlife::getLifetimeRemaining () {
-  return this->lifetime;
-}
-
-const unsigned int Wildlife::getAge () {
-  return this->age;
+template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
+  // return type is bool
+  return x1.second <= x2.second;
 }
 
 void Wildlife::makeOld() {
-  this->lifetime--;
-  this->age++;
-  if(this->lifetime <= 0) {
+  data->makeOld();
+  if(data->getLifetimeRemaining() <= 0) {
     this->die = true;
-    this->world->getClock()->unsubscribe(this);
+    data->getWorld()->getClock()->unsubscribe(this);
   }
 }
+
+const unsigned int Wildlife::getAge () {
+  return data->getAge();
+}
+
+const unsigned int Wildlife::getLifetimeRemaining () {
+  return data->getLifetimeRemaining();
+}
+
+int Wildlife::getX () {
+  return data->getX();
+}
+
+int Wildlife::getY () {
+  return data->getY();
+}
+
+char Wildlife::getDisplayChar () {
+  return data->getDisplayChar();
+}
+
+void Wildlife::addWildlife(string wildlifeName, int number) {
+	for(int i = 1; i < number; i++) {
+    if(!strcmp(wildlifeName.c_str(), "Fish")) {
+      new Fish(data->getWorld());
+    } else if (!strcmp(wildlifeName.c_str(), "Shark")) {
+      new Shark(data->getWorld());
+    }
+	}
+}
+
 

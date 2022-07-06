@@ -1,0 +1,7 @@
+# Fichiers de compilation
+#########################
+*.o
+
+# Fichiers temporaires
+########################
+*~

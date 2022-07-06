@@ -3,6 +3,8 @@
 
 #include <map>
 #include <thread>
+#include <list>
+#include <vector>
 
 using namespace std;
 
@@ -21,6 +23,8 @@ namespace Controller {
     const string getId ();
     virtual void update ();
     bool isDying ();
+    int getX ();
+    int getY ();
   };
 
   /// class Clock - 
@@ -64,7 +68,9 @@ namespace Controller {
     int getHeight (void);
     Clock * getClock ();
     void setRefresh (unsigned int interval);
+		void addWildlife(string wildlifeName, int number);
     void run (void);
+		vector<vector<ClockSubscriber*>> getMap();
   };
 
 };

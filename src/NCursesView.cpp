@@ -1,10 +1,12 @@
 #include "ConsoleView.h"
+#include <cstring>
 
 using namespace ConsoleView;
 
 #define EMPTY_PAIR     1
 #define WATER_PAIR     2
-
+#define SHARK_PAIR     3
+#define FISH_PAIR      4
 
 NCursesView::NCursesView () {
 }
@@ -25,9 +27,10 @@ void NCursesView::init () {
   start_color();
   init_pair(EMPTY_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(WATER_PAIR, COLOR_BLUE, COLOR_BLACK);
+	init_pair(SHARK_PAIR, COLOR_RED, COLOR_BLACK);
+	init_pair(FISH_PAIR, COLOR_CYAN, COLOR_BLACK);
   attron(COLOR_PAIR(EMPTY_PAIR));
   clear();
-
 }
 
 void NCursesView::menu (WINDOW * main) {
@@ -37,15 +40,15 @@ void NCursesView::menu (WINDOW * main) {
   } else {
     mvwprintw(main, 1, 50, "tac");
   }
-  mvwprintw(main, 2, 50, "Nb etres vivants: %u", data->getWildlifeCount());
+  mvwprintw(main, 2, 50, "Living beings number: %u", data->getWildlifeCount());
   if(data->isRunning()) {
-    mvwprintw(main, 3, 50, "execution: en cours...");
+    mvwprintw(main, 3, 50, "execution: running...");
   } else {
-    mvwprintw(main, 3, 50, "execution: stopee");
+    mvwprintw(main, 3, 50, "execution: stopped");
   }
-  mvwprintw(main, 4, 50, "tours: %u", data->getTurns());
-  mvwprintw(main, 5, 50, "moyenne age: %u", data->getAverageAge());
-  mvwprintw(main, 6, 50, "esperance de vie: %u", data->getLifeExpectancy());
+  mvwprintw(main, 4, 50, "turns: %u", data->getTurns());
+  mvwprintw(main, 5, 50, "age average: %u", data->getAverageAge());
+  mvwprintw(main, 6, 50, "life expectancy: %u", data->getLifeExpectancy());
 }
 
 void NCursesView::display (ScreenViewModel * data) {
@@ -72,7 +75,7 @@ void NCursesView::display (ScreenViewModel * data) {
   main = subwin(stdscr, LINES, COLS, 0, 0);
   this->menu(main);
 
-  window= subwin(stdscr, data->getWorldHeight()+2, data->getWorldWidth()+2, 1, 0);
+  window= subwin(stdscr, data->getWorldHeight() + 2, data->getWorldWidth() + 2, 1, 0);
 
   box(window, ACS_VLINE, ACS_HLINE);
 
@@ -87,18 +90,33 @@ void NCursesView::display (ScreenViewModel * data) {
   //On affiche la faune
   list<Wildlife *> lst = data->getWildlife();
   list<Wildlife *>::iterator it;
+
   for(it = lst.begin(); it != lst.end(); it++) {
-    attron(COLOR_PAIR(EMPTY_PAIR));
-    mvwprintw(window, (*it)->getY(), (*it)->getX(), "%c", (*it)->getDisplayChar());
-    attroff(COLOR_PAIR(EMPTY_PAIR));
+    char type = (*it)->getDisplayChar();
+
+    if(type == 'F') {
+      wattron(window, COLOR_PAIR(FISH_PAIR));
+    } else if(type == 'S') {
+      wattron(window, COLOR_PAIR(SHARK_PAIR));
+    } else {
+      wattron(window, COLOR_PAIR(EMPTY_PAIR));
+    }
+
+    mvwaddch(window, (*it)->getY(), (*it)->getX(), (*it)->getDisplayChar());
+
+    if(type == 'F') {
+      wattroff(window, COLOR_PAIR(FISH_PAIR));
+    } else if(type == 'S') {
+      wattroff(window, COLOR_PAIR(SHARK_PAIR));
+    } else {
+      wattroff(window, COLOR_PAIR(EMPTY_PAIR));
+    }
   }
+
   refresh();
-  wrefresh(main);
   wrefresh(window);
+  wmove(main, 0, 50); // repositione le curseur
+  wrefresh(main);
   usleep(500000);
-  // fin dessin de la fentre
-
-  //getch();
-
+  // fin dessin de la fenetre
 }
-
