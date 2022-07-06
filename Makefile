@@ -1,13 +1,13 @@
 
 
-VPATH = src
+## Repertoires par défaut dans lesquels make va chercher.
+## L'ordre est important pour les recherches
+VPATH = o:src:includes
 
 SRC_TU = tests/
 
 INC = includes/
-
 #INC_TU = $(SRC_TU)$(INC)
-
 OUT = o/
 BIN = bin/
 
@@ -23,19 +23,28 @@ OPT_THREAD = -std=c++0x -pthread
 #O_PARSER = ObjParser.o MatParser.o Loader.o
 #OBJECTS = $(O_PARSER) Squelette.o Element3D.o Objet3D.o Face.o Vertex.o VertexNormal.o Material.o Moteur.o
 OBJECTS = Clock.o ClockSubscriber.o World.o WildlifeModel.o Wildlife.o Behavior.o Explorer.o Fish.o ScreenViewModel.o ScreenPresenter.o ScreenView.o NCursesView.o
-THREAD_OBJECTS = Clock.o
-VIEWS_OBJECTS = NCursesView.o
+
+CONTROLLER = ClockSubscriber.o Clock.o World.o
+#INTERACTOR = Explorer.o Survival.o Aggressive.o WildlifeModel.o Behavior.o Fish.o Shark.o Wildlife.o
+INTERACTOR = Explorer.o WildlifeModel.o Behavior.o Fish.o Shark.o Wildlife.o
+SCREEN_PRESENTER = ScreenViewModel.o ScreenView.o ScreenPresenter.o
+CONSOLE_VIEW = NCursesView.o
+
+#THREAD_OBJECTS = Clock.o
 
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
+
+## Pour déclarer des targets qui ne sont pas des fichiers
+.PHONY: clean mrproper install install-libs uninstall uninstall-libs
 
 #all:$(EXEC) $(TESTS_U)
 all:$(EXEC)
 
 
-$(EXEC): main.o $(OBJECTS)
+#$(EXEC): main.o $(OBJECTS)
+$(EXEC): main.o $(INTERACTOR) $(CONSOLE_VIEW) $(SCREEN_PRESENTER) $(CONTROLLER)
 	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) o/*.o -o $(BIN)$@ $(LIBS)
-	rm o/main.o
 
 $(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
@@ -69,5 +78,3 @@ install-libs:
 
 uninstall-libs:
 	sudo apt-get remove libncurses-dev
-
-

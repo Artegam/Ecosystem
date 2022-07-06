@@ -4,20 +4,20 @@
 using namespace Interactor;
 using namespace Controller;
 
-Shark::Shark () {
-  this->name = (char *)"Sharko";
-  this->lifetime = 5;
-  this->displayChar = 'S';
-  this->viewField = 2;
-  this->action = new Explorer ();
+Shark::Shark () : Wildlife () {
+  this->init();
 }
 
 Shark::Shark (World * world) : Wildlife (world) {
-  //TODO: Appeler le constructeur par defaut ici mais comment ???
-  this->name = (char *)"Sharko";
-  this->lifetime = this->random(5, 10);
-  this->displayChar = 'S';
-  this->viewField = 1;
+  this->init();
+  data->setLifetime(data->random(5, 10));
+}
+
+void Shark::init () {
+  data->setName((char *)"Sharko");
+  data->setLifetime(5);
+  data->setDisplayChar('S');
+  data->setViewField(1);
   this->action = new Explorer ();
 }
 
@@ -25,7 +25,8 @@ void Shark::execute () {
   printf("je m'execute en Shark...\n");
 }
 
-void Shark::update () : update () {
+void Shark::update () {
   // code specifique ici
+	this->action->compute(data);
 }
 

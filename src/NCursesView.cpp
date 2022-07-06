@@ -1,10 +1,12 @@
 #include "ConsoleView.h"
+#include <cstring>
 
 using namespace ConsoleView;
 
 #define EMPTY_PAIR     1
 #define WATER_PAIR     2
-
+#define SHARK_PAIR     3
+#define FISH_PAIR      4
 
 NCursesView::NCursesView () {
 }
@@ -25,9 +27,10 @@ void NCursesView::init () {
   start_color();
   init_pair(EMPTY_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(WATER_PAIR, COLOR_BLUE, COLOR_BLACK);
+	init_pair(SHARK_PAIR, COLOR_RED, COLOR_BLACK);
+	init_pair(FISH_PAIR, COLOR_CYAN, COLOR_BLACK);
   attron(COLOR_PAIR(EMPTY_PAIR));
   clear();
-
 }
 
 void NCursesView::menu (WINDOW * main) {
@@ -87,19 +90,33 @@ void NCursesView::display (ScreenViewModel * data) {
   //On affiche la faune
   list<Wildlife *> lst = data->getWildlife();
   list<Wildlife *>::iterator it;
+
   for(it = lst.begin(); it != lst.end(); it++) {
-    attron(COLOR_PAIR(EMPTY_PAIR));
-    mvwprintw(window, (*it)->getY(), (*it)->getX(), "%c", (*it)->getDisplayChar());
-    //mvwprintw(window, (*it)->getY(), (*it)->getX(), "$");
-    attroff(COLOR_PAIR(EMPTY_PAIR));
+    char type = (*it)->getDisplayChar();
+
+    if(type == 'F') {
+      wattron(window, COLOR_PAIR(FISH_PAIR));
+    } else if(type == 'S') {
+      wattron(window, COLOR_PAIR(SHARK_PAIR));
+    } else {
+      wattron(window, COLOR_PAIR(EMPTY_PAIR));
+    }
+
+    mvwaddch(window, (*it)->getY(), (*it)->getX(), (*it)->getDisplayChar());
+
+    if(type == 'F') {
+      wattroff(window, COLOR_PAIR(FISH_PAIR));
+    } else if(type == 'S') {
+      wattroff(window, COLOR_PAIR(SHARK_PAIR));
+    } else {
+      wattroff(window, COLOR_PAIR(EMPTY_PAIR));
+    }
   }
+
   refresh();
-  wrefresh(main);
   wrefresh(window);
+  wmove(main, 0, 50); // repositione le curseur
+  wrefresh(main);
   usleep(500000);
   // fin dessin de la fenetre
-
-  //getch();
-
 }
-

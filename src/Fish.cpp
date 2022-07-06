@@ -27,5 +27,6 @@ void Fish::execute () {
 void Fish::update () {
   Wildlife::update();
   // Ecrire ici tous les cas particuliers pour un poisson
+  //printf("je m'update en Fish...\n");
+	//this->action->compute(data);
 }
-

@@ -58,6 +58,7 @@ namespace Interactor {
     protected:
       WildlifeModel * data;
       Behavior * action;
+      map<string, int> vision;
       // Operations
     public:
       Wildlife ();
@@ -71,6 +72,8 @@ namespace Interactor {
       int getX ();
       int getY ();
       char getDisplayChar ();
+      void addWildlife(string wildlifeName, int number);
+      template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
     protected:
       void makeOld ();
   };
@@ -90,7 +93,10 @@ namespace Interactor {
   class Shark : public Wildlife {
     // Operations
     public:
+      Shark ();
       Shark (World * world);
+      void init();
+      void execute ();
       void update ();
   };
 
