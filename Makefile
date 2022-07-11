@@ -2,7 +2,7 @@
 
 ## Repertoires par défaut dans lesquels make va chercher.
 ## L'ordre est important pour les recherches
-VPATH = o:o/controller:o/interactor:o/screen_presenter:o/views:src:includes
+VPATH = o:o/controller:o/interactor:o/screen_presenter:src:includes
 
 SRC_TU = tests/
 
@@ -21,11 +21,22 @@ OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
 
 
-CONTROLLER = ClockSubscriber.o Clock.o World.o
+CONTROLLER = $(wildcard src/controller/*.cpp) #ClockSubscriber.o Clock.o World.o
 #INTERACTOR = Explorer.o Survival.o Aggressive.o WildlifeModel.o Behavior.o Fish.o Shark.o Wildlife.o
-INTERACTOR = Explorer.o WildlifeModel.o Behavior.o Fish.o Shark.o Wildlife.o
-SCREEN_PRESENTER = ScreenViewModel.o ScreenView.o ScreenPresenter.o
-VIEWS = NCursesView.o
+INTERACTOR = $(wildcard src/interactor/*.cpp) #Explorer.o WildlifeModel.o Behavior.o Fish.o Shark.o Wildlife.o
+SCREEN_PRESENTER = $(wildcard src/screen_presenter/*.cpp) #ScreenViewModel.o ScreenView.o ScreenPresenter.o
+VIEWS = $(wildcard src/views/*.cpp)
+
+VIEWS_O=$(subst src/, o/, $(VIEWS:.cpp=.o))
+CONTROLLER_O=$(subst src/, o/, $(CONTROLLER:.cpp=.o))
+INTERACTOR_O=$(subst src/, o/, $(INTERACTOR:.cpp=.o))
+SCREEN_PRESENTER_O=$(subst src/, o/, $(SCREEN_PRESENTER:.cpp=.o))
+
+OBJ=o/main.o
+OBJ+=$(INTERACTOR_O)
+OBJ+=$(CONTROLLER_O)
+OBJ+=$(SCREEN_PRESENTER_O)
+OBJ+=$(VIEWS_O)
 
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
@@ -37,32 +48,32 @@ VIEWS = NCursesView.o
 all:$(EXEC)
 
 
-$(EXEC): main.o $(INTERACTOR) $(CONSOLE_VIEW) $(SCREEN_PRESENTER) $(CONTROLLER) $(VIEWS)
-	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) o/.*/*.o -o $(BIN)$@ $(LIBS)
+$(EXEC): $(OBJ)
+	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) $(OBJ) -o $(BIN)$@ $(LIBS)
 
 $(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
 
-%.o: %.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ $(LIBS) -o o/controller/$@
+o/interactor/%.o: src/interactor/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
-%.o: %.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ $(LIBS) -o o/interactor/$@
+o/controller/%.o: src/controller/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
-%.o: %.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ $(LIBS) -o o/screen_presenter/$@
+o/screen_presenter/%.o: src/screen_presenter/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
-%.o: %.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ $(LIBS) -o o/views/$@
+o/views/%.o: src/views/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
-%.o: %.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o o/$@
+o/%.o: src/%.cpp
+	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 %.o: $(SRC_TU)%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^ -o o/$@
 
 clean:
-	rm o/*.o;find . -name "*~" | xargs rm -f
+	find o/ -name *.o | xargs rm;find . -name "*~" | xargs rm -f
 
 mrproper: clean
 	rm -rf $(EXEC)
