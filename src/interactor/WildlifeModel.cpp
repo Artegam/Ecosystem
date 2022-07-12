@@ -15,6 +15,7 @@ WildlifeModel::WildlifeModel (const WildlifeModel &wm) {
   viewField   = wm.viewField;
   XPosition   = wm.XPosition;
   YPosition   = wm.YPosition;
+  path        = wm.path;
 }
 
 char* WildlifeModel::getName() {
@@ -39,6 +40,10 @@ const unsigned int WildlifeModel::getLifetimeRemaining () {
 
 const unsigned int WildlifeModel::getAge () {
   return this->age;
+}
+
+World * WildlifeModel::getWorld () {
+  return this->world;
 }
 
 int WildlifeModel::getViewField() {
@@ -69,6 +74,10 @@ void WildlifeModel::setDisplayChar (char c) {
   this->displayChar = c;
 }
 
+void WildlifeModel::setWorld (World * w) {
+  this->world = w;
+}
+
 void WildlifeModel::makeOld() {
   this->lifetime--;
   this->age++;
@@ -82,10 +91,18 @@ int WildlifeModel::random (const int min, const int max) {
   return distr(generator);
 }
 
-void WildlifeModel::setWorld (World * w) {
-  this->world = w;
+void WildlifeModel::savePosition() {
+  string pos = this->getX() + "-" + this->getY();
+  path.insert(path.begin(), pos);
+  if(path.size() > 5) { // 5 est arbitraire pour le moment
+    path.pop_back();
+  }
 }
 
-World * WildlifeModel::getWorld () {
-  return this->world;
+bool WildlifeModel::isKnownedPosition(int posX, int posY){
+  vector<string>::iterator itr;
+  string search = posX + "-" + posY;
+  itr = find(path.begin(), path.end(), search);
+
+  return false;
 }

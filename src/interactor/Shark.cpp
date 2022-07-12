@@ -13,6 +13,11 @@ Shark::Shark (World * world) : Wildlife (world) {
   data->setLifetime(data->random(5, 10));
 }
 
+Shark::Shark (WildlifeModel * parentData) : Wildlife (parentData) {
+  this->init();
+  data->setLifetime(data->random(5, 10));
+}
+
 void Shark::init () {
   data->setName((char *)"Sharko");
   data->setLifetime(5);

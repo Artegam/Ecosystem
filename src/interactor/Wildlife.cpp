@@ -32,6 +32,16 @@ Wildlife::Wildlife (World * world) {
   c->subscribe(this);
 }
 
+Wildlife::Wildlife (WildlifeModel * parentData) {
+  World * world = parentData->getWorld();
+  data = new WildlifeModel();
+  data->setWorld(world);
+  data->setX(parentData->getX());
+  data->setY(parentData->getY());
+  Clock * c = world->getClock();
+  c->subscribe(this);
+}
+
 Wildlife::~Wildlife () {
 }
 
@@ -42,15 +52,12 @@ void Wildlife::execute () {
 void Wildlife::update () {
   //printf("Je me mets a jour en Wildlife...\n");
   action->compute(data);
-  //Si l animal est encore en vie aprÃs x tours
-  // il y a un enfant
-  if(data->getAge() >= 9) {
-    this->addWildlife("Fish", data->random(1, 3));
-  }
+
 
 //############################
 	//TODO: Faire un tableau pour la vue du poisson
-	int originX = this->getX() - this->data->getViewField();//*2 + 1;
+  /*
+	int originX = this->getX() - this->data->getViewField();// *2 + 1;
 	int originY = this->getY() - this->data->getViewField();
 	int endX = originX * 2 + 1;
 	int endY = originY * 2 + 1;
@@ -64,6 +71,7 @@ void Wildlife::update () {
 			//vision.insert({key, world->map[x][y].size()});
 		}
 	}
+  */
 /*
 	// Pour utiliser la map vision faire des tris etc...
 	//https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/
@@ -122,9 +130,9 @@ char Wildlife::getDisplayChar () {
 void Wildlife::addWildlife(string wildlifeName, int number) {
 	for(int i = 1; i < number; i++) {
     if(!strcmp(wildlifeName.c_str(), "Fish")) {
-      new Fish(data->getWorld());
+      new Fish(data);
     } else if (!strcmp(wildlifeName.c_str(), "Shark")) {
-      new Shark(data->getWorld());
+      new Shark(data);
     }
 	}
 }

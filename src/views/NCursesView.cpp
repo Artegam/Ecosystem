@@ -102,7 +102,7 @@ void NCursesView::display (ScreenViewModel * data) {
       wattron(window, COLOR_PAIR(EMPTY_PAIR));
     }
 
-    mvwaddch(window, (*it)->getY(), (*it)->getX(), (*it)->getDisplayChar());
+    mvwaddch(window, (*it)->getY()+1, (*it)->getX()+1, (*it)->getDisplayChar());
 
     if(type == 'F') {
       wattroff(window, COLOR_PAIR(FISH_PAIR));

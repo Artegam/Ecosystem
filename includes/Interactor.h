@@ -2,6 +2,7 @@
 #define INTERACTOR_H
 
 #include "Controller.h"
+#include <algorithm>
 
 using namespace Controller;
 
@@ -18,6 +19,7 @@ namespace Interactor {
       int XPosition;
       int YPosition;
       World * world;
+      vector<string> path;
       // Operations
     public:
       WildlifeModel ();
@@ -39,6 +41,8 @@ namespace Interactor {
       void setDisplayChar (char c);
       void makeOld ();
       int random(const int min, const int max);
+      void savePosition();
+      bool isKnownedPosition(int posX, int posY);
   };
 
   // interface
@@ -64,6 +68,7 @@ namespace Interactor {
       Wildlife ();
       //Wildlife (const Wildlife * w); // standby
       Wildlife (World * world);
+      Wildlife (WildlifeModel * parentData);
       ~Wildlife ();
       virtual void execute ();
       virtual void update ();
@@ -84,6 +89,7 @@ namespace Interactor {
     public:
       Fish ();
       Fish (World * world);
+      Fish (WildlifeModel * parentData);
       void init();
       void execute ();
       void update ();
@@ -95,6 +101,7 @@ namespace Interactor {
     public:
       Shark ();
       Shark (World * world);
+      Shark (WildlifeModel * parentData);
       void init();
       void execute ();
       void update ();
@@ -120,6 +127,8 @@ namespace Interactor {
     public:
       Explorer ();
       void compute (WildlifeModel * data);
+      vector<int> getNewPosition(WildlifeModel * data);
+      vector<int> getBasicPosition(WildlifeModel * data);
   };
 
 };
