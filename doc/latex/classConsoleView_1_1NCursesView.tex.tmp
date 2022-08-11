@@ -1,0 +1,44 @@
+\hypertarget{classConsoleView_1_1NCursesView}{}\doxysection{Référence de la classe Console\+View\+::N\+Curses\+View}
+\label{classConsoleView_1_1NCursesView}\index{ConsoleView::NCursesView@{ConsoleView::NCursesView}}
+
+
+class \mbox{\hyperlink{classConsoleView_1_1NCursesView}{N\+Curses\+View}} -\/  
+
+
+
+
+{\ttfamily \#include $<$Console\+View.\+h$>$}
+
+
+
+Graphe d\textquotesingle{}héritage de Console\+View\+::N\+Curses\+View\+:
+% FIG 0
+
+
+Graphe de collaboration de Console\+View\+::N\+Curses\+View\+:
+% FIG 1
+\doxysubsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classConsoleView_1_1NCursesView_ae598945e3aecb3e0e70eabb6642f0bd1}\label{classConsoleView_1_1NCursesView_ae598945e3aecb3e0e70eabb6642f0bd1}} 
+void {\bfseries init} ()
+\item 
+\mbox{\Hypertarget{classConsoleView_1_1NCursesView_a2f37d2c4f40a6fb7a304e324b0ba5830}\label{classConsoleView_1_1NCursesView_a2f37d2c4f40a6fb7a304e324b0ba5830}} 
+void {\bfseries menu} (W\+I\+N\+D\+OW $\ast$\mbox{\hyperlink{classmain}{main}})
+\item 
+\mbox{\Hypertarget{classConsoleView_1_1NCursesView_a6e07fa6607a469c3ad6da1aff59bac3d}\label{classConsoleView_1_1NCursesView_a6e07fa6607a469c3ad6da1aff59bac3d}} 
+void {\bfseries display} (\mbox{\hyperlink{classScreen_1_1ScreenViewModel}{Screen\+View\+Model}} $\ast$data)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Description détaillée}
+class \mbox{\hyperlink{classConsoleView_1_1NCursesView}{N\+Curses\+View}} -\/ 
+
+Définition à la ligne 10 du fichier Console\+View.\+h.
+
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+includes/Console\+View.\+h\item 
+src/views/N\+Curses\+View.\+cpp\end{DoxyCompactItemize}
