@@ -1,0 +1,86 @@
+\hypertarget{classInteractor_1_1Wildlife}{}\doxysection{Référence de la classe Interactor\+::Wildlife}
+\label{classInteractor_1_1Wildlife}\index{Interactor::Wildlife@{Interactor::Wildlife}}
+
+
+class \mbox{\hyperlink{classInteractor_1_1Wildlife}{Wildlife}} -\/  
+
+
+
+
+{\ttfamily \#include $<$Interactor.\+h$>$}
+
+
+
+Graphe d\textquotesingle{}héritage de Interactor\+::Wildlife\+:
+% FIG 0
+
+
+Graphe de collaboration de Interactor\+::Wildlife\+:
+% FIG 1
+\doxysubsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a18ebf0b3ced7cd6d5a78e983bf1289b7}\label{classInteractor_1_1Wildlife_a18ebf0b3ced7cd6d5a78e983bf1289b7}} 
+{\bfseries Wildlife} (\mbox{\hyperlink{classController_1_1World}{World}} $\ast$world)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a3ed6563f0fe6cbd7b81ecbfd3bc3f4b5}\label{classInteractor_1_1Wildlife_a3ed6563f0fe6cbd7b81ecbfd3bc3f4b5}} 
+{\bfseries Wildlife} (\mbox{\hyperlink{classInteractor_1_1WildlifeModel}{Wildlife\+Model}} $\ast$parent\+Data)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a833b3f00848692b9387ffc95896ee01f}\label{classInteractor_1_1Wildlife_a833b3f00848692b9387ffc95896ee01f}} 
+virtual void {\bfseries execute} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a3eb3aaa2ff061a9fd53c8dfe70ac1ad0}\label{classInteractor_1_1Wildlife_a3eb3aaa2ff061a9fd53c8dfe70ac1ad0}} 
+virtual void {\bfseries update} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a301e349228816ac32f37ba12e879974d}\label{classInteractor_1_1Wildlife_a301e349228816ac32f37ba12e879974d}} 
+const unsigned int {\bfseries get\+Age} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_ad6212a42350cbaa94d34df9d5f91627b}\label{classInteractor_1_1Wildlife_ad6212a42350cbaa94d34df9d5f91627b}} 
+const unsigned int {\bfseries get\+Lifetime\+Remaining} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a8331881cffc576cc83a0b56800b9734c}\label{classInteractor_1_1Wildlife_a8331881cffc576cc83a0b56800b9734c}} 
+int {\bfseries getX} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_aef33fd15a7977eb8adf5028d51a5696d}\label{classInteractor_1_1Wildlife_aef33fd15a7977eb8adf5028d51a5696d}} 
+int {\bfseries getY} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_aa5e75e15c0cff5fac3a1d152b4a20f5b}\label{classInteractor_1_1Wildlife_aa5e75e15c0cff5fac3a1d152b4a20f5b}} 
+char {\bfseries get\+Display\+Char} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a56817597a77bb21654fd8c423249076a}\label{classInteractor_1_1Wildlife_a56817597a77bb21654fd8c423249076a}} 
+void {\bfseries add\+Wildlife} (string wildlife\+Name, int number)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a228fb524bfcaa5ecde2c7f273a3c5549}\label{classInteractor_1_1Wildlife_a228fb524bfcaa5ecde2c7f273a3c5549}} 
+{\footnotesize template$<$class T $>$ }\\bool {\bfseries cmp} (pair$<$ T, T $>$ \&x1, pair$<$ T, T $>$ \&x2)
+\end{DoxyCompactItemize}
+\doxysubsection*{Fonctions membres protégées}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a3c41d1a02af0d4c9c76e59be1b33b7ed}\label{classInteractor_1_1Wildlife_a3c41d1a02af0d4c9c76e59be1b33b7ed}} 
+void {\bfseries make\+Old} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Attributs protégés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_af73301fe6ac4a4967f5c9e5cf41203d5}\label{classInteractor_1_1Wildlife_af73301fe6ac4a4967f5c9e5cf41203d5}} 
+\mbox{\hyperlink{classInteractor_1_1WildlifeModel}{Wildlife\+Model}} $\ast$ {\bfseries data}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_a6f056356e501ea8e8d862af05c3b853a}\label{classInteractor_1_1Wildlife_a6f056356e501ea8e8d862af05c3b853a}} 
+\mbox{\hyperlink{classInteractor_1_1Behavior}{Behavior}} $\ast$ {\bfseries action}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1Wildlife_ad042ba5ec2478569efc76dbd9cd4c884}\label{classInteractor_1_1Wildlife_ad042ba5ec2478569efc76dbd9cd4c884}} 
+map$<$ string, int $>$ {\bfseries vision}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Description détaillée}
+class \mbox{\hyperlink{classInteractor_1_1Wildlife}{Wildlife}} -\/ 
+
+Définition à la ligne 60 du fichier Interactor.\+h.
+
+
+
+La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+\item 
+includes/Interactor.\+h\item 
+src/interactor/Wildlife.\+cpp\end{DoxyCompactItemize}
