@@ -23,7 +23,7 @@ void Shark::init () {
   data->setLifetime(5);
   data->setDisplayChar('S');
   data->setViewField(1);
-  this->action = new Explorer ();
+  this->action = new Default ();
 }
 
 void Shark::execute () {

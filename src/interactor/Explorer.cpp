@@ -46,32 +46,12 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
     }
   }
 
-  if(possibles.size() > 0) {
-    int index = data->random(0, possibles.size()-1);
-    pair<int, int> newPos = possibles[index];
+  int index = data->random(0, possibles.size()-1);
+  pair<int, int> newPos = possibles[index];
 
-    position.push_back(newPos.first);
-    position.push_back(newPos.second);
-  } else {
-    position = this->getBasicPosition(data);
-  }
+  position.push_back(newPos.first);
+  position.push_back(newPos.second);
 
   return position;
-}
-
-vector<int> Explorer::getBasicPosition(WildlifeModel * data) {
-  vector<int> position;
-
-  int posX = (data->getX() + data->random(-1, 1)) % data->getWorld()->getWidth();
-  int posY = (data->getY() + data->random(-1, 1)) % data->getWorld()->getHeight();
-
-  if(!posX) {posX++;}
-  if(!posY) {posY++;}
-
-  position[0] = posX;
-  position[1] = posY;
-
-  return position;
-
 }
 

@@ -41,7 +41,7 @@ OBJ+=$(VIEWS_O)
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
 
-## Pour déclarer des targets qui ne sont pas des fichiers
+## Pour declarer des targets qui ne sont pas des fichiers
 .PHONY: clean mrproper install install-libs uninstall uninstall-libs
 
 #all:$(EXEC) $(TESTS_U)

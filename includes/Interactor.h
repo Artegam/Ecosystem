@@ -107,6 +107,15 @@ namespace Interactor {
       void update ();
   };
 
+  /// class Default - Default Behavior for wildlife
+  class Default : public Behavior {
+    // Operations
+    public:
+      Default ();
+      void compute (WildlifeModel * data);
+      vector<int> getNewPosition(WildlifeModel * data);
+  };
+
   /// class Aggressive - 
   class Aggressive : public Behavior {
     // Operations
@@ -128,7 +137,6 @@ namespace Interactor {
       Explorer ();
       void compute (WildlifeModel * data);
       vector<int> getNewPosition(WildlifeModel * data);
-      vector<int> getBasicPosition(WildlifeModel * data);
   };
 
 };

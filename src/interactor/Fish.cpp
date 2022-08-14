@@ -21,7 +21,7 @@ void Fish::init() {
   data->setLifetime(data->random(10, 15));
   data->setDisplayChar('F');
   data->setViewField(2);
-  this->action = new Explorer ();
+  this->action = new Default ();
 }
 
 void Fish::execute () {
@@ -32,9 +32,13 @@ void Fish::update () {
   Wildlife::update();
   // Ecrire ici tous les cas particuliers pour un poisson
 
+  // Apres 3 tour je suis un ado et j'explore le monde...
+  if(data->getAge() == 3) {
+    this->action = new Explorer();
+  }
+
   //Si l animal est encore en vie aprÃs x tours
   // il y a un enfant
-
   if(data->getAge() >= 9) {
     this->addWildlife("Fish", data->random(1, 3));
   }
