@@ -97,6 +97,10 @@ namespace Interactor {
 
   /// class Shark - 
   class Shark : public Wildlife {
+    //Attributes
+    private:
+      const int DAYS_BEFORE_STARVING = 10;
+      int daysRemainingsBeforeStarvation = DAYS_BEFORE_STARVING;
     // Operations
     public:
       Shark ();
