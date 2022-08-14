@@ -4,7 +4,9 @@
 using namespace Controller;
 using namespace ConsoleView;
 using namespace Interactor;
+
 // Prototypes
+void display(World * w);
 
 int main(int argc, char** argv) {
 
@@ -17,11 +19,14 @@ int main(int argc, char** argv) {
   */
   new Fish(w);
   new Shark(w);
-  NCursesView * view = new NCursesView();
-  ScreenPresenter * sp = new ScreenPresenter(view, w);
-  sp->display();
+  display(w);
 
 	return 0;
 }
 
+void display(World * w) {
+  NCursesView * view = new NCursesView();
+  ScreenPresenter * sp = new ScreenPresenter(view, w);
+  sp->display();
+}
 
