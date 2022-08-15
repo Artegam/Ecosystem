@@ -18,9 +18,10 @@ Fish::Fish (WildlifeModel * parentData) : Wildlife (parentData) {
 
 void Fish::init() {
   data->setName((char *)"Nemo");
-  data->setLifetime(data->random(10, 15));
+  data->setLifetime(10, 15);
   data->setDisplayChar('F');
   data->setViewField(2);
+  data->setDefaultTurnsNumberBeforeStarving(20);
   this->action = new Default ();
 }
 
@@ -42,7 +43,4 @@ void Fish::update () {
   if(data->getAge() >= 9) {
     this->addWildlife("Fish", data->random(1, 3));
   }
-
-  //printf("je m'update en Fish...\n");
-	//this->action->compute(data);
 }
