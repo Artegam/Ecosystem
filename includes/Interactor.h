@@ -20,7 +20,7 @@ namespace Interactor {
       int YPosition;
       World * world;
       vector<string> path;
-      // Operations
+    // Operations
     public:
       WildlifeModel ();
       WildlifeModel (const WildlifeModel &wm);
@@ -78,6 +78,7 @@ namespace Interactor {
       int getY ();
       char getDisplayChar ();
       void addWildlife(string wildlifeName, int number);
+      void openYourEyes();
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
     protected:
       void makeOld ();

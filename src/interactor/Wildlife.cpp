@@ -51,6 +51,7 @@ void Wildlife::execute () {
 
 void Wildlife::update () {
   //printf("Je me mets a jour en Wildlife...\n");
+  openYourEyes();
   action->compute(data);
 
 
@@ -137,4 +138,18 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
 	}
 }
 
+void Wildlife::openYourEyes () {
+  int x = this->getX();
+  int y = this->getY();
+  printf("pos %d - %d\n", x, y);
+  // TODO: Ici ca appel le getX et getY de clockSubscriber alors qu'il s'agit d'une interface
+  //       Il faut donc reflechir pour recuperer les donnees...
+  vector<vector<ClockSubscriber*>> myVision = data->getWorld()->getMap(x - 1, x + 1, y - 1, y + 1);
+
+  for(int curX = (x - 1); curX < (x + 1); curX++) {
+    for(int curY = (y - 1); curY < (y + 1); curY++) {
+      printf("%d - %d : %s\n", curX, curY, myVision[curX][curY]->getId().c_str());
+    }
+  }
+}
 

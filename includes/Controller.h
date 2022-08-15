@@ -71,6 +71,7 @@ namespace Controller {
 		void addWildlife(string wildlifeName, int number);
     void run (void);
 		vector<vector<ClockSubscriber*>> getMap();
+    vector<vector<ClockSubscriber*>> getMap(int minX, int maxX, int minY, int maxY);
   };
 
 };
