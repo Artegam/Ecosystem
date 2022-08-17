@@ -55,18 +55,23 @@ $(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
 
 o/interactor/%.o: src/interactor/%.cpp
+	if [ ! -d o/interactor ]; then mkdir o/interactor; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/controller/%.o: src/controller/%.cpp
+	if [ ! -d o/controller ]; then mkdir o/controller; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/screen_presenter/%.o: src/screen_presenter/%.cpp
+	if [ ! -d o/screen_presenter ]; then mkdir o/screen_presenter; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/views/%.o: src/views/%.cpp
+	if [ ! -d o/views ]; then mkdir o/views; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/%.o: src/%.cpp
+	if [ ! -d o/ ]; then mkdir o/; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 %.o: $(SRC_TU)%.cpp
@@ -86,6 +91,9 @@ uninstall:
 
 install-libs:
 	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc
+
+install-cyg-libs:
+	apt-cyg install ncurses libncurses-devel
 
 uninstall-libs:
 	sudo apt-get remove libncurses-dev

@@ -18,6 +18,8 @@ namespace Interactor {
       int viewField;
       int XPosition;
       int YPosition;
+      int defaultTurnsNumberBeforeStarving = 10;
+      int turnsNumberBeforeStarving;
       World * world;
       vector<string> path;
     // Operations
@@ -32,13 +34,17 @@ namespace Interactor {
       int getX ();
       int getY ();
       World * getWorld ();
+      int getTurnsNumberBeforeStarving ();
+      void getHungry ();
+      void happyBirthday ();
       void setName(char * name);
-      void setLifetime (int lt);
+      void setLifetime (int min, int max);
       void setX (int x);
       void setY (int y);
       void setViewField (int v);
       void setWorld (World * w);
       void setDisplayChar (char c);
+      void setDefaultTurnsNumberBeforeStarving (int turns);
       void makeOld ();
       int random(const int min, const int max);
       void savePosition();
@@ -82,6 +88,8 @@ namespace Interactor {
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
     protected:
       void makeOld ();
+      bool isStarving ();
+      bool isDead ();
   };
 
   /// class Fish - 
@@ -98,10 +106,6 @@ namespace Interactor {
 
   /// class Shark - 
   class Shark : public Wildlife {
-    //Attributes
-    private:
-      const int DAYS_BEFORE_STARVING = 10;
-      int daysRemainingsBeforeStarvation = DAYS_BEFORE_STARVING;
     // Operations
     public:
       Shark ();
