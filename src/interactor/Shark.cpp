@@ -10,21 +10,18 @@ Shark::Shark () : Wildlife () {
 
 Shark::Shark (World * world) : Wildlife (world) {
   this->init();
-  data->setLifetime(data->random(5, 10));
 }
 
 Shark::Shark (WildlifeModel * parentData) : Wildlife (parentData) {
   this->init();
-  data->setLifetime(data->random(5, 10));
 }
 
 void Shark::init () {
   data->setName((char *)"Sharko");
-  data->setLifetime(5);
+  data->setLifetime(5, 10);
   data->setDisplayChar('S');
   data->setViewField(1);
   this->action = new Default ();
-  this->daysRemainingsBeforeStarvation = DAYS_BEFORE_STARVING;
 }
 
 void Shark::execute () {
@@ -32,14 +29,7 @@ void Shark::execute () {
 }
 
 void Shark::update () {
+  Wildlife::update();
   // code specifique ici
-	this->action->compute(data);
-
-  if(this->daysRemainingsBeforeStarvation == 0) {
-    this->die = true;
-    data->getWorld()->getClock()->unsubscribe(this);
-  }
-
-  this->daysRemainingsBeforeStarvation--;
 }
 

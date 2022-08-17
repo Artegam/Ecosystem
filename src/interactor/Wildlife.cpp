@@ -101,7 +101,10 @@ template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
 
 void Wildlife::makeOld() {
   data->makeOld();
-  if(data->getLifetimeRemaining() <= 0) {
+  data->happyBirthday();
+  data->getHungry();
+
+  if(isDead() || isStarving()) {
     this->die = true;
     data->getWorld()->getClock()->unsubscribe(this);
   }
@@ -137,4 +140,10 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
 	}
 }
 
+bool Wildlife::isStarving () {
+  return (data->getTurnsNumberBeforeStarving() == 0);
+}
 
+bool Wildlife::isDead () {
+  return (data->getLifetimeRemaining() <= 0);
+}

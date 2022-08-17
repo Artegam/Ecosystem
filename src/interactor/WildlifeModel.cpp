@@ -5,6 +5,7 @@ using namespace Interactor;
 
 
 WildlifeModel::WildlifeModel () {
+  turnsNumberBeforeStarving = defaultTurnsNumberBeforeStarving;
 }
 
 WildlifeModel::WildlifeModel (const WildlifeModel &wm) {
@@ -16,6 +17,8 @@ WildlifeModel::WildlifeModel (const WildlifeModel &wm) {
   XPosition   = wm.XPosition;
   YPosition   = wm.YPosition;
   path        = wm.path;
+  defaultTurnsNumberBeforeStarving = wm.defaultTurnsNumberBeforeStarving;
+  turnsNumberBeforeStarving        = wm.defaultTurnsNumberBeforeStarving;
 }
 
 char* WildlifeModel::getName() {
@@ -50,12 +53,24 @@ int WildlifeModel::getViewField() {
   return this->viewField;
 }
 
+int WildlifeModel::getTurnsNumberBeforeStarving () {
+  return this->turnsNumberBeforeStarving;
+}
+
+void WildlifeModel::getHungry () {
+  this->turnsNumberBeforeStarving--;
+}
+
+void WildlifeModel::happyBirthday () {
+  this->age++;
+}
+
 void WildlifeModel::setName(char * name) {
   this->name = name;
 }
 
-void WildlifeModel::setLifetime (int lt) {
-  this->lifetime = lt;
+void WildlifeModel::setLifetime (int min, int max) {
+  this->lifetime = random(min, max);
 }
 
 void WildlifeModel::setX (int x) {
@@ -74,13 +89,16 @@ void WildlifeModel::setDisplayChar (char c) {
   this->displayChar = c;
 }
 
+void WildlifeModel::setDefaultTurnsNumberBeforeStarving (int turns) {
+  this->defaultTurnsNumberBeforeStarving = turns;
+  this->turnsNumberBeforeStarving = turns;
+}
+
 void WildlifeModel::setWorld (World * w) {
   this->world = w;
 }
 
 void WildlifeModel::makeOld() {
-  this->lifetime--;
-  this->age++;
 }
 
 int WildlifeModel::random (const int min, const int max) {
@@ -106,3 +124,4 @@ bool WildlifeModel::isKnownedPosition(int posX, int posY){
 
   return false;
 }
+
