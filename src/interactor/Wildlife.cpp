@@ -154,6 +154,7 @@ void Wildlife::openYourEyes () {
       printf("%d - %d : %s\n", curX, curY, myVision[curX][curY]->getId().c_str());
     }
   }
+}
 
 bool Wildlife::isStarving () {
   return (data->getTurnsNumberBeforeStarving() == 0);
