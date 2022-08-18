@@ -214,12 +214,16 @@ void Wildlife::openYourEyes () {
 // la taille du block est 3
 //
 // 7 % 3 => 1
+// si modulo = 0 => variable = taomme de block
 // 1 - 2 = -1 => position x
 // avec 2 = distance * 2 => A VERIFIER
 //
 // pour y:
 // 7 - ( 7 % 3) = 6 / taille block = 2
 // donc 2 blocks complets + modulo... ???
+// si modulo > 0 : 2 + 1 = 3
+//
+// 3 - 2 = +1
 //
   printf("X: %d\n", x);
   printf("Y: %d\n", y);
