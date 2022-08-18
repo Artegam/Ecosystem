@@ -55,27 +55,29 @@ $(TESTS_U): $(O_TESTS_U)
 	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
 
 o/interactor/%.o: src/interactor/%.cpp
-	if [ ! -d o/interactor ]; then mkdir o/interactor; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/controller/%.o: src/controller/%.cpp
-	if [ ! -d o/controller ]; then mkdir o/controller; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/screen_presenter/%.o: src/screen_presenter/%.cpp
-	if [ ! -d o/screen_presenter ]; then mkdir o/screen_presenter; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/views/%.o: src/views/%.cpp
-	if [ ! -d o/views ]; then mkdir o/views; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/%.o: src/%.cpp
-	if [ ! -d o/ ]; then mkdir o/; fi
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 %.o: $(SRC_TU)%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^ -o o/$@
+
+directories:
+	if [ ! -d o/interactor ]; then mkdir o/interactor; fi
+	if [ ! -d o/controller ]; then mkdir o/controller; fi
+	if [ ! -d o/screen_presenter ]; then mkdir o/screen_presenter; fi
+	if [ ! -d o/views ]; then mkdir o/views; fi
+	if [ ! -d o/ ]; then mkdir o/; fi
 
 clean:
 	find o/ -name *.o | xargs rm;find . -name "*~" | xargs rm -f
