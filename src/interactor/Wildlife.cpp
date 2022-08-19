@@ -148,13 +148,16 @@ void Wildlife::openYourEyes () {
 //  printf("pos %d - %d\n", x, y);
 //  // TODO: Ici ca appel le getX et getY de clockSubscriber alors qu'il s'agit d'une interface
 //  //       Il faut donc reflechir pour recuperer les donnees...
-//  vector<vector<ClockSubscriber*>> myVision = data->getWorld()->getMap(x - 1, x + 1, y - 1, y + 1);
-//
-//  for(int curX = (x - 1); curX < (x + 1); curX++) {
-//    for(int curY = (y - 1); curY < (y + 1); curY++) {
-//      printf("%d - %d : %s\n", curX, curY, myVision[curX][curY]->getId().c_str());
-//    }
-//  }
+/*
+  vector<vector<ClockSubscriber*>> myVision = data->getWorld()->getMap(x - 1, x + 1, y - 1, y + 1);
+
+  for(int curX = (x - 1); curX < (x + 1); curX++) {
+    for(int curY = (y - 1); curY < (y + 1); curY++) {
+			Wildlife * wl = (Wildlife *)myVision[curX][curY];
+      //printf("%d - %d : %c\n", curX, curY, wl->getDisplayChar());
+    }
+  }
+*/
 
 // Vision de 1 case
 // 1 2 3
@@ -173,9 +176,107 @@ void Wildlife::openYourEyes () {
 // exemple une distance de vision de 4 
 //   ( 4 * 2 + 1) ^ 2 = 9 ^ 2 = 81
 
-  const unsigned int dist = 1;
-  const unsigned int size = pow(dist * 2 + 1, 2);
 
+  list<Wildlife *> lst;
+
+  vector<vector<int>> vis;
+	int distance = 1;
+  const unsigned int blockSize = distance * 2 + 1;
+  const unsigned int vsize = pow(blockSize, 2);
+
+  int vision[vsize];
+
+
+  map<string, ClockSubscriber *>::iterator it;
+  map<string, ClockSubscriber *> subscribers = data->getWorld()->getClock()->getSubscribers();
+
+  for(it = subscribers.begin(); it != subscribers.end(); it++) {
+    Wildlife * wl = (Wildlife *)it->second;
+
+    int curX = wl->getX();
+    int curY = wl->getY();
+    if(curX > x - distance && curX < x + distance
+       && curY > y - distance && curY < y + distance) {
+      lst.push_back((Wildlife *)it->second);
+    }
+  }
+}
+
+//=================
+//  Maintenant il faudrait avoir l'inverse...
+//
+//  A partir des indices en déduire les coordonnees
+//
+// 1 2 3
+// 4 . 6
+// 7 8 9
+//
+// si j'ai l'indice 7
+// la taille du block est 3
+//
+// 7 % 3 => 1
+// si modulo = 0 => variable = taille de block
+// 1 - 2 = -1 => position x
+// avec 2 = distance + 1
+//
+// pour y:
+// 7 - ( 7 % 3) = 6 / taille block = 2
+// donc 2 blocks complets + modulo... ???
+// si modulo > 0 : 2 + 1 = 3
+//
+// 3 - 2 = +1
+//
+// Vision de 2 cases
+//  1  2  3  4  5
+//  6  7  8  9 10
+// 11 12  . 14 15
+// 16 17 18 19 20
+// 21 22 23 24 25
+//
+// test avec 2 cases...
+//
+// l'indice 10 donne :
+// taille block 5
+//
+// 10 % 5 = 0
+// le modulo est 0 donc on prends la taille du block 5
+// distance * 2 = 4
+// 5 - 3 = 2 (3 est la position centrale = distance + 1)
+// donc x = +2
+//
+// pour y...
+// 10 - (10 % 5) = 10 / 5 = 2
+// milieu - res = pos
+// 3 - 2 = +1
+// donc y = +1
+//
+
+pair<int, int> Wildlife::calculateCoordinates (int distance, int index) {
+	pair<int, int> position;
+
+  const unsigned int centralPosition = distance + 1;
+  const unsigned int blockSize = distance * 2 + 1;
+
+  // Calcul de la position X
+  unsigned int modulo = index % blockSize;
+  if(modulo == 0) {modulo = blockSize;}
+  position.first = modulo - centralPosition;
+
+  //calcul de la position Y
+  position.second = centralPosition - (index - modulo / blockSize);
+  modulo = index % blockSize;
+  if(modulo > 0) {position.second++;}
+
+	return position;
+}
+
+// Vision de 2 cases
+//  1  2  3  4  5
+//  6  7  8  9 10
+// 11 12  . 14 15
+// 16 17 18 19 20
+// 21 22 23 24 25
+//
 // calculer les positions dans le tableau
 // avec les indices et/ou les coordonnees
 //
@@ -201,57 +302,32 @@ void Wildlife::openYourEyes () {
 //  dans la cas d'une distance de 2, on a :
 //  (25 + 1) / 2 = 26 / 2 = 13
 //
-//=================
-//  Maintenant il faudrait avoir l'inverse...
-//
-//  A partir des indices en déduire les coordonnees
-//
+// Vision de 1 case
 // 1 2 3
 // 4 . 6
 // 7 8 9
 //
-// si j'ai l'indice 7
-// la taille du block est 3
-//
-// 7 % 3 => 1
-// si modulo = 0 => variable = taomme de block
-// 1 - 2 = -1 => position x
-// avec 2 = distance * 2 => A VERIFIER
-//
-// pour y:
-// 7 - ( 7 % 3) = 6 / taille block = 2
-// donc 2 blocks complets + modulo... ???
-// si modulo > 0 : 2 + 1 = 3
-//
-// 3 - 2 = +1
-//
-  printf("X: %d\n", x);
-  printf("Y: %d\n", y);
-  printf("size: %d\n", size);
+// Exemple avec la position +1, +1
+// trouver le centre en premier ??
+// centre = ( taille + 1 ) / 2
+// on calcul avec y
+// blockSize = 1 * 2 + 1 = 3
+// resIndex = centre + (y * blockSize) + x
 
-  list<Wildlife *> lst;
-  vector<vector<int>> myVision;
+unsigned int Wildlife::calculateIndex (int distance, pair<int, int> position) {
+  const unsigned int blockSize = distance * 2 + 1;
+  const unsigned int size = pow(blockSize, 2);
+	const unsigned int centralIndex = (size + 1) / 2;
 
-  vector<vector<int>> vis;
+  return centralIndex + position.first + (position.second * blockSize); 
+}
 
-/*
-  map<string, ClockSubscriber *>::iterator it;
-  map<string, ClockSubscriber *> subscribers = data->getWorld()->getClock()->getSubscribers();
+unsigned int Wildlife::calculateIndex (int distance, int x, int y) {
+  pair<int, int> position;
+	position.first = x;
+	position.second = y;
 
-  for(it = subscribers.begin(); it != subscribers.end(); it++) {
-    Wildlife * wl = (Wildlife *)it->second;
-    int curX = wl->getX();
-    int curY = wl->getY();
-    if(curX > x - 1 && curX < x + 1
-       && curY > y - 1 && curY < y + 1) {
-      lst.push_back((Wildlife *)it->second);
-      if(!myVision[curX][curY]) {
-        printf("rien dans la position recherchee\n");
-      }
-      //myVision[curX][curY]++;
-    }
-  }
-*/
+	return calculateIndex(distance, position);
 }
 
 bool Wildlife::isStarving () {

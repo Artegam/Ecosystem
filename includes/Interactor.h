@@ -86,10 +86,13 @@ namespace Interactor {
       void addWildlife(string wildlifeName, int number);
       void openYourEyes();
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
-    protected:
-      void makeOld ();
-      bool isStarving ();
-      bool isDead ();
+		protected:
+			void makeOld ();
+			pair<int, int> calculateCoordinates (int distance, int index);
+			unsigned int calculateIndex (int distance, pair<int, int> position);
+			unsigned int calculateIndex (int distance, int x, int y);
+			bool isStarving ();
+			bool isDead ();
   };
 
   /// class Fish - 
