@@ -33,6 +33,10 @@ int WildlifeModel::getY () {
   return YPosition;
 }
 
+int WildlifeModel::getFieldOfView() {
+  return fieldOfView;
+}
+
 char WildlifeModel::getDisplayChar () {
   return displayChar;
 }
@@ -96,6 +100,10 @@ void WildlifeModel::setDefaultTurnsNumberBeforeStarving (int turns) {
 
 void WildlifeModel::setWorld (World * w) {
   this->world = w;
+}
+
+void WildlifeModel::setFieldOfView (int distance) {
+  this->fieldOfView = distance;
 }
 
 void WildlifeModel::makeOld() {

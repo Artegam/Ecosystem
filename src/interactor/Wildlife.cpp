@@ -142,23 +142,6 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
 	}
 }
 
-void Wildlife::openYourEyes () {
-  int x = this->getX();
-  int y = this->getY();
-//  printf("pos %d - %d\n", x, y);
-//  // TODO: Ici ca appel le getX et getY de clockSubscriber alors qu'il s'agit d'une interface
-//  //       Il faut donc reflechir pour recuperer les donnees...
-/*
-  vector<vector<ClockSubscriber*>> myVision = data->getWorld()->getMap(x - 1, x + 1, y - 1, y + 1);
-
-  for(int curX = (x - 1); curX < (x + 1); curX++) {
-    for(int curY = (y - 1); curY < (y + 1); curY++) {
-			Wildlife * wl = (Wildlife *)myVision[curX][curY];
-      //printf("%d - %d : %c\n", curX, curY, wl->getDisplayChar());
-    }
-  }
-*/
-
 // Vision de 1 case
 // 1 2 3
 // 4 . 6
@@ -176,17 +159,12 @@ void Wildlife::openYourEyes () {
 // exemple une distance de vision de 4 
 //   ( 4 * 2 + 1) ^ 2 = 9 ^ 2 = 81
 
+map<int, list<Wildlife *>> Wildlife::openYourEyes () {
+  int x = this->getX();
+  int y = this->getY();
+  int distance = data->getFieldOfView();
 
-  list<Wildlife *> lst;
-
-  vector<vector<int>> vis;
-	int distance = 1;
-  const unsigned int blockSize = distance * 2 + 1;
-  const unsigned int vsize = pow(blockSize, 2);
-
-  int vision[vsize];
-
-
+  map<int, list<Wildlife *>> vision;
   map<string, ClockSubscriber *>::iterator it;
   map<string, ClockSubscriber *> subscribers = data->getWorld()->getClock()->getSubscribers();
 
@@ -195,11 +173,14 @@ void Wildlife::openYourEyes () {
 
     int curX = wl->getX();
     int curY = wl->getY();
+    int index = calculateIndex(distance, curX - x, curY - y);
+
     if(curX > x - distance && curX < x + distance
        && curY > y - distance && curY < y + distance) {
-      lst.push_back((Wildlife *)it->second);
+      vision[index].push_back((Wildlife *)it->second);
     }
   }
+	return vision;
 }
 
 //=================

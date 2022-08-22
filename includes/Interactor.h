@@ -22,6 +22,8 @@ namespace Interactor {
       int turnsNumberBeforeStarving;
       World * world;
       vector<string> path;
+      int fieldOfView = 1;
+
     // Operations
     public:
       WildlifeModel ();
@@ -33,6 +35,7 @@ namespace Interactor {
       int getViewField ();
       int getX ();
       int getY ();
+			int getFieldOfView();
       World * getWorld ();
       int getTurnsNumberBeforeStarving ();
       void getHungry ();
@@ -45,6 +48,7 @@ namespace Interactor {
       void setWorld (World * w);
       void setDisplayChar (char c);
       void setDefaultTurnsNumberBeforeStarving (int turns);
+			void setFieldOfView(int distance);
       void makeOld ();
       int random(const int min, const int max);
       void savePosition();
@@ -68,7 +72,6 @@ namespace Interactor {
     protected:
       WildlifeModel * data;
       Behavior * action;
-      map<string, int> vision;
       // Operations
     public:
       Wildlife ();
@@ -84,7 +87,7 @@ namespace Interactor {
       int getY ();
       char getDisplayChar ();
       void addWildlife(string wildlifeName, int number);
-      void openYourEyes();
+      map<int, list<Wildlife *>> openYourEyes();
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
 		protected:
 			void makeOld ();
