@@ -23,6 +23,7 @@ namespace Interactor {
       World * world;
       vector<string> path;
       int fieldOfView = 1;
+			map<int, list<ClockSubscriber *>> vision;
 
     // Operations
     public:
@@ -39,6 +40,7 @@ namespace Interactor {
       World * getWorld ();
       int getTurnsNumberBeforeStarving ();
       void getHungry ();
+			map<int, list<ClockSubscriber *>> getVision ();
       void happyBirthday ();
       void setName(char * name);
       void setLifetime (int min, int max);
@@ -49,10 +51,15 @@ namespace Interactor {
       void setDisplayChar (char c);
       void setDefaultTurnsNumberBeforeStarving (int turns);
 			void setFieldOfView(int distance);
+			void setVision (map<int, list<ClockSubscriber *>> v);
       void makeOld ();
       int random(const int min, const int max);
       void savePosition();
       bool isKnownedPosition(int posX, int posY);
+      map<int, list<ClockSubscriber *>> openYourEyes();
+			pair<int, int> calculateCoordinates (int index);
+			unsigned int calculateIndex (pair<int, int> position);
+			unsigned int calculateIndex (int x, int y);
   };
 
   // interface
@@ -87,13 +94,9 @@ namespace Interactor {
       int getY ();
       char getDisplayChar ();
       void addWildlife(string wildlifeName, int number);
-      map<int, list<Wildlife *>> openYourEyes();
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
 		protected:
 			void makeOld ();
-			pair<int, int> calculateCoordinates (int distance, int index);
-			unsigned int calculateIndex (int distance, pair<int, int> position);
-			unsigned int calculateIndex (int distance, int x, int y);
 			bool isStarving ();
 			bool isDead ();
   };

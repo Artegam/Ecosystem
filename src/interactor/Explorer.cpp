@@ -23,10 +23,11 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   // 4 . 5
   // 6 7 8
 
-  int x= data->getX();
+  int x = data->getX();
   int y = data->getY();
   int width = data->getWorld()->getWidth();
   int height = data->getWorld()->getHeight();
+	map<int, list<ClockSubscriber *>> myVision = data->getVision();
 
   vector<pair<int,int>> possibles = {
     { (width + (x-1)) % width, (height + (y-1)) % height},

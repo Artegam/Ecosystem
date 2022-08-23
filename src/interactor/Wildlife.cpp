@@ -52,28 +52,10 @@ void Wildlife::execute () {
 
 void Wildlife::update () {
   //printf("Je me mets a jour en Wildlife...\n");
-  openYourEyes();
+  data->openYourEyes();
   action->compute(data);
 
-
-//############################
 	//TODO: Faire un tableau pour la vue du poisson
-  /*
-	int originX = this->getX() - this->data->getViewField();// *2 + 1;
-	int originY = this->getY() - this->data->getViewField();
-	int endX = originX * 2 + 1;
-	int endY = originY * 2 + 1;
-
-	//World world = *data->getWorld();
-
-	for (int x = originX; x <= endX; x++) {
-		for (int y = originY; y <= endY; y++) {
-			char key[10] = "";
-			sprintf(key, "%d-%d", x, y);
-			//vision.insert({key, world->map[x][y].size()});
-		}
-	}
-  */
 /*
 	// Pour utiliser la map vision faire des tris etc...
 	//https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/
@@ -81,16 +63,6 @@ void Wildlife::update () {
 //#### TODO: la partie de tri et de prendre la position vers où aller => à mettre dans l'objet Behavior
   std::sort(vision.begin(), vision.end(), this->cmp);
 	//Map vision triée
-
-	printf("La plus grosse position connue est : %s, avec la valeur %d\n", vision.begin()->first, vision.begin()->second);
-
-  int pos_delim = vision.begin()->first.find("-");
-	string x = vision.begin()->first.substr(0, pos_delim);
-	string y = vision.begin()->first.substr(pos_delim + 1);
-
-	printf("La position est x: %d y: %d\n", atoi(x), atoi(y));
-
-//###########################
 */
 
   this->makeOld();
@@ -140,175 +112,6 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
       new Shark(data);
     }
 	}
-}
-
-// Vision de 1 case
-// 1 2 3
-// 4 . 6
-// 7 8 9
-//
-// Vision de 2 cases
-//  1  2  3  4  5
-//  6  7  8  9 10
-// 11 12  . 14 15
-// 16 17 18 19 20
-// 21 22 23 24 25
-//
-// nb de cases = (distance vision * 2 + 1) ^ 2
-//
-// exemple une distance de vision de 4 
-//   ( 4 * 2 + 1) ^ 2 = 9 ^ 2 = 81
-
-map<int, list<Wildlife *>> Wildlife::openYourEyes () {
-  int x = this->getX();
-  int y = this->getY();
-  int distance = data->getFieldOfView();
-
-  map<int, list<Wildlife *>> vision;
-  map<string, ClockSubscriber *>::iterator it;
-  map<string, ClockSubscriber *> subscribers = data->getWorld()->getClock()->getSubscribers();
-
-  for(it = subscribers.begin(); it != subscribers.end(); it++) {
-    Wildlife * wl = (Wildlife *)it->second;
-
-    int curX = wl->getX();
-    int curY = wl->getY();
-    int index = calculateIndex(distance, curX - x, curY - y);
-
-    if(curX > x - distance && curX < x + distance
-       && curY > y - distance && curY < y + distance) {
-      vision[index].push_back((Wildlife *)it->second);
-    }
-  }
-	return vision;
-}
-
-//=================
-//  Maintenant il faudrait avoir l'inverse...
-//
-//  A partir des indices en déduire les coordonnees
-//
-// 1 2 3
-// 4 . 6
-// 7 8 9
-//
-// si j'ai l'indice 7
-// la taille du block est 3
-//
-// 7 % 3 => 1
-// si modulo = 0 => variable = taille de block
-// 1 - 2 = -1 => position x
-// avec 2 = distance + 1
-//
-// pour y:
-// 7 - ( 7 % 3) = 6 / taille block = 2
-// donc 2 blocks complets + modulo... ???
-// si modulo > 0 : 2 + 1 = 3
-//
-// 3 - 2 = +1
-//
-// Vision de 2 cases
-//  1  2  3  4  5
-//  6  7  8  9 10
-// 11 12  . 14 15
-// 16 17 18 19 20
-// 21 22 23 24 25
-//
-// test avec 2 cases...
-//
-// l'indice 10 donne :
-// taille block 5
-//
-// 10 % 5 = 0
-// le modulo est 0 donc on prends la taille du block 5
-// distance * 2 = 4
-// 5 - 3 = 2 (3 est la position centrale = distance + 1)
-// donc x = +2
-//
-// pour y...
-// 10 - (10 % 5) = 10 / 5 = 2
-// milieu - res = pos
-// 3 - 2 = +1
-// donc y = +1
-//
-
-pair<int, int> Wildlife::calculateCoordinates (int distance, int index) {
-	pair<int, int> position;
-
-  const unsigned int centralPosition = distance + 1;
-  const unsigned int blockSize = distance * 2 + 1;
-
-  // Calcul de la position X
-  unsigned int modulo = index % blockSize;
-  if(modulo == 0) {modulo = blockSize;}
-  position.first = modulo - centralPosition;
-
-  //calcul de la position Y
-  position.second = centralPosition - (index - modulo / blockSize);
-  modulo = index % blockSize;
-  if(modulo > 0) {position.second++;}
-
-	return position;
-}
-
-// Vision de 2 cases
-//  1  2  3  4  5
-//  6  7  8  9 10
-// 11 12  . 14 15
-// 16 17 18 19 20
-// 21 22 23 24 25
-//
-// calculer les positions dans le tableau
-// avec les indices et/ou les coordonnees
-//
-// exemple pour une distance de 1, la position x, y : +1, -1
-// par experience on sait qu'il s'agit de la position 3
-// comment la calculer ???
-//
-//  avec les coordonnees :
-//
-//  on a la taille d'une ligne ou taille de bloc en faisant ce calcul
-//  taille block = distance vision * 2 + 1
-//  
-//  5 - 2 = 3
-//  5 - taille block => 5 - 3 = 2 (pour Y en premier)
-//
-//  2 + 1 = 3 => 2 + position x = 3
-//
-// pour calculer la position d'origine qui se situe au centre
-//
-//  (taille du tableau + 1) / 2
-//  (9 + 1) / 2 = 10 / 2 = 5
-//
-//  dans la cas d'une distance de 2, on a :
-//  (25 + 1) / 2 = 26 / 2 = 13
-//
-// Vision de 1 case
-// 1 2 3
-// 4 . 6
-// 7 8 9
-//
-// Exemple avec la position +1, +1
-// trouver le centre en premier ??
-// centre = ( taille + 1 ) / 2
-// on calcul avec y
-// blockSize = 1 * 2 + 1 = 3
-// resIndex = centre + (y * blockSize) + x
-
-unsigned int Wildlife::calculateIndex (int distance, pair<int, int> position) {
-  const unsigned int blockSize = distance * 2 + 1;
-  const unsigned int size = pow(blockSize, 2);
-	const unsigned int centralIndex = (size + 1) / 2;
-
-  return centralIndex + position.first + (position.second * blockSize); 
-}
-
-unsigned int Wildlife::calculateIndex (int distance, int x, int y) {
-  pair<int, int> position;
-	position.first = x;
-	position.second = y;
-
-	return calculateIndex(distance, position);
 }
 
 bool Wildlife::isStarving () {
