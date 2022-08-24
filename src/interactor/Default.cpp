@@ -17,9 +17,10 @@ void Default::compute (WildlifeModel * data) {
 
 vector<int> Default::getNewPosition(WildlifeModel * data) {
   vector<int> position = {0, 0};
+  WorldModel worldData = data->getWorld()->getData();
 
-  int posX = (data->getX() + data->random(-1, 1)) % data->getWorld()->getWidth();
-  int posY = (data->getY() + data->random(-1, 1)) % data->getWorld()->getHeight();
+  int posX = (data->getX() + data->random(-1, 1)) % worldData.getWidth();
+  int posY = (data->getY() + data->random(-1, 1)) % worldData.getHeight();
 
   if(!posX) {posX++;}
   if(!posY) {posY++;}

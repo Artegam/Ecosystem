@@ -178,9 +178,10 @@ bool WildlifeModel::isKnownedPosition (int posX, int posY){
 //  y = y - CurY = 1
 //
 map<int, list<ClockSubscriber *>> WildlifeModel::openYourEyes () {
+  WorldModel worldData = this->getWorld()->getData();
   map<int, list<ClockSubscriber *>> vision = this->getVision();
   map<string, ClockSubscriber *>::iterator it;
-  map<string, ClockSubscriber *> subscribers = this->getWorld()->getClock()->getSubscribers();
+  map<string, ClockSubscriber *> subscribers = worldData.getClock()->getSubscribers();
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
     Wildlife * wl = (Wildlife *)it->second;

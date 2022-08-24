@@ -24,8 +24,9 @@ vector<int> Survival::getNewPosition(WildlifeModel * data) {
 
   int x = data->getX();
   int y = data->getY();
-  int width = data->getWorld()->getWidth();
-  int height = data->getWorld()->getHeight();
+  WorldModel worldData = data->getWorld()->getData();
+  int width = worldData.getWidth();
+  int height = worldData.getHeight();
   // La map weight possede le poid en clé pour le tri et l'index associe de la map de vision
   map<int, int> weight;
 	map<int, list<ClockSubscriber *>> myVision = data->getVision();

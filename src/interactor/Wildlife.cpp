@@ -27,9 +27,10 @@ Wildlife::Wildlife (const Wildlife * w) {
 Wildlife::Wildlife (World * world) {
   data = new WildlifeModel();
   data->setWorld(world);
-  data->setX(data->random(1, world->getWidth()));
-  data->setY(data->random(1, world->getHeight()));
-  Clock * c = world->getClock();
+  WorldModel worldData = world->getData();
+  data->setX(data->random(1, worldData.getWidth()));
+  data->setY(data->random(1, worldData.getHeight()));
+  Clock * c = worldData.getClock();
   c->subscribe(this);
 }
 
@@ -37,9 +38,10 @@ Wildlife::Wildlife (WildlifeModel * parentData) {
   World * world = parentData->getWorld();
   data = new WildlifeModel();
   data->setWorld(world);
+  WorldModel worldData = world->getData();
   data->setX(parentData->getX());
   data->setY(parentData->getY());
-  Clock * c = world->getClock();
+  Clock * c = worldData.getClock();
   c->subscribe(this);
 }
 
@@ -71,7 +73,8 @@ void Wildlife::makeOld() {
 
   if(isDead() || isStarving()) {
     this->die = true;
-    data->getWorld()->getClock()->unsubscribe(this);
+    WorldModel worldData = data->getWorld()->getData();
+    worldData.getClock()->unsubscribe(this);
   }
 }
 

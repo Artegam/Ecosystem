@@ -55,20 +55,37 @@ namespace Controller {
     static unsigned int getTurns();
   };
 
+  /// class WorldModel - 
+  class WorldModel {
+    // Attributes
+		int height;
+    int width;
+    Clock * clock;
+    map<int, int> worldMap;
+  private:
+    // Operations
+  public:
+    WorldModel ();
+		WorldModel (int width, int height);
+    void init ();
+    void setWidth(int w);
+    void setHeight(int h);
+    void setRefresh (unsigned int interval);
+    int getWidth (void);
+    int getHeight (void);
+    Clock * getClock ();
+    map<int, int> getWorldMap ();
+  };
+
   /// class World - 
   class World {
     // Attributes
   private:
-    int height;
-    int width;
-    Clock * clock;
+    WorldModel data;
     // Operations
   public:
     World (int height = 20, int width = 30);
-    int getWidth (void);
-    int getHeight (void);
-    Clock * getClock ();
-    void setRefresh (unsigned int interval);
+    WorldModel getData ();
 		void addWildlife(string wildlifeName, int number);
     void run (void);
 		vector<vector<ClockSubscriber*>> getMap();

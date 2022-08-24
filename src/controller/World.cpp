@@ -3,37 +3,24 @@
 using namespace Controller;
 
 World::World (int height, int width) {
-  this->height = height;
-  this->width = width;
+  data.setHeight(height);
+  data.setWidth(width);
 	//this->map = list<Wildlife> map[width][height];
-  this->clock = new Clock();
 }
 
-int World::getWidth (void) {
-  return width;
-}
-
-int World::getHeight (void) {
-  return height;
-}
-
-Clock * World::getClock () {
-  return clock;
-}
-
-void World::setRefresh(unsigned int interval) {
-  this->clock = new Clock(interval);
+WorldModel World::getData() {
+  return data;
 }
 
 void World::run(void) {
-  this->clock->run();
+  data.getClock()->run();
 }
 
 vector<vector<ClockSubscriber*>> World::getMap() {
   vector<vector<ClockSubscriber*>> myMap;
 
   map<string, ClockSubscriber *> subscribers;
-  subscribers = this->clock->getSubscribers();
+  subscribers = data.getClock()->getSubscribers();
   map<string, ClockSubscriber *>::iterator it;
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
@@ -47,7 +34,7 @@ vector<vector<ClockSubscriber*>> World::getMap(int minX, int maxX, int minY, int
   vector<vector<ClockSubscriber*>> myMap;
 
   map<string, ClockSubscriber *> subscribers;
-  subscribers = this->clock->getSubscribers();
+  subscribers = data.getClock()->getSubscribers();
   map<string, ClockSubscriber *>::iterator it;
 
   for(it = subscribers.begin(); it != subscribers.end(); it++) {
