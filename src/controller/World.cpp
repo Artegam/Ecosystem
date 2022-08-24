@@ -42,3 +42,20 @@ vector<vector<ClockSubscriber*>> World::getMap() {
 
 	return myMap;
 }
+
+vector<vector<ClockSubscriber*>> World::getMap(int minX, int maxX, int minY, int maxY) {
+  vector<vector<ClockSubscriber*>> myMap;
+
+  map<string, ClockSubscriber *> subscribers;
+  subscribers = this->clock->getSubscribers();
+  map<string, ClockSubscriber *>::iterator it;
+
+  for(it = subscribers.begin(); it != subscribers.end(); it++) {
+    if(minX >= it->second->getX() && it->second->getX() <= maxX
+        && minY >= it->second->getY() && it->second->getY() <= maxY) {
+      myMap[it->second->getX()][it->second->getY()] = it->second;
+    }
+  }
+
+	return myMap;
+}

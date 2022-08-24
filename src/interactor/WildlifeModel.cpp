@@ -33,6 +33,10 @@ int WildlifeModel::getY () {
   return YPosition;
 }
 
+int WildlifeModel::getFieldOfView () {
+  return fieldOfView;
+}
+
 char WildlifeModel::getDisplayChar () {
   return displayChar;
 }
@@ -61,11 +65,15 @@ void WildlifeModel::getHungry () {
   this->turnsNumberBeforeStarving--;
 }
 
+map<int, list<ClockSubscriber *>> WildlifeModel::getVision () {
+  return vision;
+}
+
 void WildlifeModel::happyBirthday () {
   this->age++;
 }
 
-void WildlifeModel::setName(char * name) {
+void WildlifeModel::setName (char * name) {
   this->name = name;
 }
 
@@ -98,7 +106,15 @@ void WildlifeModel::setWorld (World * w) {
   this->world = w;
 }
 
-void WildlifeModel::makeOld() {
+void WildlifeModel::setFieldOfView (int distance) {
+  this->fieldOfView = distance;
+}
+
+void WildlifeModel::setVision (map<int, list<ClockSubscriber *>> v) {
+  this->vision = v;
+}
+
+void WildlifeModel::makeOld () {
 }
 
 int WildlifeModel::random (const int min, const int max) {
@@ -109,7 +125,7 @@ int WildlifeModel::random (const int min, const int max) {
   return distr(generator);
 }
 
-void WildlifeModel::savePosition() {
+void WildlifeModel::savePosition () {
   string pos = this->getX() + "-" + this->getY();
   path.insert(path.begin(), pos);
   if(path.size() > 5) { // 5 est arbitraire pour le moment
@@ -117,11 +133,196 @@ void WildlifeModel::savePosition() {
   }
 }
 
-bool WildlifeModel::isKnownedPosition(int posX, int posY){
+bool WildlifeModel::isKnownedPosition (int posX, int posY){
   vector<string>::iterator itr;
   string search = posX + "-" + posY;
   itr = find(path.begin(), path.end(), search);
 
   return false;
 }
+// Vision de 1 case
+// 1 2 3
+// 4 . 6
+// 7 8 9
+//
+// Vision de 2 cases
+//  1  2  3  4  5
+//  6  7  8  9 10
+// 11 12  . 14 15
+// 16 17 18 19 20
+// 21 22 23 24 25
+//
+// nb de cases = (distance vision * 2 + 1) ^ 2
+//
+// exemple une distance de vision de 4 
+//   ( 4 * 2 + 1) ^ 2 = 9 ^ 2 = 81
+//
+// Comment calculer la différence des positions ??
+//
+// . . . . .
+// . . . . .
+// . . * . .
+// . o . . .
+// . . . . .
+//
+// avec o l'objet de référence et * l'objet qui est 'vu'
+// L'origine du tableau est en haut a gauche
+//
+// donc x = 2
+// et y = 4
+// curX = 3
+// curY = 3
+//
+// La position de * dans le champ de vision est 
+//  x = x - CurX = 1
+//  y = y - CurY = 1
+//
+map<int, list<ClockSubscriber *>> WildlifeModel::openYourEyes () {
+  map<int, list<ClockSubscriber *>> vision = this->getVision();
+  map<string, ClockSubscriber *>::iterator it;
+  map<string, ClockSubscriber *> subscribers = this->getWorld()->getClock()->getSubscribers();
+
+  for(it = subscribers.begin(); it != subscribers.end(); it++) {
+    Wildlife * wl = (Wildlife *)it->second;
+
+    int curX = wl->getX();
+    int curY = wl->getY();
+    int index = calculateIndex(XPosition - curX, YPosition - curY);
+
+    if(XPosition - fieldOfView <= curX && curX <= XPosition + fieldOfView
+       && YPosition - fieldOfView <= curY && curY <= YPosition + fieldOfView) {
+      vision[index].push_back(it->second);
+    }
+  }
+	return vision;
+}
+
+//=================
+//  Maintenant il faudrait avoir l'inverse...
+//
+//  A partir des indices en déduire les coordonnees
+//
+// 1 2 3
+// 4 . 6
+// 7 8 9
+//
+// si j'ai l'indice 7
+// la taille du block est 3
+//
+// 7 % 3 => 1
+// si modulo = 0 => variable = taille de block
+// 1 - 2 = -1 => position x
+// avec 2 = distance + 1
+//
+// pour y:
+// 7 - ( 7 % 3) = 6 / taille block = 2
+// donc 2 blocks complets + modulo... ???
+// si modulo > 0 : 2 + 1 = 3
+//
+// 3 - 2 = +1
+//
+// Vision de 2 cases
+//  1  2  3  4  5
+//  6  7  8  9 10
+// 11 12  . 14 15
+// 16 17 18 19 20
+// 21 22 23 24 25
+//
+// test avec 2 cases...
+//
+// l'indice 10 donne :
+// taille block 5
+//
+// 10 % 5 = 0
+// le modulo est 0 donc on prends la taille du block 5
+// distance * 2 = 4
+// 5 - 3 = 2 (3 est la position centrale = distance + 1)
+// donc x = +2
+//
+// pour y...
+// 10 - (10 % 5) = 10 / 5 = 2
+// milieu - res = pos
+// 3 - 2 = +1
+// donc y = +1
+//
+
+pair<int, int> WildlifeModel::calculateCoordinates (int index) {
+	pair<int, int> position;
+
+  const unsigned int centralPosition = fieldOfView + 1;
+  const unsigned int blockSize = fieldOfView * 2 + 1;
+
+  // Calcul de la position X
+  unsigned int modulo = index % blockSize;
+  if(modulo == 0) {modulo = blockSize;}
+  position.first = modulo - centralPosition;
+
+  //calcul de la position Y
+  position.second = centralPosition - (index - modulo / blockSize);
+  modulo = index % blockSize;
+  if(modulo > 0) {position.second++;}
+
+	return position;
+}
+
+// Vision de 2 cases
+//  1  2  3  4  5
+//  6  7  8  9 10
+// 11 12  . 14 15
+// 16 17 18 19 20
+// 21 22 23 24 25
+//
+// calculer les positions dans le tableau
+// avec les indices et/ou les coordonnees
+//
+// exemple pour une distance de 1, la position x, y : +1, -1
+// par experience on sait qu'il s'agit de la position 3
+// comment la calculer ???
+//
+//  avec les coordonnees :
+//
+//  on a la taille d'une ligne ou taille de bloc en faisant ce calcul
+//  taille block = distance vision * 2 + 1
+//  
+//  5 - 2 = 3
+//  5 - taille block => 5 - 3 = 2 (pour Y en premier)
+//
+//  2 + 1 = 3 => 2 + position x = 3
+//
+// pour calculer la position d'origine qui se situe au centre
+//
+//  (taille du tableau + 1) / 2
+//  (9 + 1) / 2 = 10 / 2 = 5
+//
+//  dans la cas d'une distance de 2, on a :
+//  (25 + 1) / 2 = 26 / 2 = 13
+//
+// Vision de 1 case
+// 1 2 3
+// 4 . 6
+// 7 8 9
+//
+// Exemple avec la position +1, +1
+// trouver le centre en premier ??
+// centre = ( taille + 1 ) / 2
+// on calcul avec y
+// blockSize = 1 * 2 + 1 = 3
+// resIndex = centre + (y * blockSize) + x
+
+unsigned int WildlifeModel::calculateIndex (pair<int, int> position) {
+  const unsigned int blockSize = fieldOfView * 2 + 1;
+  const unsigned int size = pow(blockSize, 2);
+	const unsigned int centralIndex = (size + 1) / 2;
+
+  return centralIndex + position.first + (position.second * blockSize); 
+}
+
+unsigned int WildlifeModel::calculateIndex (int x, int y) {
+  pair<int, int> position;
+	position.first = x;
+	position.second = y;
+
+	return calculateIndex(position);
+}
+
 

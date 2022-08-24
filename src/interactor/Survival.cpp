@@ -2,10 +2,10 @@
 
 using namespace Interactor;
 
-Explorer::Explorer () : Behavior() {
+Survival::Survival () : Behavior() {
 }
 
-void Explorer::compute (WildlifeModel * data) {
+void Survival::compute (WildlifeModel * data) {
 	// Mettre ici l'intelligence artificielle pour le comportement
   data->savePosition();
 
@@ -15,8 +15,7 @@ void Explorer::compute (WildlifeModel * data) {
   data->setY(pos[1]); //y
 }
 
-//TODO : A ecrire mieux que ca...
-vector<int> Explorer::getNewPosition(WildlifeModel * data) {
+vector<int> Survival::getNewPosition(WildlifeModel * data) {
   vector<int> position;
 
   // 1 2 3
@@ -27,6 +26,8 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   int y = data->getY();
   int width = data->getWorld()->getWidth();
   int height = data->getWorld()->getHeight();
+  // La map weight possede le poid en clé pour le tri et l'index associe de la map de vision
+  map<int, int> weight;
 	map<int, list<ClockSubscriber *>> myVision = data->getVision();
 
   vector<pair<int,int>> possibles = {
@@ -45,9 +46,20 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
     if(data->isKnownedPosition(it->first, it->second)) {
       possibles.erase(it);
     }
+    int index = data->calculateIndex(it->first, it->second);
+    myVision.erase(index);
   }
 
-  int index = data->random(0, possibles.size()-1);
+  std::map<int, list<ClockSubscriber *>>::iterator itv;
+
+	for(itv = myVision.begin(); itv != myVision.end(); itv++) {
+		if(itv->second.size() > 0) {
+			weight[itv->second.size()] = itv->first;
+		}
+	}
+
+  // l'id du poid le plus fort est : weight.end()->second
+  int index = weight.end()->second;
   pair<int, int> newPos = possibles[index];
 
   position.push_back(newPos.first);
@@ -55,4 +67,5 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
 
   return position;
 }
+
 

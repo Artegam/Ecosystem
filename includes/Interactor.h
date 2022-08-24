@@ -22,7 +22,10 @@ namespace Interactor {
       int turnsNumberBeforeStarving;
       World * world;
       vector<string> path;
-      // Operations
+      int fieldOfView = 1;
+			map<int, list<ClockSubscriber *>> vision;
+
+    // Operations
     public:
       WildlifeModel ();
       WildlifeModel (const WildlifeModel &wm);
@@ -33,9 +36,11 @@ namespace Interactor {
       int getViewField ();
       int getX ();
       int getY ();
+			int getFieldOfView();
       World * getWorld ();
       int getTurnsNumberBeforeStarving ();
       void getHungry ();
+			map<int, list<ClockSubscriber *>> getVision ();
       void happyBirthday ();
       void setName(char * name);
       void setLifetime (int min, int max);
@@ -45,10 +50,16 @@ namespace Interactor {
       void setWorld (World * w);
       void setDisplayChar (char c);
       void setDefaultTurnsNumberBeforeStarving (int turns);
+			void setFieldOfView(int distance);
+			void setVision (map<int, list<ClockSubscriber *>> v);
       void makeOld ();
       int random(const int min, const int max);
       void savePosition();
       bool isKnownedPosition(int posX, int posY);
+      map<int, list<ClockSubscriber *>> openYourEyes();
+			pair<int, int> calculateCoordinates (int index);
+			unsigned int calculateIndex (pair<int, int> position);
+			unsigned int calculateIndex (int x, int y);
   };
 
   // interface
@@ -68,7 +79,6 @@ namespace Interactor {
     protected:
       WildlifeModel * data;
       Behavior * action;
-      map<string, int> vision;
       // Operations
     public:
       Wildlife ();
@@ -85,10 +95,10 @@ namespace Interactor {
       char getDisplayChar ();
       void addWildlife(string wildlifeName, int number);
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
-    protected:
-      void makeOld ();
-      bool isStarving ();
-      bool isDead ();
+		protected:
+			void makeOld ();
+			bool isStarving ();
+			bool isDead ();
   };
 
   /// class Fish - 
@@ -136,6 +146,8 @@ namespace Interactor {
     // Operations
     public:
       Survival ();
+      void compute (WildlifeModel * data);
+      vector<int> getNewPosition(WildlifeModel * data);
   };
 
   /// class Explorer - 

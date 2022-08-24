@@ -1,5 +1,6 @@
 #include "Interactor.h"
 #include <cstring>
+#include <math.h>
 
 using namespace Interactor;
 using namespace Controller;
@@ -51,45 +52,9 @@ void Wildlife::execute () {
 
 void Wildlife::update () {
   //printf("Je me mets a jour en Wildlife...\n");
+  data->openYourEyes();
   action->compute(data);
 
-
-//############################
-	//TODO: Faire un tableau pour la vue du poisson
-  /*
-	int originX = this->getX() - this->data->getViewField();// *2 + 1;
-	int originY = this->getY() - this->data->getViewField();
-	int endX = originX * 2 + 1;
-	int endY = originY * 2 + 1;
-
-	//World world = *data->getWorld();
-
-	for (int x = originX; x <= endX; x++) {
-		for (int y = originY; y <= endY; y++) {
-			char key[10] = "";
-			sprintf(key, "%d-%d", x, y);
-			//vision.insert({key, world->map[x][y].size()});
-		}
-	}
-  */
-/*
-	// Pour utiliser la map vision faire des tris etc...
-	//https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/
-
-//#### TODO: la partie de tri et de prendre la position vers où aller => à mettre dans l'objet Behavior
-  std::sort(vision.begin(), vision.end(), this->cmp);
-	//Map vision triée
-
-	printf("La plus grosse position connue est : %s, avec la valeur %d\n", vision.begin()->first, vision.begin()->second);
-
-  int pos_delim = vision.begin()->first.find("-");
-	string x = vision.begin()->first.substr(0, pos_delim);
-	string y = vision.begin()->first.substr(pos_delim + 1);
-
-	printf("La position est x: %d y: %d\n", atoi(x), atoi(y));
-
-//###########################
-*/
 
   this->makeOld();
 }
