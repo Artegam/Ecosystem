@@ -146,6 +146,8 @@ namespace Interactor {
     // Operations
     public:
       Survival ();
+      void compute (WildlifeModel * data);
+      vector<int> getNewPosition(WildlifeModel * data);
   };
 
   /// class Explorer - 

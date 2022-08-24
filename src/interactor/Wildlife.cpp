@@ -55,15 +55,6 @@ void Wildlife::update () {
   data->openYourEyes();
   action->compute(data);
 
-	//TODO: Faire un tableau pour la vue du poisson
-/*
-	// Pour utiliser la map vision faire des tris etc...
-	//https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/
-
-//#### TODO: la partie de tri et de prendre la position vers où aller => à mettre dans l'objet Behavior
-  std::sort(vision.begin(), vision.end(), this->cmp);
-	//Map vision triée
-*/
 
   this->makeOld();
 }
