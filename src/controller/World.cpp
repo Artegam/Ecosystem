@@ -6,6 +6,7 @@ World::World (int height, int width) {
   data.setHeight(height);
   data.setWidth(width);
 	//this->map = list<Wildlife> map[width][height];
+  data.generateMap();
 }
 
 WorldModel World::getData() {

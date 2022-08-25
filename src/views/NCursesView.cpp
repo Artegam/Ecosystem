@@ -90,10 +90,9 @@ void NCursesView::display (ScreenViewModel * data) {
 */
 
   unsigned int const OCEAN = 0;
-  unsigned int size = worldData.getWidth() * worldData.getHeight();
-
-  map<int, int> worldMap = worldData.getWorldMap(); 
-	for(unsigned int index = 0; index <= size; index++) {
+  map<int, int> worldMap = worldData.getWorldMap();
+  unsigned int size = worldMap.size();
+	for(unsigned int index = 0; index < size; index++) {
 		if(worldMap[index] == OCEAN) {
       int x = 1 + index % worldData.getWidth();
       int y = (index - x) / worldData.getWidth() + 1;
