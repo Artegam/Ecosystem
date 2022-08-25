@@ -6,6 +6,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <cmath>
 
 using namespace std;
 
@@ -68,13 +69,17 @@ namespace Controller {
     WorldModel ();
 		WorldModel (int width, int height);
     void init ();
-    void setWidth(int w);
-    void setHeight(int h);
+    void setWidth (int w);
+    void setHeight (int h);
     void setRefresh (unsigned int interval);
     int getWidth (void);
     int getHeight (void);
     Clock * getClock ();
     map<int, int> getWorldMap ();
+		void generateMap ();
+		pair<int, int> calculateCoordinates (int index);
+		unsigned int calculateIndex (pair<int, int> position);
+		unsigned int calculateIndex (int x, int y);
   };
 
   /// class World - 

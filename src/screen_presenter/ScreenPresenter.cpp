@@ -4,7 +4,7 @@ using namespace Screen;
 
 ScreenPresenter::ScreenPresenter (ScreenView * view, World * world) {
   this->world = world;
-  this->data = new ScreenViewModel(world);
+  this->data = new ScreenViewModel(world->getData());
   this->view = view;
 }
 

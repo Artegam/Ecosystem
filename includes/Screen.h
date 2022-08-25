@@ -11,11 +11,12 @@ namespace Screen {
   /// class ScreenViewModel - 
   class ScreenViewModel {
     // Attributes
-    World * world;
+		WorldModel worldData;
   public:
-    ScreenViewModel (World * world);
+    ScreenViewModel (WorldModel worldData);
     int getWorldHeight ();
     int getWorldWidth ();
+		WorldModel getWorldData ();
     bool isRunning ();
     bool getTic ();
     unsigned int getWildlifeCount ();

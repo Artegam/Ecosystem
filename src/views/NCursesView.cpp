@@ -74,11 +74,12 @@ void NCursesView::display (ScreenViewModel * data) {
   // dessin de la fenetre
   main = subwin(stdscr, LINES, COLS, 0, 0);
   this->menu(main);
-
-  window= subwin(stdscr, data->getWorldHeight() + 2, data->getWorldWidth() + 2, 1, 0);
+  WorldModel worldData = data->getWorldData();
+  window= subwin(stdscr, worldData.getHeight() + 2, worldData.getWidth() + 2, 1, 0);
 
   box(window, ACS_VLINE, ACS_HLINE);
 
+/*
   for(int y = 1; y <= data->getWorldHeight(); y++) {
     for(int x = 1; x <= data->getWorldWidth(); x++) {
       wattron(window, COLOR_PAIR(WATER_PAIR));
@@ -86,6 +87,33 @@ void NCursesView::display (ScreenViewModel * data) {
       wattroff(window, COLOR_PAIR(WATER_PAIR));
     }
   }
+*/
+
+  unsigned int const OCEAN = 0;
+  unsigned int size = worldData.getWidth() * worldData.getHeight();
+
+  map<int, int> worldMap = worldData.getWorldMap(); 
+	for(unsigned int index = 0; index <= size; index++) {
+		if(worldMap[index] == OCEAN) {
+      int x = 1 + index % worldData.getWidth();
+      int y = (index - x) / worldData.getWidth() + 1;
+      //TODO: A réécrire...
+      //pair<int, int> position = worldData.calculateCoordinates(index);
+			wattron(window, COLOR_PAIR(WATER_PAIR));
+			mvwaddch(window, y, x, '~');
+			wattroff(window, COLOR_PAIR(WATER_PAIR));
+		}
+	}
+
+/*
+  for(int y = 1; y <= data->getWorldHeight(); y++) {
+    for(int x = 1; x <= data->getWorldWidth(); x++) {
+      wattron(window, COLOR_PAIR(WATER_PAIR));
+      mvwaddch(window, y, x, '~');
+      wattroff(window, COLOR_PAIR(WATER_PAIR));
+    }
+  }
+*/
 
   //On affiche la faune
   list<Wildlife *> lst = data->getWildlife();

@@ -4,39 +4,37 @@
 using namespace std;
 using namespace Screen;
 
-ScreenViewModel::ScreenViewModel (World * world) {
-  this->world = world;
+ScreenViewModel::ScreenViewModel (WorldModel worldData) {
+  this->worldData = worldData;
 }
 
 int ScreenViewModel::getWorldHeight () {
-  WorldModel worldData = this->world->getData();
   return worldData.getHeight();
 }
 
 int ScreenViewModel::getWorldWidth () {
-  WorldModel worldData = this->world->getData();
   return worldData.getWidth();
 }
 
+WorldModel ScreenViewModel::getWorldData () {
+  return worldData;
+}
+
 bool ScreenViewModel::isRunning () {
-  WorldModel worldData = this->world->getData();
   return worldData.getClock()->isRunning();
 }
 
 bool ScreenViewModel::getTic() {
-  WorldModel worldData = this->world->getData();
   return worldData.getClock()->getT();
 }
 
 unsigned int ScreenViewModel::getWildlifeCount() {
-  WorldModel worldData = this->world->getData();
   return worldData.getClock()->subscribersCount();
 }
 
 list<Wildlife *> ScreenViewModel::getWildlife() {
   list<Wildlife *> lst;
 
-  WorldModel worldData = this->world->getData();
   map<string, ClockSubscriber *>::iterator it;
   map<string, ClockSubscriber *> subscribers = worldData.getClock()->getSubscribers();
 
@@ -55,14 +53,12 @@ bool ScreenViewModel::isWildlife(const ClockSubscriber * ptr) {
 }
 
 unsigned int ScreenViewModel::getTurns () {
-  WorldModel worldData = this->world->getData();
   return worldData.getClock()->getTurns();
 }
 
 const unsigned int ScreenViewModel::getAverageAge () {
   unsigned int averageAge = 0;
 
-  WorldModel worldData = this->world->getData();
   map<string, ClockSubscriber *>::iterator it;
   map<string, ClockSubscriber *> subscribers = worldData.getClock()->getSubscribers();
 
@@ -85,7 +81,6 @@ const unsigned int ScreenViewModel::getAverageAge () {
 const unsigned int ScreenViewModel::getLifeExpectancy () {
   unsigned int lifeExpectancy = 0;
 
-  WorldModel worldData = this->world->getData();
   map<string, ClockSubscriber *>::iterator it;
   map<string, ClockSubscriber *> subscribers = worldData.getClock()->getSubscribers();
 
