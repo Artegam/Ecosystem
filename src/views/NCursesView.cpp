@@ -5,8 +5,9 @@ using namespace ConsoleView;
 
 #define EMPTY_PAIR     1
 #define WATER_PAIR     2
-#define SHARK_PAIR     3
-#define FISH_PAIR      4
+#define PLAIN_PAIR     3
+#define SHARK_PAIR     4
+#define FISH_PAIR      5
 
 NCursesView::NCursesView () {
 }
@@ -27,6 +28,7 @@ void NCursesView::init () {
   start_color();
   init_pair(EMPTY_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(WATER_PAIR, COLOR_BLUE, COLOR_BLACK);
+  init_pair(PLAIN_PAIR, COLOR_GREEN, COLOR_BLACK);
 	init_pair(SHARK_PAIR, COLOR_RED, COLOR_BLACK);
 	init_pair(FISH_PAIR, COLOR_CYAN, COLOR_BLACK);
   attron(COLOR_PAIR(EMPTY_PAIR));
@@ -90,18 +92,28 @@ void NCursesView::display (ScreenViewModel * data) {
 */
 
   unsigned int const OCEAN = 0;
+  unsigned int const PLAIN = 1;
   map<int, int> worldMap = worldData.getWorldMap();
   unsigned int size = worldMap.size();
 	for(unsigned int index = 0; index < size; index++) {
+    int x = 1 + index % worldData.getWidth();
+    int y = (index - x) / worldData.getWidth() + 1;
+
 		if(worldMap[index] == OCEAN) {
-      int x = 1 + index % worldData.getWidth();
-      int y = (index - x) / worldData.getWidth() + 1;
-      //TODO: A réécrire...
+      //TODO: A reecrire...
       //pair<int, int> position = worldData.calculateCoordinates(index);
 			wattron(window, COLOR_PAIR(WATER_PAIR));
 			mvwaddch(window, y, x, '~');
 			wattroff(window, COLOR_PAIR(WATER_PAIR));
-		}
+		} else if (worldMap[index] == PLAIN) {
+			wattron(window, COLOR_PAIR(PLAIN_PAIR));
+			mvwaddch(window, y, x, 'o');
+			wattroff(window, COLOR_PAIR(PLAIN_PAIR));
+    } else {
+			wattron(window, COLOR_PAIR(EMPTY_PAIR));
+			mvwaddch(window, y, x, '.');
+			wattroff(window, COLOR_PAIR(EMPTY_PAIR));
+    }
 	}
 
 /*

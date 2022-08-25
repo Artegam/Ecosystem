@@ -80,6 +80,7 @@ namespace Controller {
 		pair<int, int> calculateCoordinates (int index);
 		unsigned int calculateIndex (pair<int, int> position);
 		unsigned int calculateIndex (int x, int y);
+    int random (const int min, const int max);
   };
 
   /// class World - 

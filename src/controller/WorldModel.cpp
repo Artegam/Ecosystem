@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include <random>
 
 using namespace Controller;
 
@@ -42,16 +43,22 @@ Clock * WorldModel::getClock () {
 }
 
 map<int, int> WorldModel::getWorldMap () {
-  return worldMap; 
+  return worldMap;
 }
 
 void WorldModel::generateMap () {
   unsigned int const OCEAN = 0;
+  unsigned int const PLAIN = 1;
   unsigned int size = width * (height + 1);
 
   for(unsigned int index = 0; index < size; index++) {
-    worldMap[index] = OCEAN;
-	}
+    int dice = random(0, 100);
+    if(dice > 33) {
+      worldMap[index] = OCEAN;
+    } else {
+      worldMap[index] = PLAIN;
+    }
+  }
 }
 
 pair<int, int> WorldModel::calculateCoordinates (int index) {
@@ -78,7 +85,7 @@ unsigned int WorldModel::calculateIndex (pair<int, int> position) {
   const unsigned int size = pow(blockSize, 2);
 	const unsigned int centralIndex = (size + 1) / 2;
 
-  return centralIndex + position.first + (position.second * blockSize); 
+  return centralIndex + position.first + (position.second * blockSize);
 }
 
 unsigned int WorldModel::calculateIndex (int x, int y) {
@@ -87,5 +94,13 @@ unsigned int WorldModel::calculateIndex (int x, int y) {
 	position.second = y;
 
 	return calculateIndex(position);
+}
+
+int WorldModel::random (const int min, const int max) {
+  random_device                  rand_dev;
+  mt19937                        generator(rand_dev());
+  uniform_int_distribution<int>  distr(min, max);
+
+  return distr(generator);
 }
 
