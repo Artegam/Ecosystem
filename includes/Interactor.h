@@ -24,6 +24,13 @@ namespace Interactor {
       vector<string> path;
       int fieldOfView = 1;
 			map<int, list<ClockSubscriber *>> vision;
+      int movingTerrainType;
+
+    public:
+      // TODO: Mettre Terrain types dans une structure...
+      // Terrain types
+			unsigned int const OCEAN = 0;
+			unsigned int const PLAIN = 1;
 
     // Operations
     public:
@@ -41,6 +48,7 @@ namespace Interactor {
       int getTurnsNumberBeforeStarving ();
       void getHungry ();
 			map<int, list<ClockSubscriber *>> getVision ();
+      int getMovingTerrainType ();
       void happyBirthday ();
       void setName(char * name);
       void setLifetime (int min, int max);
@@ -52,6 +60,7 @@ namespace Interactor {
       void setDefaultTurnsNumberBeforeStarving (int turns);
 			void setFieldOfView(int distance);
 			void setVision (map<int, list<ClockSubscriber *>> v);
+      void setMovingTerrainType (int terrainType);
       void makeOld ();
       int random(const int min, const int max);
       void savePosition();

@@ -22,6 +22,7 @@ void Fish::init() {
   data->setDisplayChar('F');
   data->setViewField(2);
   data->setDefaultTurnsNumberBeforeStarving(20);
+  data->setMovingTerrainType(data->OCEAN);
   this->action = new Default ();
 }
 

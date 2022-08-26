@@ -93,11 +93,13 @@ void NCursesView::display (ScreenViewModel * data) {
 
   unsigned int const OCEAN = 0;
   unsigned int const PLAIN = 1;
+  unsigned int const xOffset = 1;
+  unsigned int const yOffset = 1;
   map<int, int> worldMap = worldData.getWorldMap();
   unsigned int size = worldMap.size();
 	for(unsigned int index = 0; index < size; index++) {
-    int x = 1 + index % worldData.getWidth();
-    int y = (index - x) / worldData.getWidth() + 1;
+    int x = xOffset + (index % worldData.getWidth());
+    int y = yOffset + ((index - (x - xOffset)) / worldData.getWidth());
 
 		if(worldMap[index] == OCEAN) {
       //TODO: A reecrire...

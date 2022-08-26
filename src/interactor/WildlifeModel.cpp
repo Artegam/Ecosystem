@@ -69,6 +69,10 @@ map<int, list<ClockSubscriber *>> WildlifeModel::getVision () {
   return vision;
 }
 
+int WildlifeModel::getMovingTerrainType () {
+  return movingTerrainType;
+}
+
 void WildlifeModel::happyBirthday () {
   this->age++;
 }
@@ -113,6 +117,11 @@ void WildlifeModel::setFieldOfView (int distance) {
 void WildlifeModel::setVision (map<int, list<ClockSubscriber *>> v) {
   this->vision = v;
 }
+
+void WildlifeModel::setMovingTerrainType (int terrainType) {
+  movingTerrainType = terrainType;
+}
+
 
 void WildlifeModel::makeOld () {
 }

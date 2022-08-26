@@ -21,6 +21,7 @@ void Shark::init () {
   data->setLifetime(5, 10);
   data->setDisplayChar('S');
   data->setViewField(1);
+  data->setMovingTerrainType(data->OCEAN);
   this->action = new Default ();
 }
 

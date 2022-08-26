@@ -1,5 +1,6 @@
 #include "Controller.h"
 #include <random>
+#include <set>
 
 using namespace Controller;
 
@@ -49,16 +50,25 @@ map<int, int> WorldModel::getWorldMap () {
 void WorldModel::generateMap () {
   unsigned int const OCEAN = 0;
   unsigned int const PLAIN = 1;
-  unsigned int size = width * (height + 1);
+  unsigned int size = width * height;
 
   for(unsigned int index = 0; index < size; index++) {
-    int dice = random(0, 100);
-    if(dice > 33) {
-      worldMap[index] = OCEAN;
-    } else {
-      worldMap[index] = PLAIN;
-    }
+		worldMap[index] = OCEAN;
   }
+
+  unsigned int plainBoxNumber = round(size * 0.33);
+
+  set<int> plainBoxes;
+
+  while(plainBoxes.size() < plainBoxNumber) {
+		plainBoxes.insert(random(0, (size - plainBoxes.size())));
+	}
+
+	set<int>::iterator it;
+  for(it = plainBoxes.begin(); it != plainBoxes.end(); it++) {
+    worldMap[*it] = PLAIN;
+	}
+
 }
 
 pair<int, int> WorldModel::calculateCoordinates (int index) {
@@ -80,12 +90,15 @@ pair<int, int> WorldModel::calculateCoordinates (int index) {
 	return position;
 }
 
+// 1 2 3
+// 4 5 6
+// 7 8 9
+// x =3  et y=3
+// (y - 1) * 3 + 3
+// 2*3 + 3 = 6 +3 = 9
+// est-ce que ca commence à 0??
 unsigned int WorldModel::calculateIndex (pair<int, int> position) {
-  const unsigned int blockSize = width * 2 + 1;
-  const unsigned int size = pow(blockSize, 2);
-	const unsigned int centralIndex = (size + 1) / 2;
-
-  return centralIndex + position.first + (position.second * blockSize);
+  return (position.second - 1) * height + position.first - 1;
 }
 
 unsigned int WorldModel::calculateIndex (int x, int y) {
