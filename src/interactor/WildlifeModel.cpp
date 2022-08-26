@@ -17,6 +17,7 @@ WildlifeModel::WildlifeModel (const WildlifeModel &wm) {
   XPosition   = wm.XPosition;
   YPosition   = wm.YPosition;
   path        = wm.path;
+  movingTerrainType                = wm.movingTerrainType;
   defaultTurnsNumberBeforeStarving = wm.defaultTurnsNumberBeforeStarving;
   turnsNumberBeforeStarving        = wm.defaultTurnsNumberBeforeStarving;
 }

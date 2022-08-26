@@ -90,15 +90,8 @@ pair<int, int> WorldModel::calculateCoordinates (int index) {
 	return position;
 }
 
-// 1 2 3
-// 4 5 6
-// 7 8 9
-// x =3  et y=3
-// (y - 1) * 3 + 3
-// 2*3 + 3 = 6 +3 = 9
-// est-ce que ca commence à 0??
 unsigned int WorldModel::calculateIndex (pair<int, int> position) {
-  return (position.second - 1) * height + position.first - 1;
+  return position.second * height + (position.first % width);
 }
 
 unsigned int WorldModel::calculateIndex (int x, int y) {
