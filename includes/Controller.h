@@ -8,9 +8,20 @@
 #include <string>
 #include <cmath>
 
+#include <iostream>
+#include <fstream>
+
 using namespace std;
 
 namespace Controller {
+  // interface
+  /// class Loggable - 
+  class Loggable {
+  private:
+    // Operations
+  public:
+    virtual list<string> log ();
+  };
 
   // interface
   /// class ClockSubscriber - 
@@ -57,7 +68,7 @@ namespace Controller {
   };
 
   /// class WorldModel - 
-  class WorldModel {
+  class WorldModel : public Loggable {
     // Attributes
 		int height;
     int width;
@@ -81,6 +92,7 @@ namespace Controller {
 		unsigned int calculateIndex (pair<int, int> position);
 		unsigned int calculateIndex (int x, int y);
     int random (const int min, const int max);
+    list<string> log ();
   };
 
   /// class World - 
@@ -96,6 +108,16 @@ namespace Controller {
     void run (void);
 		vector<vector<ClockSubscriber*>> getMap();
     vector<vector<ClockSubscriber*>> getMap(int minX, int maxX, int minY, int maxY);
+  };
+
+  /// class Logger - 
+  class Logger {
+  private:
+		string filename;
+    // Operations
+  public:
+    Logger (const string filename);
+    void log (Loggable l);
   };
 
 };

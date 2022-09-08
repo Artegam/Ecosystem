@@ -57,6 +57,8 @@ void Wildlife::update () {
   data->openYourEyes();
   action->compute(data);
 
+  Logger * log = new Logger("bin/mon_fichier.log");
+  log->log(*data);
 
   this->makeOld();
 }

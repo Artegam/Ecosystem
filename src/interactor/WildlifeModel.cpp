@@ -336,4 +336,37 @@ unsigned int WildlifeModel::calculateIndex (int x, int y) {
 	return calculateIndex(position);
 }
 
+list<string> WildlifeModel::log () {
+  list<string> messages;
+
+  messages = Loggable::log();
+  messages.push_back("appel a WildlifeModel::log()");
+
+  string n(name);      
+  messages.push_back("Name : " + n);
+  messages.push_back("Lifetime : " + to_string(lifetime));
+  messages.push_back("Age : " + to_string(age));
+  messages.push_back("DisplayChar : " + to_string(displayChar));
+  messages.push_back("View Field : " + to_string(viewField));
+  messages.push_back("X position : " + to_string(XPosition));
+  messages.push_back("Y position : " + to_string(YPosition));
+  messages.push_back("Default turns before starving : " + to_string(defaultTurnsNumberBeforeStarving));
+  messages.push_back("Remaining turns before starving : " + to_string(turnsNumberBeforeStarving));
+  messages.push_back("Field of view : " + to_string(fieldOfView));
+  messages.push_back("Moving terrain type : " + to_string(movingTerrainType));
+  vector<string>::iterator it;
+  string line;
+	for(it = path.begin(); it != path.end(); it++) {
+    string s(*it);
+		line += s + "->";
+	}
+	messages.push_back(line);
+  map<int, list<ClockSubscriber *>>::iterator it2;
+	for(it2 = vision.begin(); it2 != vision.end(); it2++) {
+		line = to_string(it2->first) + "(" + to_string(it2->second.size()) + ")";
+		messages.push_back(line);
+	}
+
+  return messages;
+}
 

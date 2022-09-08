@@ -21,7 +21,7 @@ void Fish::init() {
   data->setLifetime(10, 15);
   data->setDisplayChar('F');
   data->setViewField(2);
-  data->setDefaultTurnsNumberBeforeStarving(20);
+  data->setDefaultTurnsNumberBeforeStarving(2000);
   data->setMovingTerrainType(data->OCEAN);
   this->action = new Default ();
 }
@@ -41,7 +41,9 @@ void Fish::update () {
 
   //Si l animal est encore en vie aprÃs x tours
   // il y a un enfant
+  /*
   if(data->getAge() >= 9) {
     this->addWildlife("Fish", data->random(1, 3));
   }
+*/
 }

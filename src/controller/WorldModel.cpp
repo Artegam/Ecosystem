@@ -110,3 +110,25 @@ int WorldModel::random (const int min, const int max) {
   return distr(generator);
 }
 
+list<string> WorldModel::log() {
+
+  list<string> messages = Loggable::log();
+  messages.push_back("appel a WorldModel::log()");
+
+  string str;
+
+  messages.push_back("Height : " + to_string(height));
+  messages.push_back("Width : " + to_string(width));
+  messages.push_back("World Map :"); 
+  map<int, int>::iterator it;
+  string line;
+	for(it = worldMap.begin(); it != worldMap.end(); it ++) {
+    line += to_string(it->second);
+    if(it->first % width == 0) {
+			messages.push_back(line);
+      line = "";
+		}
+	}
+
+  return messages;
+}

@@ -8,7 +8,7 @@ using namespace Controller;
 
 namespace Interactor {
 
-  class WildlifeModel {
+  class WildlifeModel : public Loggable {
     // Attributes
     protected:
       char * name;
@@ -69,6 +69,7 @@ namespace Interactor {
 			pair<int, int> calculateCoordinates (int index);
 			unsigned int calculateIndex (pair<int, int> position);
 			unsigned int calculateIndex (int x, int y);
+			list<string> log ();
   };
 
   // interface

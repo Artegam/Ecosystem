@@ -1,9 +1,11 @@
 #include "ConsoleView.h"
 #include "Interactor.h"
 
+
 using namespace Controller;
 using namespace ConsoleView;
 using namespace Interactor;
+
 
 // Prototypes
 void display(World * w);
@@ -17,8 +19,12 @@ int main(int argc, char** argv) {
     new Fish(w);
   }
   */
+  Logger * log = new Logger("bin/mon_fichier.log");
+ 
   new Fish(w);
   new Shark(w);
+
+  log->log(w->getData());
   display(w);
 
 	return 0;
