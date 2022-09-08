@@ -117,7 +117,7 @@ namespace Controller {
     // Operations
   public:
     Logger (const string filename);
-    void log (Loggable l);
+    void log (Loggable * l);
   };
 
 };

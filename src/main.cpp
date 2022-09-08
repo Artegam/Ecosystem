@@ -24,7 +24,9 @@ int main(int argc, char** argv) {
   new Fish(w);
   new Shark(w);
 
-  log->log(w->getData());
+  WorldModel d = w->getData();
+
+  log->log(&d);
   display(w);
 
 	return 0;
