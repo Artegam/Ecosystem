@@ -136,19 +136,20 @@ int WildlifeModel::random (const int min, const int max) {
 }
 
 void WildlifeModel::savePosition () {
-  string pos = this->getX() + "-" + this->getY();
-  path.insert(path.begin(), pos);
+  pair<int, int> pos(this->getX(), this->getY());
+  path.push_back(pos);
   if(path.size() > 5) { // 5 est arbitraire pour le moment
-    path.pop_back();
+    path.pop_front();
   }
 }
 
-bool WildlifeModel::isKnownedPosition (int posX, int posY){
-  vector<string>::iterator itr;
-  string search = posX + "-" + posY;
+bool WildlifeModel::isKnownedPosition (int posX, int posY) {
+  deque<pair<int, int>>::iterator itr;
+  //string search = posX + "-" + posY;
+  pair<int, int> search(posX, posY);
   itr = find(path.begin(), path.end(), search);
 
-  return false;
+  return (itr != path.end());
 }
 // Vision de 1 case
 // 1 2 3
@@ -340,7 +341,6 @@ list<string> WildlifeModel::log () {
   list<string> messages;
 
   messages = Loggable::log();
-  messages.push_back("appel a WildlifeModel::log()");
 
   string n(name);      
   messages.push_back("Name : " + n);
@@ -354,19 +354,19 @@ list<string> WildlifeModel::log () {
   messages.push_back("Remaining turns before starving : " + to_string(turnsNumberBeforeStarving));
   messages.push_back("Field of view : " + to_string(fieldOfView));
   messages.push_back("Moving terrain type : " + to_string(movingTerrainType));
-  vector<string>::iterator it;
-  string line;
+  deque<pair<int, int>>::iterator it;
+  string line = "";
 	for(it = path.begin(); it != path.end(); it++) {
-    string s(*it);
-		line += s + "->";
+		//line += "->";
+    messages.push_back("x: " + to_string(it->first) + ", y: " + to_string(it->second));
 	}
 	messages.push_back(line);
-  map<int, list<ClockSubscriber *>>::iterator it2;
+/*  map<int, list<ClockSubscriber *>>::iterator it2;
 	for(it2 = vision.begin(); it2 != vision.end(); it2++) {
 		line = to_string(it2->first) + "(" + to_string(it2->second.size()) + ")";
 		messages.push_back(line);
 	}
-
+*/
   return messages;
 }
 

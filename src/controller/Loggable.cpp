@@ -12,10 +12,9 @@ list<string> Loggable::log() {
 
   time_t dt = time(0);
   tm* n = localtime(&dt);
-  string str = asctime(n); //to_string(n->tm_mday) + "-" + to_string(n->tm_mon + 1) + "-" + to_string(n->tm_year + 1900);
-  string separator = "=================:__:=========================";
+  string str = asctime(n);
+  string separator = "==========================================";
   messages.push_back(str + separator);
-  messages.push_back("appel a Loggable::log()");
 
   return messages;
 }

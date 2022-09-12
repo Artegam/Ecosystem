@@ -13,8 +13,6 @@ void Logger::log (Loggable * l) {
   list<string> messages = l->log();
   list<string>::iterator it;
 
-  file << "il y a " << messages.size() << " messages" << endl;
-
 	for(it = messages.begin(); it != messages.end(); it++) {  
 		file << it->c_str() << endl;
 	}

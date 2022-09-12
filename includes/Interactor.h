@@ -3,6 +3,7 @@
 
 #include "Controller.h"
 #include <algorithm>
+#include <deque>
 
 using namespace Controller;
 
@@ -21,7 +22,7 @@ namespace Interactor {
       int defaultTurnsNumberBeforeStarving = 10;
       int turnsNumberBeforeStarving;
       World * world;
-      vector<string> path;
+      deque<pair<int, int>> path;
       int fieldOfView = 1;
 			map<int, list<ClockSubscriber *>> vision;
       int movingTerrainType;

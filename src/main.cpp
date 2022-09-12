@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
   Logger * log = new Logger("bin/mon_fichier.log");
  
   new Fish(w);
-  new Shark(w);
+  //new Shark(w);
 
   WorldModel d = w->getData();
 
