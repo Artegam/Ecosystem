@@ -144,13 +144,10 @@ void WildlifeModel::savePosition () {
 }
 
 bool WildlifeModel::isKnownedPosition (int posX, int posY) {
-  deque<pair<int, int>>::iterator itr;
-  //string search = posX + "-" + posY;
   pair<int, int> search(posX, posY);
-  itr = find(path.begin(), path.end(), search);
-
-  return (itr != path.end());
+  return find(path.begin(), path.end(), search) != path.end();
 }
+
 // Vision de 1 case
 // 1 2 3
 // 4 . 6
@@ -350,6 +347,7 @@ list<string> WildlifeModel::log () {
   messages.push_back("View Field : " + to_string(viewField));
   messages.push_back("X position : " + to_string(XPosition));
   messages.push_back("Y position : " + to_string(YPosition));
+  messages.push_back("Is knowned position ? : " + to_string(isKnownedPosition(XPosition, YPosition)));
   messages.push_back("Default turns before starving : " + to_string(defaultTurnsNumberBeforeStarving));
   messages.push_back("Remaining turns before starving : " + to_string(turnsNumberBeforeStarving));
   messages.push_back("Field of view : " + to_string(fieldOfView));

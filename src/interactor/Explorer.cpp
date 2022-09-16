@@ -32,7 +32,7 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
 	map<int, list<ClockSubscriber *>> myVision = data->getVision();
   int terrainType = data->getMovingTerrainType();
 
-  vector<pair<int,int>> possibles = {
+  vector<pair<int,int>> all_possibles = {
     { (width + (x-1)) % width, (height + (y-1)) % height},
     { x                      , (height + (y-1)) % height},
     { (x+1) % width          , (height + (y-1)) % height},
@@ -43,12 +43,15 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
     { (x+1) % width          , (y+1) % height},
   };
 
-  std::vector<std::pair<int,int>>::iterator it;
-  for(it = possibles.begin(); it != possibles.end(); it++) {
-    unsigned int index = worldData.calculateIndex(it->first, it->second);
-    if(data->isKnownedPosition(it->first, it->second) ) {
+	vector<pair<int,int>> possibles;
+
+  vector<pair<int,int>>::iterator it;
+  for(it = all_possibles.begin(); it != all_possibles.end(); it++) {
+    //ici ça plante...
+    //unsigned int index = worldData.calculateIndex(it->first, it->second);
+    if(!data->isKnownedPosition(it->first, it->second) ) {
        //|| worldMap[index] != terrainType ) { //TODO: A REVOIR cette condition de detection
-      possibles.erase(it);
+      possibles.push_back(*it);
     }
   }
 
