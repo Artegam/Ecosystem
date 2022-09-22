@@ -48,9 +48,9 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   vector<pair<int,int>>::iterator it;
   for(it = all_possibles.begin(); it != all_possibles.end(); it++) {
     //ici ça plante...
-    //unsigned int index = worldData.calculateIndex(it->first, it->second);
-    if(!data->isKnownedPosition(it->first, it->second) ) {
-       //|| worldMap[index] != terrainType ) { //TODO: A REVOIR cette condition de detection
+    unsigned int index = worldData.calculateIndex(it->first, it->second);
+    if(!data->isKnownedPosition(it->first, it->second)
+       && worldMap[index] == terrainType ) { //TODO: A REVOIR cette condition de detection
       possibles.push_back(*it);
     }
   }

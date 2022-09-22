@@ -162,7 +162,7 @@ bool WildlifeModel::isKnownedPosition (int posX, int posY) {
 //
 // nb de cases = (distance vision * 2 + 1) ^ 2
 //
-// exemple une distance de vision de 4 
+// exemple une distance de vision de 4
 //   ( 4 * 2 + 1) ^ 2 = 9 ^ 2 = 81
 //
 // Comment calculer la différence des positions ??
@@ -181,7 +181,7 @@ bool WildlifeModel::isKnownedPosition (int posX, int posY) {
 // curX = 3
 // curY = 3
 //
-// La position de * dans le champ de vision est 
+// La position de * dans le champ de vision est
 //  x = x - CurX = 1
 //  y = y - CurY = 1
 //
@@ -292,7 +292,7 @@ pair<int, int> WildlifeModel::calculateCoordinates (int index) {
 //
 //  on a la taille d'une ligne ou taille de bloc en faisant ce calcul
 //  taille block = distance vision * 2 + 1
-//  
+//
 //  5 - 2 = 3
 //  5 - taille block => 5 - 3 = 2 (pour Y en premier)
 //
@@ -323,7 +323,7 @@ unsigned int WildlifeModel::calculateIndex (pair<int, int> position) {
   const unsigned int size = pow(blockSize, 2);
 	const unsigned int centralIndex = (size + 1) / 2;
 
-  return centralIndex + position.first + (position.second * blockSize); 
+  return centralIndex + position.first + (position.second * blockSize);
 }
 
 unsigned int WildlifeModel::calculateIndex (int x, int y) {
@@ -339,7 +339,7 @@ list<string> WildlifeModel::log () {
 
   messages = Loggable::log();
 
-  string n(name);      
+  string n(name);
   messages.push_back("Name : " + n);
   messages.push_back("Lifetime : " + to_string(lifetime));
   messages.push_back("Age : " + to_string(age));
@@ -358,6 +358,12 @@ list<string> WildlifeModel::log () {
 		//line += "->";
     messages.push_back("x: " + to_string(it->first) + ", y: " + to_string(it->second));
 	}
+
+  map<int, int> worldMap = this->world->getData().getWorldMap();
+  int index = calculateIndex(XPosition, YPosition);
+  messages.push_back("WorldMap index : " + to_string(index));
+  messages.push_back("WorldMap terrain type : " + to_string(worldMap[index]));
+
 	messages.push_back(line);
 /*  map<int, list<ClockSubscriber *>>::iterator it2;
 	for(it2 = vision.begin(); it2 != vision.end(); it2++) {

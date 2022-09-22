@@ -74,24 +74,29 @@ void WorldModel::generateMap () {
 pair<int, int> WorldModel::calculateCoordinates (int index) {
 	pair<int, int> position;
 
-  const unsigned int centralPosition = width + 1;
-  const unsigned int blockSize = width * 2 + 1;
+  //const unsigned int centralPosition = width + 1;
+  //const unsigned int blockSize = width * 2 + 1;
 
   // Calcul de la position X
+  /*
   unsigned int modulo = index % blockSize;
   if(modulo == 0) {modulo = blockSize;}
-  position.first = modulo - centralPosition;
+  position.first = modulo - centralPosition;*/
+  position.first = index % width;
 
   //calcul de la position Y
+  /*
   position.second = centralPosition - (index - modulo / blockSize);
   modulo = index % blockSize;
   if(modulo > 0) {position.second++;}
+  */
+  position.second = (index - position.first) / width;
 
 	return position;
 }
 
 unsigned int WorldModel::calculateIndex (pair<int, int> position) {
-  return position.second * height + (position.first % width);
+  return position.first + position.second * width;
 }
 
 unsigned int WorldModel::calculateIndex (int x, int y) {
