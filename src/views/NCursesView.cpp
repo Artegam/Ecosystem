@@ -1,7 +1,7 @@
-#include "ConsoleView.h"
+#include "Views.h"
 #include <cstring>
 
-using namespace ConsoleView;
+using namespace Views;
 
 #define EMPTY_PAIR     1
 #define WATER_PAIR     2

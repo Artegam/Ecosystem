@@ -17,7 +17,6 @@ void Explorer::compute (WildlifeModel * data) {
 
 //TODO : A ecrire mieux que ca...
 vector<int> Explorer::getNewPosition(WildlifeModel * data) {
-  printf("start getNewPosition()...\n");
   vector<int> position;
 
   // 1 2 3
@@ -49,9 +48,8 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
 
   vector<pair<int,int>>::iterator it;
   for(it = all_possibles.begin(); it != all_possibles.end(); it++) {
-    //ici ça plante...
     unsigned int index = worldData.calculateIndex(it->first, it->second);
-    if( worldMap[index] == terrainType ) { //TODO: A REVOIR cette condition de detection
+    if( worldMap[index] == terrainType ) {
       if(data->isKnownedPosition(it->first, it->second)) {
         possiblesKnown.push_back(*it);
       } else {
@@ -64,8 +62,6 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   if(possiblesUnknown.size() == 0) {
     possibles = possiblesKnown;
   }
-  printf("get random position...\n");
-  printf("nb: %ld...\n", possibles.size());
 
   int index = data->random(0, possibles.size()-1);
   pair<int, int> newPos = possibles[index];
@@ -73,7 +69,6 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   position.push_back(newPos.first);
   position.push_back(newPos.second);
 
-  printf("end getNewPosition()...\n");
   return position;
 }
 

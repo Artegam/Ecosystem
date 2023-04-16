@@ -1,9 +1,9 @@
-#include "ConsoleView.h"
+#include "Views.h"
 #include "Interactor.h"
 
 
 using namespace Controller;
-using namespace ConsoleView;
+using namespace Views;
 using namespace Interactor;
 
 
@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
   }
   */
   Logger * log = new Logger("bin/mon_fichier.log");
- 
+
   new Fish(w);
   //new Shark(w);
 

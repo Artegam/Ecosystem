@@ -4,9 +4,9 @@
 
 using namespace Screen;
 
-namespace ConsoleView {
+namespace Views {
 
-  /// class NCursesView - 
+  /// class NCursesView -
   class NCursesView : public ScreenView {
     // Attributes
     ScreenViewModel * data;
