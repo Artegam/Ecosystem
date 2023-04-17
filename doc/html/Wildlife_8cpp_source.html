@@ -109,24 +109,24 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;Wildlife::Wildlife (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData) {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="classController_1_1World.html">World</a> * world = parentData-&gt;getWorld();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  data-&gt;setWorld(world);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = world-&gt;getData();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="comment">//data = new WildlifeModel(*parentData);</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  data-&gt;setWorld(world);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  data-&gt;setX(parentData-&gt;getX());</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  data-&gt;setY(parentData-&gt;getY());</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = worldData.getClock();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Wildlife::~Wildlife () {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span> Wildlife::execute () {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  printf(<span class="stringliteral">&quot;Je m&#39;execute en Wildlife...\n&quot;</span>);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> Wildlife::update () {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="comment">//printf(&quot;Je me mets a jour en Wildlife...\n&quot;);</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = world-&gt;getData();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = worldData.getClock();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;Wildlife::~Wildlife () {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> Wildlife::execute () {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  printf(<span class="stringliteral">&quot;Je m&#39;execute en Wildlife...\n&quot;</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">void</span> Wildlife::update () {</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  data-&gt;openYourEyes();</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  action-&gt;compute(data);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
@@ -176,19 +176,20 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 1; i &lt; number; i++) {</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span>(!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Fish&quot;</span>)) {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Fish.html">Fish</a>(data);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Shark&quot;</span>)) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Shark.html">Shark</a>(data);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      data-&gt;setMaturityAge(2000);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Shark&quot;</span>)) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Shark.html">Shark</a>(data);</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keywordtype">bool</span> Wildlife::isStarving () {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getTurnsNumberBeforeStarving() == 0);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">bool</span> Wildlife::isDead () {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getLifetimeRemaining() &lt;= 0);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keywordtype">bool</span> Wildlife::isStarving () {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getTurnsNumberBeforeStarving() == 0);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordtype">bool</span> Wildlife::isDead () {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getLifetimeRemaining() &lt;= 0);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00130">Interactor.h:130</a></div></div>
 <div class="ttc" id="aclassController_1_1Logger_html"><div class="ttname"><a href="classController_1_1Logger.html">Controller::Logger</a></div><div class="ttdoc">class Logger -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00114">Controller.h:114</a></div></div>
