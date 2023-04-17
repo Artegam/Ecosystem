@@ -96,61 +96,59 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <span class="comment">// 4 . 5</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="comment">// 6 7 8</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">int</span> x= data-&gt;getX();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <span class="keywordtype">int</span> x = data-&gt;getX();</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keywordtype">int</span> y = data-&gt;getY();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keywordtype">int</span> width = data-&gt;getWorld()-&gt;getWidth();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="keywordtype">int</span> height = data-&gt;getWorld()-&gt;getHeight();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  vector&lt;pair&lt;int,int&gt;&gt; possibles = {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    { (width + (x-1)) % width, (height + (y-1)) % height},</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    { x                      , (height + (y-1)) % height},</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    { (x+1) % width          , (height + (y-1)) % height},</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    { (width + (x-1)) % width, y},</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    { (x+1) % width          , y},</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    { (width + (x-1)) % width, (y+1) % height},</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    { x                      , (y+1) % height},</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    { (x+1) % width          , (y+1) % height},</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  };</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  std::vector&lt;std::pair&lt;int,int&gt;&gt;::iterator it;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">for</span>(it = possibles.begin(); it != possibles.end(); it++) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span>(data-&gt;isKnownedPosition(it-&gt;first, it-&gt;second)) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      possibles.erase(it);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = data-&gt;getWorld()-&gt;getData();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  map&lt;int, int&gt; worldMap = worldData.getWorldMap();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="keywordtype">int</span> width = worldData.getWidth();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <span class="keywordtype">int</span> height = worldData.getHeight();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    map&lt;int, list&lt;ClockSubscriber *&gt;&gt; myVision = data-&gt;getVision();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keywordtype">int</span> terrainType = data-&gt;getMovingTerrainType();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  vector&lt;pair&lt;int,int&gt;&gt; all_possibles = {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    { (width + (x-1)) % width, (height + (y-1)) % height},</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    { x                      , (height + (y-1)) % height},</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    { (x+1) % width          , (height + (y-1)) % height},</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    { (width + (x-1)) % width, y},</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    { (x+1) % width          , y},</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    { (width + (x-1)) % width, (y+1) % height},</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    { x                      , (y+1) % height},</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    { (x+1) % width          , (y+1) % height},</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  };</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    vector&lt;pair&lt;int,int&gt;&gt; possiblesUnknown;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    vector&lt;pair&lt;int,int&gt;&gt; possiblesKnown;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span>(possibles.size() &gt; 0) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> index = data-&gt;random(0, possibles.size()-1);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    pair&lt;int, int&gt; newPos = possibles[index];</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    position.push_back(newPos.first);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    position.push_back(newPos.second);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    position = this-&gt;getBasicPosition(data);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keywordflow">return</span> position;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;vector&lt;int&gt; Explorer::getBasicPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  vector&lt;int&gt; position;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keywordtype">int</span> posX = (data-&gt;getX() + data-&gt;random(-1, 1)) % data-&gt;getWorld()-&gt;getWidth();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">int</span> posY = (data-&gt;getY() + data-&gt;random(-1, 1)) % data-&gt;getWorld()-&gt;getHeight();</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">if</span>(!posX) {posX++;}</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keywordflow">if</span>(!posY) {posY++;}</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  position[0] = posX;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  position[1] = posY;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keywordflow">return</span> position;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  vector&lt;pair&lt;int,int&gt;&gt;::iterator it;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">for</span>(it = all_possibles.begin(); it != all_possibles.end(); it++) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> index = worldData.calculateIndex(it-&gt;first, it-&gt;second);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span>( worldMap[index] == terrainType ) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keywordflow">if</span>(data-&gt;isKnownedPosition(it-&gt;first, it-&gt;second)) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        possiblesKnown.push_back(*it);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        possiblesUnknown.push_back(*it);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    vector&lt;pair&lt;int,int&gt;&gt; possibles = possiblesUnknown;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">if</span>(possiblesUnknown.size() == 0) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    possibles = possiblesKnown;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordtype">int</span> index = data-&gt;random(0, possibles.size()-1);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  pair&lt;int, int&gt; newPos = possibles[index];</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  position.push_back(newPos.first);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  position.push_back(newPos.second);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="keywordflow">return</span> position;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00011">Interactor.h:11</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Behavior_html"><div class="ttname"><a href="classInteractor_1_1Behavior.html">Interactor::Behavior</a></div><div class="ttdoc">class Behavior -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00050">Interactor.h:50</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00012">Interactor.h:12</a></div></div>
+<div class="ttc" id="aclassController_1_1WorldModel_html"><div class="ttname"><a href="classController_1_1WorldModel.html">Controller::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00071">Controller.h:71</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Behavior_html"><div class="ttname"><a href="classInteractor_1_1Behavior.html">Interactor::Behavior</a></div><div class="ttdoc">class Behavior -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00080">Interactor.h:80</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

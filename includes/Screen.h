@@ -9,7 +9,7 @@ namespace Screen {
 
   // DataStructure
   /// class ScreenViewModel - 
-  class ScreenViewModel {
+  class ScreenViewModel : public Loggable {
     // Attributes
 		WorldModel worldData;
   public:

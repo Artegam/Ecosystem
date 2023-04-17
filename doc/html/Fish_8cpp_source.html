@@ -91,35 +91,41 @@ $(function() {
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">void</span> Fish::init() {</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  data-&gt;setName((<span class="keywordtype">char</span> *)<span class="stringliteral">&quot;Nemo&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  data-&gt;setLifetime(data-&gt;random(10, 15));</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  data-&gt;setLifetime(10, 15);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  data-&gt;setDisplayChar(<span class="charliteral">&#39;F&#39;</span>);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  data-&gt;setViewField(2);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  this-&gt;action = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Explorer.html">Explorer</a> ();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> Fish::execute () {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  printf(<span class="stringliteral">&quot;je m&#39;execute en Fish...\n&quot;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;}</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordtype">void</span> Fish::update () {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  Wildlife::update();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="comment">// Ecrire ici tous les cas particuliers pour un poisson</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="comment">//Si l animal est encore en vie aprÃs x tours</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// il y a un enfant</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(data-&gt;getAge() &gt;= 9) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    this-&gt;addWildlife(<span class="stringliteral">&quot;Fish&quot;</span>, data-&gt;random(1, 3));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  data-&gt;setDefaultTurnsNumberBeforeStarving(10);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  data-&gt;setMovingTerrainType(data-&gt;OCEAN);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  this-&gt;action = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Default.html">Default</a> ();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">void</span> Fish::execute () {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  printf(<span class="stringliteral">&quot;je m&#39;execute en Fish...\n&quot;</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordtype">void</span> Fish::update () {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  Wildlife::update();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  <span class="comment">// Ecrire ici tous les cas particuliers pour un poisson</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="comment">// Apres 3 tour je suis un ado et j&#39;explore le monde...</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keywordflow">if</span>(data-&gt;getAge() == 3) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    this-&gt;action = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Explorer.html">Explorer</a>();</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  }</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="comment">//printf(&quot;je m&#39;update en Fish...\n&quot;);</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//this-&gt;action-&gt;compute(data);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="comment">//Si l animal est encore en vie aprÃs x tours</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">// il y a un enfant</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">  if(data-&gt;getAge() &gt;= 9) {</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">    this-&gt;addWildlife(&quot;Fish&quot;, data-&gt;random(1, 3));</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassInteractor_1_1Wildlife_html"><div class="ttname"><a href="classInteractor_1_1Wildlife.html">Interactor::Wildlife</a></div><div class="ttdoc">class Wildlife -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00060">Interactor.h:60</a></div></div>
-<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00058">Controller.h:58</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00011">Interactor.h:11</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Explorer_html"><div class="ttname"><a href="classInteractor_1_1Explorer.html">Interactor::Explorer</a></div><div class="ttdoc">class Explorer -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00125">Interactor.h:125</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Wildlife_html"><div class="ttname"><a href="classInteractor_1_1Wildlife.html">Interactor::Wildlife</a></div><div class="ttdoc">class Wildlife -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00090">Interactor.h:90</a></div></div>
+<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00099">Controller.h:99</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00012">Interactor.h:12</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Default_html"><div class="ttname"><a href="classInteractor_1_1Default.html">Interactor::Default</a></div><div class="ttdoc">class Default - Default Behavior for wildlife</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00142">Interactor.h:142</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Explorer_html"><div class="ttname"><a href="classInteractor_1_1Explorer.html">Interactor::Explorer</a></div><div class="ttdoc">class Explorer -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00167">Interactor.h:167</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

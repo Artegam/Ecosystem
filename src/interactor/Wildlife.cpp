@@ -36,11 +36,12 @@ Wildlife::Wildlife (World * world) {
 
 Wildlife::Wildlife (WildlifeModel * parentData) {
   World * world = parentData->getWorld();
+  //data = new WildlifeModel(*parentData);
   data = new WildlifeModel();
   data->setWorld(world);
-  WorldModel worldData = world->getData();
   data->setX(parentData->getX());
   data->setY(parentData->getY());
+  WorldModel worldData = world->getData();
   Clock * c = worldData.getClock();
   c->subscribe(this);
 }
@@ -53,14 +54,13 @@ void Wildlife::execute () {
 }
 
 void Wildlife::update () {
-  //printf("Je me mets a jour en Wildlife...\n");
   data->openYourEyes();
   action->compute(data);
 
   Logger * log = new Logger("bin/mon_fichier.log");
   log->log(data);
 
-  this->makeOld();
+  this->happyBirthday();
 }
 
 template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
@@ -68,8 +68,7 @@ template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
   return x1.second <= x2.second;
 }
 
-void Wildlife::makeOld() {
-  data->makeOld();
+void Wildlife::happyBirthday() {
   data->happyBirthday();
   data->getHungry();
 
@@ -104,6 +103,7 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
 	for(int i = 1; i < number; i++) {
     if(!strcmp(wildlifeName.c_str(), "Fish")) {
       new Fish(data);
+      data->setMaturityAge(2000);
     } else if (!strcmp(wildlifeName.c_str(), "Shark")) {
       new Shark(data);
     }

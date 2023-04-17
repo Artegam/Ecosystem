@@ -73,150 +73,130 @@ $(function() {
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Interactor.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;cstring&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>Interactor;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;Wildlife::Wildlife () {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">Wildlife::Wildlife (const Wildlife * w) {</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">  name        = w-&gt;name;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">  lifetime    = w-&gt;lifetime;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  age         = w-&gt;age;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  displayChar = w-&gt;displayChar;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">  viewField   = w-&gt;viewField;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">  XPosition   = w-&gt;XPosition;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  YPosition   = w-&gt;YPosition;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  action      = w-&gt;action;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  world       = w-&gt;world;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">}</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">*/</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;Wildlife::Wildlife (<a class="code" href="classController_1_1World.html">World</a> * world) {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  data-&gt;setWorld(world);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  data-&gt;setX(data-&gt;random(1, world-&gt;getWidth()));</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  data-&gt;setY(data-&gt;random(1, world-&gt;getHeight()));</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = world-&gt;getClock();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;Wildlife::Wildlife (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <a class="code" href="classController_1_1World.html">World</a> * world = parentData-&gt;getWorld();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  data-&gt;setWorld(world);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  data-&gt;setX(parentData-&gt;getX());</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  data-&gt;setY(parentData-&gt;getY());</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = world-&gt;getClock();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;Wildlife::~Wildlife () {</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>Interactor;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;Wildlife::Wildlife () {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">Wildlife::Wildlife (const Wildlife * w) {</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">  name        = w-&gt;name;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  lifetime    = w-&gt;lifetime;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  age         = w-&gt;age;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">  displayChar = w-&gt;displayChar;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">  viewField   = w-&gt;viewField;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  XPosition   = w-&gt;XPosition;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  YPosition   = w-&gt;YPosition;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">  action      = w-&gt;action;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">  world       = w-&gt;world;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">}</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;Wildlife::Wildlife (<a class="code" href="classController_1_1World.html">World</a> * world) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  data-&gt;setWorld(world);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = world-&gt;getData();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  data-&gt;setX(data-&gt;random(1, worldData.getWidth()));</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  data-&gt;setY(data-&gt;random(1, worldData.getHeight()));</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = worldData.getClock();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;Wildlife::Wildlife (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <a class="code" href="classController_1_1World.html">World</a> * world = parentData-&gt;getWorld();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  data = <span class="keyword">new</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a>();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  data-&gt;setWorld(world);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = world-&gt;getData();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  data-&gt;setX(parentData-&gt;getX());</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  data-&gt;setY(parentData-&gt;getY());</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="classController_1_1Clock.html">Clock</a> * c = worldData.getClock();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  c-&gt;subscribe(<span class="keyword">this</span>);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">void</span> Wildlife::execute () {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  printf(<span class="stringliteral">&quot;Je m&#39;execute en Wildlife...\n&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> Wildlife::update () {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  <span class="comment">//printf(&quot;Je me mets a jour en Wildlife...\n&quot;);</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  action-&gt;compute(data);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//############################</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//TODO: Faire un tableau pour la vue du poisson</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">    int originX = this-&gt;getX() - this-&gt;data-&gt;getViewField();// *2 + 1;</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">    int originY = this-&gt;getY() - this-&gt;data-&gt;getViewField();</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">    int endX = originX * 2 + 1;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">    int endY = originY * 2 + 1;</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">    //World world = *data-&gt;getWorld();</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">    for (int x = originX; x &lt;= endX; x++) {</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">        for (int y = originY; y &lt;= endY; y++) {</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">            char key[10] = &quot;&quot;;</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">            sprintf(key, &quot;%d-%d&quot;, x, y);</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">            //vision.insert({key, world-&gt;map[x][y].size()});</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">        }</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">    }</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">  */</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">/*</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">    // Pour utiliser la map vision faire des tris etc...</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">    //https://www.developpez.net/forums/d1047898/c-cpp/cpp/bibliotheques/sl-stl/ordonner-elements-d-map/</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">//#### TODO: la partie de tri et de prendre la position vers où aller =&gt; à mettre dans l&#39;objet Behavior</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">  std::sort(vision.begin(), vision.end(), this-&gt;cmp);</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">    //Map vision triée</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">    printf(&quot;La plus grosse position connue est : %s, avec la valeur %d\n&quot;, vision.begin()-&gt;first, vision.begin()-&gt;second);</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">  int pos_delim = vision.begin()-&gt;first.find(&quot;-&quot;);</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">    string x = vision.begin()-&gt;first.substr(0, pos_delim);</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">    string y = vision.begin()-&gt;first.substr(pos_delim + 1);</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">    printf(&quot;La position est x: %d y: %d\n&quot;, atoi(x), atoi(y));</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"></span> </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//###########################</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">*/</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;Wildlife::~Wildlife () {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">void</span> Wildlife::execute () {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  printf(<span class="stringliteral">&quot;Je m&#39;execute en Wildlife...\n&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;}</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordtype">void</span> Wildlife::update () {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="comment">//printf(&quot;Je me mets a jour en Wildlife...\n&quot;);</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  data-&gt;openYourEyes();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  action-&gt;compute(data);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <a class="code" href="classController_1_1Logger.html">Logger</a> * log = <span class="keyword">new</span> <a class="code" href="classController_1_1Logger.html">Logger</a>(<span class="stringliteral">&quot;bin/mon_fichier.log&quot;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  log-&gt;log(data);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  this-&gt;happyBirthday();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keywordtype">bool</span> Wildlife::cmp(pair&lt;T, T&gt;&amp; x1, pair&lt;T, T&gt;&amp; x2) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="comment">// return type is bool</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="keywordflow">return</span> x1.second &lt;= x2.second;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keywordtype">void</span> Wildlife::happyBirthday() {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  data-&gt;happyBirthday();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  data-&gt;getHungry();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keywordflow">if</span>(isDead() || isStarving()) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    this-&gt;die = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData = data-&gt;getWorld()-&gt;getData();</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    worldData.getClock()-&gt;unsubscribe(<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Wildlife::getAge () {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keywordflow">return</span> data-&gt;getAge();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Wildlife::getLifetimeRemaining () {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keywordflow">return</span> data-&gt;getLifetimeRemaining();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">int</span> Wildlife::getX () {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">return</span> data-&gt;getX();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  this-&gt;makeOld();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keywordtype">bool</span> Wildlife::cmp(pair&lt;T, T&gt;&amp; x1, pair&lt;T, T&gt;&amp; x2) {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="comment">// return type is bool</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">return</span> x1.second &lt;= x2.second;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">int</span> Wildlife::getY () {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">return</span> data-&gt;getY();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keywordtype">char</span> Wildlife::getDisplayChar () {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="keywordflow">return</span> data-&gt;getDisplayChar();</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">void</span> Wildlife::makeOld() {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  data-&gt;makeOld();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keywordflow">if</span>(data-&gt;getLifetimeRemaining() &lt;= 0) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    this-&gt;die = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    data-&gt;getWorld()-&gt;getClock()-&gt;unsubscribe(<span class="keyword">this</span>);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Wildlife::getAge () {</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keywordflow">return</span> data-&gt;getAge();</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> Wildlife::getLifetimeRemaining () {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keywordflow">return</span> data-&gt;getLifetimeRemaining();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keywordtype">int</span> Wildlife::getX () {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">return</span> data-&gt;getX();</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="keywordtype">int</span> Wildlife::getY () {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="keywordflow">return</span> data-&gt;getY();</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;}</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="keywordtype">char</span> Wildlife::getDisplayChar () {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordflow">return</span> data-&gt;getDisplayChar();</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="keywordtype">void</span> Wildlife::addWildlife(<span class="keywordtype">string</span> wildlifeName, <span class="keywordtype">int</span> number) {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 1; i &lt; number; i++) {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span>(!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Fish&quot;</span>)) {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Fish.html">Fish</a>(data);</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Shark&quot;</span>)) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Shark.html">Shark</a>(data);</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;}</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">void</span> Wildlife::addWildlife(<span class="keywordtype">string</span> wildlifeName, <span class="keywordtype">int</span> number) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">for</span>(<span class="keywordtype">int</span> i = 1; i &lt; number; i++) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">if</span>(!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Fish&quot;</span>)) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Fish.html">Fish</a>(data);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (!strcmp(wildlifeName.c_str(), <span class="stringliteral">&quot;Shark&quot;</span>)) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Shark.html">Shark</a>(data);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;}</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="keywordtype">bool</span> Wildlife::isStarving () {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getTurnsNumberBeforeStarving() == 0);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160; </div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keywordtype">bool</span> Wildlife::isDead () {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordflow">return</span> (data-&gt;getLifetimeRemaining() &lt;= 0);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00099">Interactor.h:99</a></div></div>
-<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00058">Controller.h:58</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00087">Interactor.h:87</a></div></div>
-<div class="ttc" id="aclassController_1_1Clock_html"><div class="ttname"><a href="classController_1_1Clock.html">Controller::Clock</a></div><div class="ttdoc">class Clock -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00031">Controller.h:31</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00011">Interactor.h:11</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00130">Interactor.h:130</a></div></div>
+<div class="ttc" id="aclassController_1_1Logger_html"><div class="ttname"><a href="classController_1_1Logger.html">Controller::Logger</a></div><div class="ttdoc">class Logger -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00114">Controller.h:114</a></div></div>
+<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00099">Controller.h:99</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00118">Interactor.h:118</a></div></div>
+<div class="ttc" id="aclassController_1_1Clock_html"><div class="ttname"><a href="classController_1_1Clock.html">Controller::Clock</a></div><div class="ttdoc">class Clock -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00044">Controller.h:44</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00012">Interactor.h:12</a></div></div>
+<div class="ttc" id="aclassController_1_1WorldModel_html"><div class="ttname"><a href="classController_1_1WorldModel.html">Controller::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00071">Controller.h:71</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

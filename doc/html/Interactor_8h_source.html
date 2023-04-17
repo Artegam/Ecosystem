@@ -76,141 +76,183 @@ $(function() {
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;Controller.h&quot;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>Interactor {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="classInteractor_1_1WildlifeModel.html">   11</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;      <span class="keywordtype">char</span> * name;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      <span class="keywordtype">int</span> lifetime;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> age = 0;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      <span class="keywordtype">char</span> displayChar;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      <span class="keywordtype">int</span> viewField;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      <span class="keywordtype">int</span> XPosition;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      <span class="keywordtype">int</span> YPosition;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      <a class="code" href="classController_1_1World.html">World</a> * world;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      vector&lt;string&gt; path;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> ();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> (<span class="keyword">const</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> &amp;wm);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      <span class="keywordtype">char</span> * getName ();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifetimeRemaining ();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAge ();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      <span class="keywordtype">char</span> getDisplayChar ();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      <span class="keywordtype">int</span> getViewField ();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      <span class="keywordtype">int</span> getX ();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      <span class="keywordtype">int</span> getY ();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <a class="code" href="classController_1_1World.html">World</a> * getWorld ();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      <span class="keywordtype">void</span> setName(<span class="keywordtype">char</span> * name);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keywordtype">void</span> setLifetime (<span class="keywordtype">int</span> lt);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      <span class="keywordtype">void</span> setX (<span class="keywordtype">int</span> x);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <span class="keywordtype">void</span> setY (<span class="keywordtype">int</span> y);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <span class="keywordtype">void</span> setViewField (<span class="keywordtype">int</span> v);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <span class="keywordtype">void</span> setWorld (<a class="code" href="classController_1_1World.html">World</a> * w);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordtype">void</span> setDisplayChar (<span class="keywordtype">char</span> c);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keywordtype">void</span> makeOld ();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keywordtype">int</span> random(<span class="keyword">const</span> <span class="keywordtype">int</span> min, <span class="keyword">const</span> <span class="keywordtype">int</span> max);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordtype">void</span> savePosition();</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordtype">bool</span> isKnownedPosition(<span class="keywordtype">int</span> posX, <span class="keywordtype">int</span> posY);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  };</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// interface</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="classInteractor_1_1Behavior.html">   50</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> ();</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * wm);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  };</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="comment">// virtual</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classInteractor_1_1Wildlife.html">   60</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> : <span class="keyword">public</span> <a class="code" href="classController_1_1ClockSubscriber.html">ClockSubscriber</a> {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> * action;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      map&lt;string, int&gt; vision;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> ();</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="comment">//Wildlife (const Wildlife * w); // standby</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      ~<a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> ();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> execute ();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> update ();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAge ();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifetimeRemaining ();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordtype">int</span> getX ();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <span class="keywordtype">int</span> getY ();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      <span class="keywordtype">char</span> getDisplayChar ();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      <span class="keywordtype">void</span> addWildlife(<span class="keywordtype">string</span> wildlifeName, <span class="keywordtype">int</span> number);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keywordtype">bool</span> cmp(pair&lt;T, T&gt;&amp; x1, pair&lt;T, T&gt;&amp; x2);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <span class="keywordtype">void</span> makeOld ();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  };</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="classInteractor_1_1Fish.html">   87</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Fish.html">Fish</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> ();</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordtype">void</span> init();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keywordtype">void</span> execute ();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordtype">void</span> update ();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  };</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="classInteractor_1_1Shark.html">   99</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Shark.html">Shark</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> ();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordtype">void</span> init();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <span class="keywordtype">void</span> execute ();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordtype">void</span> update ();</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  };</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="classInteractor_1_1Aggressive.html">  111</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Aggressive.html">Aggressive</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <a class="code" href="classInteractor_1_1Aggressive.html">Aggressive</a> ();</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;deque&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">namespace </span>Interactor {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classInteractor_1_1WildlifeModel.html">   12</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> : <span class="keyword">public</span> <a class="code" href="classController_1_1Loggable.html">Loggable</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">// Attributes</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      <span class="keywordtype">char</span> * name;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;      <span class="keywordtype">int</span> lifetime;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> age = 0;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;      <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> maturityAge = 4;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;      <span class="keywordtype">char</span> displayChar;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;      <span class="keywordtype">int</span> viewField;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;      <span class="keywordtype">int</span> XPosition;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      <span class="keywordtype">int</span> YPosition;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      <span class="keywordtype">int</span> defaultTurnsNumberBeforeStarving = 10;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;      <span class="keywordtype">int</span> turnsNumberBeforeStarving;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <a class="code" href="classController_1_1World.html">World</a> * world;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      deque&lt;pair&lt;int, int&gt;&gt; path;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      <span class="keywordtype">int</span> fieldOfView = 1;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            map&lt;int, list&lt;ClockSubscriber *&gt;&gt; vision;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      <span class="keywordtype">int</span> movingTerrainType;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      <span class="comment">// TODO: Mettre Terrain types dans une structure...</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      <span class="comment">// Terrain types</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <span class="keyword">const</span> OCEAN = 0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> <span class="keyword">const</span> PLAIN = 1;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> ();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> (<span class="keyword">const</span> <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> &amp;wm);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keywordtype">char</span> * getName ();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifetimeRemaining ();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAge ();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getMaturityAge ();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keywordtype">char</span> getDisplayChar ();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keywordtype">int</span> getViewField ();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keywordtype">int</span> getX ();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordtype">int</span> getY ();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordtype">int</span> getFieldOfView();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <a class="code" href="classController_1_1World.html">World</a> * getWorld ();</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keywordtype">int</span> getTurnsNumberBeforeStarving ();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordtype">void</span> getHungry ();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            map&lt;int, list&lt;ClockSubscriber *&gt;&gt; getVision ();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="keywordtype">int</span> getMovingTerrainType ();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordtype">void</span> happyBirthday ();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordtype">void</span> setMaturityAge(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> age);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordtype">void</span> setName(<span class="keywordtype">char</span> * name);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      <span class="keywordtype">void</span> setLifetime (<span class="keywordtype">int</span> min, <span class="keywordtype">int</span> max);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="keywordtype">void</span> setX (<span class="keywordtype">int</span> x);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      <span class="keywordtype">void</span> setY (<span class="keywordtype">int</span> y);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      <span class="keywordtype">void</span> setViewField (<span class="keywordtype">int</span> v);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="keywordtype">void</span> setWorld (<a class="code" href="classController_1_1World.html">World</a> * w);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordtype">void</span> setDisplayChar (<span class="keywordtype">char</span> c);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keywordtype">void</span> setDefaultTurnsNumberBeforeStarving (<span class="keywordtype">int</span> turns);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordtype">void</span> setFieldOfView(<span class="keywordtype">int</span> distance);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordtype">void</span> setVision (map&lt;<span class="keywordtype">int</span>, list&lt;ClockSubscriber *&gt;&gt; v);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordtype">void</span> setMovingTerrainType (<span class="keywordtype">int</span> terrainType);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="keywordtype">int</span> random(<span class="keyword">const</span> <span class="keywordtype">int</span> min, <span class="keyword">const</span> <span class="keywordtype">int</span> max);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordtype">void</span> savePosition();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      <span class="keywordtype">bool</span> isKnownedPosition(<span class="keywordtype">int</span> posX, <span class="keywordtype">int</span> posY);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      map&lt;int, list&lt;ClockSubscriber *&gt;&gt; openYourEyes();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            pair&lt;int, int&gt; calculateCoordinates (<span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> calculateIndex (pair&lt;int, int&gt; position);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> calculateIndex (<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            list&lt;string&gt; log ();</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="comment">// interface</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="classInteractor_1_1Behavior.html">   80</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> ();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * wm);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  };</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">// virtual</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="classInteractor_1_1Wildlife.html">   90</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> : <span class="keyword">public</span> <a class="code" href="classController_1_1ClockSubscriber.html">ClockSubscriber</a> {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">// Attributes</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> * action;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> ();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <span class="comment">//Wildlife (const Wildlife * w); // standby</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      ~<a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> ();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> execute ();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> update ();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAge ();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifetimeRemaining ();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <span class="keywordtype">int</span> getX ();</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordtype">int</span> getY ();</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordtype">char</span> getDisplayChar ();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordtype">void</span> addWildlife(<span class="keywordtype">string</span> wildlifeName, <span class="keywordtype">int</span> number);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keyword">template</span> &lt;<span class="keyword">class</span> T&gt; <span class="keywordtype">bool</span> cmp(pair&lt;T, T&gt;&amp; x1, pair&lt;T, T&gt;&amp; x2);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordtype">void</span> happyBirthday ();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordtype">bool</span> isStarving ();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordtype">bool</span> isDead ();</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  };</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classInteractor_1_1Survival.html">  118</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Survival.html">Survival</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="classInteractor_1_1Fish.html">  118</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Fish.html">Fish</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> {</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">// Operations</span></div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <a class="code" href="classInteractor_1_1Survival.html">Survival</a> ();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  };</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="classInteractor_1_1Explorer.html">  125</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Explorer.html">Explorer</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      <a class="code" href="classInteractor_1_1Explorer.html">Explorer</a> ();</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      vector&lt;int&gt; getNewPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      vector&lt;int&gt; getBasicPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  };</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;};</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> ();</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <a class="code" href="classInteractor_1_1Fish.html">Fish</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordtype">void</span> init();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      <span class="keywordtype">void</span> execute ();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      <span class="keywordtype">void</span> update ();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  };</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="classInteractor_1_1Shark.html">  130</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Shark.html">Shark</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Wildlife.html">Wildlife</a> {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> ();</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      <a class="code" href="classInteractor_1_1Shark.html">Shark</a> (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * parentData);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      <span class="keywordtype">void</span> init();</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;      <span class="keywordtype">void</span> execute ();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      <span class="keywordtype">void</span> update ();</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  };</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="classInteractor_1_1Default.html">  142</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Default.html">Default</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      <a class="code" href="classInteractor_1_1Default.html">Default</a> ();</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      vector&lt;int&gt; getNewPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  };</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="classInteractor_1_1Aggressive.html">  151</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Aggressive.html">Aggressive</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <a class="code" href="classInteractor_1_1Aggressive.html">Aggressive</a> ();</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  };</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="classInteractor_1_1Survival.html">  158</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Survival.html">Survival</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <a class="code" href="classInteractor_1_1Survival.html">Survival</a> ();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      vector&lt;int&gt; getNewPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  };</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160; </div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="classInteractor_1_1Explorer.html">  167</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classInteractor_1_1Explorer.html">Explorer</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Behavior.html">Behavior</a> {</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      <a class="code" href="classInteractor_1_1Explorer.html">Explorer</a> ();</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordtype">void</span> compute (<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      vector&lt;int&gt; getNewPosition(<a class="code" href="classInteractor_1_1WildlifeModel.html">WildlifeModel</a> * data);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  };</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;};</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassInteractor_1_1Wildlife_html"><div class="ttname"><a href="classInteractor_1_1Wildlife.html">Interactor::Wildlife</a></div><div class="ttdoc">class Wildlife -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00060">Interactor.h:60</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00099">Interactor.h:99</a></div></div>
-<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00058">Controller.h:58</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Survival_html"><div class="ttname"><a href="classInteractor_1_1Survival.html">Interactor::Survival</a></div><div class="ttdoc">class Survival -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00118">Interactor.h:118</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Aggressive_html"><div class="ttname"><a href="classInteractor_1_1Aggressive.html">Interactor::Aggressive</a></div><div class="ttdoc">class Aggressive -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00111">Interactor.h:111</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00087">Interactor.h:87</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00011">Interactor.h:11</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Behavior_html"><div class="ttname"><a href="classInteractor_1_1Behavior.html">Interactor::Behavior</a></div><div class="ttdoc">class Behavior -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00050">Interactor.h:50</a></div></div>
-<div class="ttc" id="aclassController_1_1ClockSubscriber_html"><div class="ttname"><a href="classController_1_1ClockSubscriber.html">Controller::ClockSubscriber</a></div><div class="ttdoc">class ClockSubscriber -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00015">Controller.h:15</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Explorer_html"><div class="ttname"><a href="classInteractor_1_1Explorer.html">Interactor::Explorer</a></div><div class="ttdoc">class Explorer -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00125">Interactor.h:125</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Wildlife_html"><div class="ttname"><a href="classInteractor_1_1Wildlife.html">Interactor::Wildlife</a></div><div class="ttdoc">class Wildlife -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00090">Interactor.h:90</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00130">Interactor.h:130</a></div></div>
+<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00099">Controller.h:99</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Survival_html"><div class="ttname"><a href="classInteractor_1_1Survival.html">Interactor::Survival</a></div><div class="ttdoc">class Survival -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00158">Interactor.h:158</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Aggressive_html"><div class="ttname"><a href="classInteractor_1_1Aggressive.html">Interactor::Aggressive</a></div><div class="ttdoc">class Aggressive -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00151">Interactor.h:151</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00118">Interactor.h:118</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1WildlifeModel_html"><div class="ttname"><a href="classInteractor_1_1WildlifeModel.html">Interactor::WildlifeModel</a></div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00012">Interactor.h:12</a></div></div>
+<div class="ttc" id="aclassController_1_1Loggable_html"><div class="ttname"><a href="classController_1_1Loggable.html">Controller::Loggable</a></div><div class="ttdoc">class Loggable -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00019">Controller.h:19</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Behavior_html"><div class="ttname"><a href="classInteractor_1_1Behavior.html">Interactor::Behavior</a></div><div class="ttdoc">class Behavior -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00080">Interactor.h:80</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Default_html"><div class="ttname"><a href="classInteractor_1_1Default.html">Interactor::Default</a></div><div class="ttdoc">class Default - Default Behavior for wildlife</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00142">Interactor.h:142</a></div></div>
+<div class="ttc" id="aclassController_1_1ClockSubscriber_html"><div class="ttname"><a href="classController_1_1ClockSubscriber.html">Controller::ClockSubscriber</a></div><div class="ttdoc">class ClockSubscriber -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00028">Controller.h:28</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Explorer_html"><div class="ttname"><a href="classInteractor_1_1Explorer.html">Interactor::Explorer</a></div><div class="ttdoc">class Explorer -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00167">Interactor.h:167</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

@@ -71,40 +71,54 @@ $(function() {
 <div class="title">main.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ConsoleView.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Views.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Interactor.h&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>ConsoleView;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>Interactor;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">// Prototypes</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>Controller;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>Views;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>Interactor;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">int</span> <a class="code" href="classmain.html">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="comment">// creation d&#39;un monde 20x30</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  <a class="code" href="classController_1_1World.html">World</a> * w = <span class="keyword">new</span> <a class="code" href="classController_1_1World.html">World</a>(20, 30);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  <span class="comment">/*</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">  for(int i = 0; i &lt; 10; i++) {</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">    new Fish(w);</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">  }</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">  */</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Fish.html">Fish</a>(w);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Shark.html">Shark</a>(w);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  <a class="code" href="classConsoleView_1_1NCursesView.html">NCursesView</a> * view = <span class="keyword">new</span> <a class="code" href="classConsoleView_1_1NCursesView.html">NCursesView</a>();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> * sp = <span class="keyword">new</span> <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a>(view, w);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  sp-&gt;display();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">// Prototypes</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordtype">void</span> display(<a class="code" href="classController_1_1World.html">World</a> * w);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">int</span> <a class="code" href="classmain.html">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>** argv) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="comment">// creation d&#39;un monde 20x30</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;  <a class="code" href="classController_1_1World.html">World</a> * w = <span class="keyword">new</span> <a class="code" href="classController_1_1World.html">World</a>(20, 30);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="comment">/*</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">  for(int i = 0; i &lt; 10; i++) {</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">    new Fish(w);</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">  }</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">  */</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  <a class="code" href="classController_1_1Logger.html">Logger</a> * log = <span class="keyword">new</span> <a class="code" href="classController_1_1Logger.html">Logger</a>(<span class="stringliteral">&quot;bin/mon_fichier.log&quot;</span>);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">new</span> <a class="code" href="classInteractor_1_1Fish.html">Fish</a>(w);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="comment">//new Shark(w);</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> d = w-&gt;getData();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  log-&gt;log(&amp;d);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  display(w);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordtype">void</span> display(<a class="code" href="classController_1_1World.html">World</a> * w) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <a class="code" href="classViews_1_1NCursesView.html">NCursesView</a> * view = <span class="keyword">new</span> <a class="code" href="classViews_1_1NCursesView.html">NCursesView</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> * sp = <span class="keyword">new</span> <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a>(view, w);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  sp-&gt;display();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassInteractor_1_1Shark_html"><div class="ttname"><a href="classInteractor_1_1Shark.html">Interactor::Shark</a></div><div class="ttdoc">class Shark -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00099">Interactor.h:99</a></div></div>
-<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00058">Controller.h:58</a></div></div>
+<div class="ttc" id="aclassController_1_1Logger_html"><div class="ttname"><a href="classController_1_1Logger.html">Controller::Logger</a></div><div class="ttdoc">class Logger -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00114">Controller.h:114</a></div></div>
+<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00099">Controller.h:99</a></div></div>
 <div class="ttc" id="aclassmain_html"><div class="ttname"><a href="classmain.html">main</a></div><div class="ttdoc">class main -</div><div class="ttdef"><b>Definition:</b> <a href="main_8h_source.html#l00002">main.h:2</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00087">Interactor.h:87</a></div></div>
-<div class="ttc" id="aclassScreen_1_1ScreenPresenter_html"><div class="ttname"><a href="classScreen_1_1ScreenPresenter.html">Screen::ScreenPresenter</a></div><div class="ttdoc">class ScreenPresenter -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00039">Screen.h:39</a></div></div>
-<div class="ttc" id="aclassConsoleView_1_1NCursesView_html"><div class="ttname"><a href="classConsoleView_1_1NCursesView.html">ConsoleView::NCursesView</a></div><div class="ttdoc">class NCursesView -</div><div class="ttdef"><b>Definition:</b> <a href="ConsoleView_8h_source.html#l00010">ConsoleView.h:10</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1Fish_html"><div class="ttname"><a href="classInteractor_1_1Fish.html">Interactor::Fish</a></div><div class="ttdoc">class Fish -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00118">Interactor.h:118</a></div></div>
+<div class="ttc" id="aclassScreen_1_1ScreenPresenter_html"><div class="ttname"><a href="classScreen_1_1ScreenPresenter.html">Screen::ScreenPresenter</a></div><div class="ttdoc">class ScreenPresenter -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00040">Screen.h:40</a></div></div>
+<div class="ttc" id="aclassController_1_1WorldModel_html"><div class="ttname"><a href="classController_1_1WorldModel.html">Controller::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00071">Controller.h:71</a></div></div>
+<div class="ttc" id="aclassViews_1_1NCursesView_html"><div class="ttname"><a href="classViews_1_1NCursesView.html">Views::NCursesView</a></div><div class="ttdoc">class NCursesView -</div><div class="ttdef"><b>Definition:</b> <a href="Views_8h_source.html#l00010">Views.h:10</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">

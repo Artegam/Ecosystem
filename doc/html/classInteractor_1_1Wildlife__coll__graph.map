@@ -1,0 +1,8 @@
+<map id="Interactor::Wildlife" name="Interactor::Wildlife">
+<area shape="rect" id="node1" title="class Wildlife &#45;" alt="" coords="232,184,375,211"/>
+<area shape="rect" id="node2" href="$classController_1_1ClockSubscriber.html" title="class ClockSubscriber &#45;" alt="" coords="5,95,204,121"/>
+<area shape="rect" id="node3" href="$classInteractor_1_1Behavior.html" title="class Behavior &#45;" alt="" coords="228,95,379,121"/>
+<area shape="rect" id="node4" href="$classInteractor_1_1WildlifeModel.html" title=" " alt="" coords="403,95,585,121"/>
+<area shape="rect" id="node5" href="$classController_1_1Loggable.html" title="class Loggable &#45;" alt="" coords="335,5,488,32"/>
+<area shape="rect" id="node6" href="$classController_1_1World.html" title="class World &#45;" alt="" coords="513,5,643,32"/>
+</map>

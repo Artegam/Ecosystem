@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ncursesview_7',['NCursesView',['../classConsoleView_1_1NCursesView.html',1,'ConsoleView']]]
+  ['loggable_7',['Loggable',['../classController_1_1Loggable.html',1,'Controller']]],
+  ['logger_8',['Logger',['../classController_1_1Logger.html',1,'Controller']]]
 ];

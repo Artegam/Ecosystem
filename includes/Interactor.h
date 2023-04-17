@@ -15,6 +15,7 @@ namespace Interactor {
       char * name;
       int lifetime;
       unsigned int age = 0;
+      unsigned int maturityAge = 4;
       char displayChar;
       int viewField;
       int XPosition;
@@ -40,6 +41,7 @@ namespace Interactor {
       char * getName ();
       const unsigned int getLifetimeRemaining ();
       const unsigned int getAge ();
+      const unsigned int getMaturityAge ();
       char getDisplayChar ();
       int getViewField ();
       int getX ();
@@ -51,6 +53,7 @@ namespace Interactor {
 			map<int, list<ClockSubscriber *>> getVision ();
       int getMovingTerrainType ();
       void happyBirthday ();
+      void setMaturityAge(unsigned int age);
       void setName(char * name);
       void setLifetime (int min, int max);
       void setX (int x);
@@ -62,7 +65,6 @@ namespace Interactor {
 			void setFieldOfView(int distance);
 			void setVision (map<int, list<ClockSubscriber *>> v);
       void setMovingTerrainType (int terrainType);
-      void makeOld ();
       int random(const int min, const int max);
       void savePosition();
       bool isKnownedPosition(int posX, int posY);
@@ -107,7 +109,7 @@ namespace Interactor {
       void addWildlife(string wildlifeName, int number);
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
 		protected:
-			void makeOld ();
+			void happyBirthday ();
 			bool isStarving ();
 			bool isDead ();
   };

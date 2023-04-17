@@ -81,51 +81,54 @@ $(function() {
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">namespace </span>Screen {</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  <span class="comment">// DataStructure</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenViewModel.html">   12</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenViewModel.html">   12</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> : <span class="keyword">public</span> <a class="code" href="classController_1_1Loggable.html">Loggable</a> {</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="classController_1_1World.html">World</a> * world;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> (<a class="code" href="classController_1_1World.html">World</a> * world);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> (<a class="code" href="classController_1_1WorldModel.html">WorldModel</a> worldData);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> getWorldHeight ();</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">int</span> getWorldWidth ();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">bool</span> isRunning ();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">bool</span> getTic ();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getWildlifeCount ();</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    list&lt;Wildlife *&gt; getWildlife ();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">bool</span> isWildlife (<span class="keyword">const</span> <a class="code" href="classController_1_1ClockSubscriber.html">ClockSubscriber</a> * ptr);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getTurns ();</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAverageAge();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifeExpectancy ();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  };</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <span class="comment">// interface</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenView.html">   31</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> ();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> display (<a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> * data);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  };</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenPresenter.html">   39</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> * view;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> * data;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classController_1_1World.html">World</a> * world;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> (<a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> * sv, <a class="code" href="classController_1_1World.html">World</a> * world);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> display ();</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  };</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="classController_1_1WorldModel.html">WorldModel</a> getWorldData ();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">bool</span> isRunning ();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> getTic ();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getWildlifeCount ();</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    list&lt;Wildlife *&gt; getWildlife ();</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">bool</span> isWildlife (<span class="keyword">const</span> <a class="code" href="classController_1_1ClockSubscriber.html">ClockSubscriber</a> * ptr);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getTurns ();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getAverageAge();</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getLifeExpectancy ();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  };</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <span class="comment">// interface</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenView.html">   32</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> ();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> display (<a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> * data);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  };</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="classScreen_1_1ScreenPresenter.html">   40</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// Attributes</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> * view;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="classScreen_1_1ScreenViewModel.html">ScreenViewModel</a> * data;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="classController_1_1World.html">World</a> * world;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="classScreen_1_1ScreenPresenter.html">ScreenPresenter</a> (<a class="code" href="classScreen_1_1ScreenView.html">ScreenView</a> * sv, <a class="code" href="classController_1_1World.html">World</a> * world);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> display ();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  };</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00058">Controller.h:58</a></div></div>
-<div class="ttc" id="aclassScreen_1_1ScreenPresenter_html"><div class="ttname"><a href="classScreen_1_1ScreenPresenter.html">Screen::ScreenPresenter</a></div><div class="ttdoc">class ScreenPresenter -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00039">Screen.h:39</a></div></div>
+<div class="ttc" id="aclassController_1_1World_html"><div class="ttname"><a href="classController_1_1World.html">Controller::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00099">Controller.h:99</a></div></div>
+<div class="ttc" id="aclassScreen_1_1ScreenPresenter_html"><div class="ttname"><a href="classScreen_1_1ScreenPresenter.html">Screen::ScreenPresenter</a></div><div class="ttdoc">class ScreenPresenter -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00040">Screen.h:40</a></div></div>
+<div class="ttc" id="aclassController_1_1Loggable_html"><div class="ttname"><a href="classController_1_1Loggable.html">Controller::Loggable</a></div><div class="ttdoc">class Loggable -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00019">Controller.h:19</a></div></div>
+<div class="ttc" id="aclassController_1_1WorldModel_html"><div class="ttname"><a href="classController_1_1WorldModel.html">Controller::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00071">Controller.h:71</a></div></div>
 <div class="ttc" id="aclassScreen_1_1ScreenViewModel_html"><div class="ttname"><a href="classScreen_1_1ScreenViewModel.html">Screen::ScreenViewModel</a></div><div class="ttdoc">class ScreenViewModel -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00012">Screen.h:12</a></div></div>
-<div class="ttc" id="aclassScreen_1_1ScreenView_html"><div class="ttname"><a href="classScreen_1_1ScreenView.html">Screen::ScreenView</a></div><div class="ttdoc">class ScreenView -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00031">Screen.h:31</a></div></div>
-<div class="ttc" id="aclassController_1_1ClockSubscriber_html"><div class="ttname"><a href="classController_1_1ClockSubscriber.html">Controller::ClockSubscriber</a></div><div class="ttdoc">class ClockSubscriber -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00015">Controller.h:15</a></div></div>
+<div class="ttc" id="aclassScreen_1_1ScreenView_html"><div class="ttname"><a href="classScreen_1_1ScreenView.html">Screen::ScreenView</a></div><div class="ttdoc">class ScreenView -</div><div class="ttdef"><b>Definition:</b> <a href="Screen_8h_source.html#l00032">Screen.h:32</a></div></div>
+<div class="ttc" id="aclassController_1_1ClockSubscriber_html"><div class="ttname"><a href="classController_1_1ClockSubscriber.html">Controller::ClockSubscriber</a></div><div class="ttdoc">class ClockSubscriber -</div><div class="ttdef"><b>Definition:</b> <a href="Controller_8h_source.html#l00028">Controller.h:28</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Généré par &#160;<a href="http://www.doxygen.org/index.html">
