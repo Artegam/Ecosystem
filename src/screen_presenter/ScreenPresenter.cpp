@@ -11,7 +11,7 @@ ScreenPresenter::ScreenPresenter (ScreenView * view, World * world) {
 
 void ScreenPresenter::display () {
   this->world->run();
-  while(this->data->isRunning()) {
+  while(1) {
     this->view->display(this->data);
   }
 }

@@ -17,6 +17,7 @@ namespace Views {
     void init ();
     void menu (WINDOW * main);
     void display (ScreenViewModel * data);
+    void keyboardListener();
   };
 
 };

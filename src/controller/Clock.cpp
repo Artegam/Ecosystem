@@ -20,6 +20,7 @@ Clock::Clock (unsigned int interv) {
 
 void Clock::run () {
   //TODO: On peux s'en servir pour lancer l'horloge et ajouter un niveau ou booleen start/stop
+  running = true;
 }
 
 void Clock::stop () {
@@ -27,13 +28,14 @@ void Clock::stop () {
 }
 
 void Clock::tick () {
-  while(running) {
-    for(it = subscribers.begin(); it != subscribers.end(); it++) {
-      it->second->update();
+  while(1) {
+    if(running) {
+      for(it = subscribers.begin(); it != subscribers.end(); it++) {
+        it->second->update();
+      }
+      t = !t;
+      turns++;
     }
-    t = !t;
-    turns++;
-
     usleep(interval * 1000);
   }
 }

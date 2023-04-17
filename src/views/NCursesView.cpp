@@ -18,6 +18,8 @@ NCursesView::~NCursesView () {
 
 void NCursesView::init () {
   initscr();
+  noecho();
+  nodelay(stdscr, TRUE); // For the keyboard
 
   if (has_colors() == FALSE) {
     endwin();
@@ -46,7 +48,7 @@ void NCursesView::menu (WINDOW * main) {
   if(data->isRunning()) {
     mvwprintw(main, 3, 50, "execution: running...");
   } else {
-    mvwprintw(main, 3, 50, "execution: stopped");
+    mvwprintw(main, 3, 50, "execution: paused");
   }
   mvwprintw(main, 4, 50, "turns: %u", data->getTurns());
   mvwprintw(main, 5, 50, "age average: %u", data->getAverageAge());
@@ -76,6 +78,7 @@ void NCursesView::display (ScreenViewModel * data) {
   // dessin de la fenetre
   main = subwin(stdscr, LINES, COLS, 0, 0);
   this->menu(main);
+  this->keyboardListener();
   WorldModel worldData = data->getWorldData();
   window= subwin(stdscr, worldData.getHeight() + 2, worldData.getWidth() + 2, 1, 0);
 
@@ -158,6 +161,34 @@ void NCursesView::display (ScreenViewModel * data) {
   wrefresh(window);
   wmove(main, 0, 50); // repositione le curseur
   wrefresh(main);
-  usleep(500000);
+  usleep(200000);
   // fin dessin de la fenetre
+}
+
+
+void NCursesView::keyboardListener() {
+  int c = getch();
+
+  WorldModel worldData = this->data->getWorldData();
+  Clock * cl = worldData.getClock();
+
+  switch(c)
+  {	case KEY_UP:
+      break;
+    case KEY_DOWN:
+      break;
+    case 112: // 'p' pour la pause
+      if(cl->isRunning()) {
+        cl->stop();
+      } else {
+        cl->run();
+      }
+      mvprintw(24, 0, "PAUSE");
+      refresh();
+      break;
+    default:
+      mvprintw(24, 0, "Character pressed is = %3d Hopefully it can be printed as '%c'", c, c);
+      refresh();
+      break;
+  }
 }
