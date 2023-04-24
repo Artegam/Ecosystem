@@ -8,7 +8,6 @@ ScreenPresenter::ScreenPresenter (ScreenView * view, World * world) {
   this->view = view;
 }
 
-
 void ScreenPresenter::display () {
   this->world->run();
   while(1) {

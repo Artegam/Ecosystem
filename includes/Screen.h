@@ -9,7 +9,7 @@ namespace Screen {
 
   // DataStructure
   /// class ScreenViewModel - 
-  class ScreenViewModel : public Loggable {
+  class ScreenViewModel : public Loggable, public GenericModel {
     // Attributes
 		WorldModel worldData;
   public:
@@ -25,6 +25,9 @@ namespace Screen {
     unsigned int getTurns ();
     const unsigned int getAverageAge();
     const unsigned int getLifeExpectancy ();
+    string getRawData ();
+    void save (void);
+    void load (void);
   };
 
   // interface
@@ -34,6 +37,7 @@ namespace Screen {
   public:
     ScreenView ();
     virtual void display (ScreenViewModel * data);
+    virtual void mainMenu ();
   };
 
   /// class ScreenPresenter - 

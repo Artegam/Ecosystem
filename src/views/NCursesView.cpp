@@ -177,18 +177,35 @@ void NCursesView::keyboardListener() {
       break;
     case KEY_DOWN:
       break;
+    case 115:// 's' pour save
+      if(cl->isRunning())
+        cl->stop();
+      data->save();
+      mvprintw(24, 0, "SAVED");
+      break;
+    case 108:// 'l' pour load
+      if(cl->isRunning())
+        cl->stop();
+      data->load();
+      mvprintw(24, 0, "LOADED");
+      break;
     case 112: // 'p' pour la pause
       if(cl->isRunning()) {
         cl->stop();
+        mvprintw(24, 0, "PAUSE");
       } else {
         cl->run();
+        mvprintw(24, 0, "PLAY");
       }
-      mvprintw(24, 0, "PAUSE");
-      refresh();
       break;
     default:
       mvprintw(24, 0, "Character pressed is = %3d Hopefully it can be printed as '%c'", c, c);
-      refresh();
       break;
   }
+  refresh();
+}
+
+void NCursesView::mainMenu() {
+  // save
+  // load
 }

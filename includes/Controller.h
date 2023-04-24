@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+#include "Model.h"
+
 #include <map>
 #include <thread>
 #include <list>
@@ -12,6 +14,7 @@
 #include <fstream>
 
 using namespace std;
+using namespace Model;
 
 namespace Controller {
   // interface
@@ -35,6 +38,7 @@ namespace Controller {
     void setId (const string ident);
     const string getId ();
     virtual void update ();
+    virtual GenericModel * getData ();
     bool isDying ();
     int getX ();
     int getY ();
@@ -68,7 +72,7 @@ namespace Controller {
   };
 
   /// class WorldModel - 
-  class WorldModel : public Loggable {
+  class WorldModel : public Loggable, public GenericModel {
     // Attributes
 		int height;
     int width;
@@ -79,6 +83,7 @@ namespace Controller {
   public:
     WorldModel ();
 		WorldModel (int width, int height);
+    string getRawData ();
     void init ();
     void setWidth (int w);
     void setHeight (int h);
@@ -87,6 +92,7 @@ namespace Controller {
     int getHeight (void);
     Clock * getClock ();
     map<int, int> getWorldMap ();
+    string getStringWorldMap ();
 		void generateMap ();
 		pair<int, int> calculateCoordinates (int index);
 		unsigned int calculateIndex (pair<int, int> position);

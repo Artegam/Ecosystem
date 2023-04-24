@@ -16,6 +16,11 @@ void ClockSubscriber::update () {
   printf("update dans ClockSubscriber\n");
 }
 
+GenericModel * ClockSubscriber::getData () {
+  printf("getData dans ClockSubscriber\n");
+  return NULL;
+}
+
 int ClockSubscriber::getX () {
   printf("getX() dans ClockSubscriber\n");
   return 0;

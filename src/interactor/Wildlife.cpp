@@ -117,3 +117,8 @@ bool Wildlife::isStarving () {
 bool Wildlife::isDead () {
   return (data->getLifetimeRemaining() <= 0);
 }
+
+GenericModel * Wildlife::getData () {
+  return data;
+}
+

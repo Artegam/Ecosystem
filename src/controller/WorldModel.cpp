@@ -15,6 +15,15 @@ WorldModel::WorldModel (int width, int height) {
   generateMap ();
 }
 
+string WorldModel::getRawData () {
+  string separator = "|";
+  string raw = separator + to_string(width) + separator;
+  raw += to_string(height) + separator + "\n";
+  raw += getStringWorldMap();
+
+  return raw;
+}
+
 void WorldModel::init() {
   this->clock = new Clock();
 }
@@ -45,6 +54,21 @@ Clock * WorldModel::getClock () {
 
 map<int, int> WorldModel::getWorldMap () {
   return worldMap;
+}
+
+string WorldModel::getStringWorldMap () {
+  string strMap = "";
+
+  map<int, int>::iterator it;
+  string line;
+	for(it = worldMap.begin(); it != worldMap.end(); it ++) {
+    line += to_string(it->second);
+    if(it->first % width == 0) {
+      strMap += line + "\n";
+      line = "";
+		}
+	}
+  return strMap;
 }
 
 void WorldModel::generateMap () {

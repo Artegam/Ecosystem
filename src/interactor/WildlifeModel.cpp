@@ -22,6 +22,38 @@ WildlifeModel::WildlifeModel (const WildlifeModel &wm) {
   turnsNumberBeforeStarving        = wm.defaultTurnsNumberBeforeStarving;
 }
 
+string WildlifeModel::getRawData () {
+  string separator = "|";
+  string raw = "";
+
+  raw = separator + name + separator;
+  raw += to_string(lifetime) + separator;
+  raw += to_string(maturityAge) + separator;
+  raw += displayChar + separator;
+  raw += to_string(viewField) + separator;
+
+  raw += to_string(XPosition) + separator;
+  raw += to_string(YPosition) + separator;
+
+  //for each
+  raw += "[";
+
+  deque<pair<int, int>>::iterator it;
+  for(it = path.begin(); it != path.end(); it++) {
+    raw += "(" + to_string(it->first) + ":" + to_string(it->second) + ")";
+    if(it + 1 != path.end())
+      raw += ",";
+  }
+
+  raw += "]" + separator;
+
+  raw += to_string(movingTerrainType) + separator;
+  raw += to_string(defaultTurnsNumberBeforeStarving) + separator;
+  raw += to_string(turnsNumberBeforeStarving) + separator;
+
+  return raw.c_str();
+}
+
 char* WildlifeModel::getName() {
   return this->name;
 }
@@ -339,9 +371,7 @@ unsigned int WildlifeModel::calculateIndex (int x, int y) {
 }
 
 list<string> WildlifeModel::log () {
-  list<string> messages;
-
-  messages = Loggable::log();
+  list<string> messages = Loggable::log();
 
   string n(name);
   messages.push_back("Name : " + n);
@@ -375,6 +405,7 @@ list<string> WildlifeModel::log () {
       messages.push_back(line);
       }
       */
+
   return messages;
 }
 

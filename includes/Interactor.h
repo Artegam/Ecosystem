@@ -9,7 +9,7 @@ using namespace Controller;
 
 namespace Interactor {
 
-  class WildlifeModel : public Loggable {
+  class WildlifeModel : public Loggable, public GenericModel {
     // Attributes
     protected:
       char * name;
@@ -38,6 +38,7 @@ namespace Interactor {
     public:
       WildlifeModel ();
       WildlifeModel (const WildlifeModel &wm);
+      string getRawData ();
       char * getName ();
       const unsigned int getLifetimeRemaining ();
       const unsigned int getAge ();
@@ -108,6 +109,7 @@ namespace Interactor {
       char getDisplayChar ();
       void addWildlife(string wildlifeName, int number);
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
+      GenericModel * getData ();
 		protected:
 			void happyBirthday ();
 			bool isStarving ();
