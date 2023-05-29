@@ -1,9 +1,9 @@
-#include "Controller.h"
+#include "Interactor.h"
 
 #include <ctime>
 
 using namespace std;
-using namespace Controller;
+using namespace Interactor;
 
 
 list<string> Loggable::log() {

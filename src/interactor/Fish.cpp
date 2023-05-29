@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 using namespace Interactor;
-using namespace Controller;
 
 Fish::Fish () : Wildlife () {
   init();

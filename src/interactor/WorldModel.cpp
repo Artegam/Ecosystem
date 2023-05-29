@@ -1,8 +1,8 @@
-#include "Controller.h"
+#include "Interactor.h"
 #include <random>
 #include <set>
 
-using namespace Controller;
+using namespace Interactor;
 
 WorldModel::WorldModel () {
   init();

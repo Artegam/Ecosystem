@@ -1,6 +1,6 @@
-#include "Controller.h"
+#include "Interactor.h"
 
-using namespace Controller;
+using namespace Interactor;
 
 World::World (int height, int width) {
   data.setHeight(height);

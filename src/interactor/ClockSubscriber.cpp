@@ -1,7 +1,7 @@
-#include "Controller.h"
+#include "Interactor.h"
 #include <stdio.h>
 
-using namespace Controller;
+using namespace Interactor;
 
 
 void ClockSubscriber::setId (const string ident) {

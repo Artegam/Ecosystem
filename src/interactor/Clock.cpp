@@ -1,10 +1,10 @@
-#include "Controller.h"
+#include "Interactor.h"
 #include <unistd.h>
 #include <cstdio>
 #include "uuid.h"
 
 using namespace std;
-using namespace Controller;
+using namespace Interactor;
 using namespace uuid;
 
 bool Clock::t = false;

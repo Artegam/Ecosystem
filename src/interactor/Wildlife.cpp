@@ -3,7 +3,6 @@
 #include <math.h>
 
 using namespace Interactor;
-using namespace Controller;
 using namespace std;
 
 Wildlife::Wildlife () {

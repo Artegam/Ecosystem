@@ -1,7 +1,7 @@
-#include "Controller.h"
+#include "Interactor.h"
 
 using namespace std;
-using namespace Controller;
+using namespace Interactor;
 
 
 Logger::Logger (string filename) {
@@ -13,7 +13,7 @@ void Logger::log (Loggable * l) {
   list<string> messages = l->log();
   list<string>::iterator it;
 
-	for(it = messages.begin(); it != messages.end(); it++) {  
+	for(it = messages.begin(); it != messages.end(); it++) {
 		file << it->c_str() << endl;
 	}
 

@@ -1,11 +1,11 @@
-#include "Screen.h"
-#include <iostream>
+#include "ScreenManager.h"
 
 using namespace std;
-using namespace Screen;
+using namespace ScreenManager;
 
 ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->worldData = worldData;
+  this->currentWindow = MAIN_MENU;
 }
 
 int ScreenViewModel::getWorldHeight () {
@@ -106,62 +106,8 @@ string ScreenViewModel::getRawData () {
   return "ScreenViewModel: to be implemented";
 }
 
-void ScreenViewModel::save(void) {
-  FILE* fp = fopen("saves/ecosystem.save", "w+");
-  string str;
-  /* TODO: Error management
-     if (!fp) {
-     perror("File opening failed");
-     return EXIT_FAILURE;
-     }
-     */
-  fprintf(fp, "%d\n", worldData.getHeight());
-  fprintf(fp, "%d\n", worldData.getWidth());
-  //Clock
-  fprintf(fp, "%d\n", worldData.getClock()->isRunning());
-  fprintf(fp, "%u\n", worldData.getClock()->getTurns());
-  fprintf(fp, "%d\n", worldData.getClock()->getT());
-  fprintf(fp, "%u\n", worldData.getClock()->interval);
-  // Clock subscribers
-  map<string, ClockSubscriber *> subscribers = worldData.getClock()->getSubscribers();
-  map<string, ClockSubscriber *>::iterator it;
-  for(it = subscribers.begin(); it != subscribers.end(); it++) {
-    Wildlife * wl = (Wildlife *)it->second;
-    GenericModel * data = wl->getData();
-    str = data->getRawData();
-    fprintf(fp, "%s\n", str.c_str());
-  }
-  //World map
-  str = worldData.getRawData();
-  fprintf(fp, "%s\n", str.c_str());
-  // Screen View Model
-  str = getRawData();
-  fprintf(fp, "%s\n", str.c_str());
-  fclose(fp);
+list<string> ScreenViewModel::log() {
+  messages.push_back("appel a ScreenViewModel::log()");
+  return messages;
 }
-
-void ScreenViewModel::load(void) {
-  FILE* fp = fopen("saves/ecosystem.save", "r+");
-  /* TODO: Error management
-     if (!fp) {
-     perror("File opening failed");
-     return EXIT_FAILURE;
-     }
-     */
-  const int MAX_LEN = 512;
-  char line[MAX_LEN], *result;
-  while(!feof(fp)) {
-    result = fgets(line, MAX_LEN, fp);
-    if(result != NULL) {
-      // TODO: Ou et comment stocker le resultat
-      /*
-         printf("The line is: %s\n", line);
-         printf("The result is: %s\n", result);
-         */
-    }
-  }
-  fclose(fp);
-
-}
-
 
