@@ -1,0 +1,98 @@
+\hypertarget{classInteractor_1_1WorldModel}{}\doxysection{Référence de la classe Interactor\+::World\+Model}
+\label{classInteractor_1_1WorldModel}\index{Interactor::WorldModel@{Interactor::WorldModel}}
+
+
+class \mbox{\hyperlink{classInteractor_1_1WorldModel}{World\+Model}} -\/  
+
+
+
+
+{\ttfamily \#include $<$Interactor.\+h$>$}
+
+
+
+Graphe d\textquotesingle{}héritage de Interactor\+::World\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{classInteractor_1_1WorldModel__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Graphe de collaboration de Interactor\+::World\+Model\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=332pt]{classInteractor_1_1WorldModel__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_aa10a366dc2accb6fc31654ef6145dd98}\label{classInteractor_1_1WorldModel_aa10a366dc2accb6fc31654ef6145dd98}} 
+{\bfseries World\+Model} (int width, int height)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_ad5f4e937fdf0f05ec4333210dc5a24e9}\label{classInteractor_1_1WorldModel_ad5f4e937fdf0f05ec4333210dc5a24e9}} 
+string {\bfseries get\+Raw\+Data} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_aa469cc201a7b1de814f70ad60850aa4f}\label{classInteractor_1_1WorldModel_aa469cc201a7b1de814f70ad60850aa4f}} 
+void {\bfseries init} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a5958229b4d52ecfa0aa3d9d41bf1f888}\label{classInteractor_1_1WorldModel_a5958229b4d52ecfa0aa3d9d41bf1f888}} 
+void {\bfseries set\+Width} (int w)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a71dc25d42a1c4bde7e0c9ab68b1f8bd9}\label{classInteractor_1_1WorldModel_a71dc25d42a1c4bde7e0c9ab68b1f8bd9}} 
+void {\bfseries set\+Height} (int h)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a9f0810f863daf7a5c037c06f70c03ffc}\label{classInteractor_1_1WorldModel_a9f0810f863daf7a5c037c06f70c03ffc}} 
+void {\bfseries set\+Refresh} (unsigned int interval)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_afe7d88c70b4c5f6fda3bcebb862893c1}\label{classInteractor_1_1WorldModel_afe7d88c70b4c5f6fda3bcebb862893c1}} 
+int {\bfseries get\+Width} (void)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a64e70d6c01a2192e9c8eb44515a6461d}\label{classInteractor_1_1WorldModel_a64e70d6c01a2192e9c8eb44515a6461d}} 
+int {\bfseries get\+Height} (void)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a18543dfb6de47aeea9f76d0606f0a92c}\label{classInteractor_1_1WorldModel_a18543dfb6de47aeea9f76d0606f0a92c}} 
+\mbox{\hyperlink{classInteractor_1_1Clock}{Clock}} $\ast$ {\bfseries get\+Clock} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a51879a42e4b9eb97c85b763b1b079e54}\label{classInteractor_1_1WorldModel_a51879a42e4b9eb97c85b763b1b079e54}} 
+map$<$ int, int $>$ {\bfseries get\+World\+Map} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a6191ed2f7546dae26589d16390e5a51d}\label{classInteractor_1_1WorldModel_a6191ed2f7546dae26589d16390e5a51d}} 
+string {\bfseries get\+String\+World\+Map} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_ae18a616487b43cc49115412d224afe7d}\label{classInteractor_1_1WorldModel_ae18a616487b43cc49115412d224afe7d}} 
+void {\bfseries generate\+Map} ()
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_ae2779c59a2dd33f362f87984512cf3ab}\label{classInteractor_1_1WorldModel_ae2779c59a2dd33f362f87984512cf3ab}} 
+pair$<$ int, int $>$ {\bfseries calculate\+Coordinates} (int index)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a30602f1a6e207c6a5c61fb5d3833b4d0}\label{classInteractor_1_1WorldModel_a30602f1a6e207c6a5c61fb5d3833b4d0}} 
+unsigned int {\bfseries calculate\+Index} (pair$<$ int, int $>$ position)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_af4f4b2f7e88074749e0016ffd1a26405}\label{classInteractor_1_1WorldModel_af4f4b2f7e88074749e0016ffd1a26405}} 
+unsigned int {\bfseries calculate\+Index} (int x, int y)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a95df99c9e7c04d5e5a0f1930af08520a}\label{classInteractor_1_1WorldModel_a95df99c9e7c04d5e5a0f1930af08520a}} 
+int {\bfseries random} (const int min, const int max)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WorldModel_a233b21b863cfcdfe1469d061a66a8703}\label{classInteractor_1_1WorldModel_a233b21b863cfcdfe1469d061a66a8703}} 
+list$<$ string $>$ {\bfseries log} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Description détaillée}
+class \mbox{\hyperlink{classInteractor_1_1WorldModel}{World\+Model}} -\/ 
+
+Définition à la ligne 77 du fichier Interactor.\+h.
+
+
+
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
+\item 
+includes/Interactor.\+h\item 
+src/interactor/World\+Model.\+cpp\end{DoxyCompactItemize}

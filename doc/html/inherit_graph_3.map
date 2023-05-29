@@ -1,3 +1,6 @@
 <map id="Graphe hiérarchique des classes" name="Graphe hiérarchique des classes">
-<area shape="rect" id="node1" href="$classController_1_1Logger.html" title="class Logger &#45;" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node1" href="$classInteractor_1_1ClockSubscriber.html" title="class ClockSubscriber &#45;" alt="" coords="5,31,203,57"/>
+<area shape="rect" id="node2" href="$classInteractor_1_1Wildlife.html" title="class Wildlife &#45;" alt="" coords="251,31,393,57"/>
+<area shape="rect" id="node3" href="$classInteractor_1_1Fish.html" title="class Fish &#45;" alt="" coords="447,5,566,32"/>
+<area shape="rect" id="node4" href="$classInteractor_1_1Shark.html" title="class Shark &#45;" alt="" coords="441,56,572,83"/>
 </map>

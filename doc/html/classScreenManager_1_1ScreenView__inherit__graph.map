@@ -1,0 +1,4 @@
+<map id="ScreenManager::ScreenView" name="ScreenManager::ScreenView">
+<area shape="rect" id="node1" title="class ScreenView &#45;" alt="" coords="5,5,212,32"/>
+<area shape="rect" id="node2" href="$classScreenViews_1_1NCurses.html" title="class NCursesView &#45;" alt="" coords="25,80,192,107"/>
+</map>

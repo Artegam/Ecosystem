@@ -2,20 +2,22 @@
 \label{classInteractor_1_1WildlifeModel}\index{Interactor::WildlifeModel@{Interactor::WildlifeModel}}
 
 
-Graphe d\textquotesingle{}héritage de Interactor\+::Wildlife\+Model\+:\nopagebreak
+Graphe d\textquotesingle{}héritage de Interactor\+::Wildlife\+Model\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=217pt]{classInteractor_1_1WildlifeModel__inherit__graph}
+\includegraphics[width=332pt]{classInteractor_1_1WildlifeModel__inherit__graph}
 \end{center}
 \end{figure}
 
 
-Graphe de collaboration de Interactor\+::Wildlife\+Model\+:\nopagebreak
+Graphe de collaboration de Interactor\+::Wildlife\+Model\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
-\includegraphics[width=312pt]{classInteractor_1_1WildlifeModel__coll__graph}
+\includegraphics[width=350pt]{classInteractor_1_1WildlifeModel__coll__graph}
 \end{center}
 \end{figure}
 \doxysubsection*{Fonctions membres publiques}
@@ -23,6 +25,9 @@ Graphe de collaboration de Interactor\+::Wildlife\+Model\+:\nopagebreak
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_ac8e8e14189c73b6504b0a9fbbf5fd867}\label{classInteractor_1_1WildlifeModel_ac8e8e14189c73b6504b0a9fbbf5fd867}} 
 {\bfseries Wildlife\+Model} (const \mbox{\hyperlink{classInteractor_1_1WildlifeModel}{Wildlife\+Model}} \&wm)
+\item 
+\mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a6905dd696345e2153d628f47f5816879}\label{classInteractor_1_1WildlifeModel_a6905dd696345e2153d628f47f5816879}} 
+string {\bfseries get\+Raw\+Data} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_ace572f55ac25f2c5b1e58ab0784e82d0}\label{classInteractor_1_1WildlifeModel_ace572f55ac25f2c5b1e58ab0784e82d0}} 
 char $\ast$ {\bfseries get\+Name} ()
@@ -52,7 +57,7 @@ int {\bfseries getY} ()
 int {\bfseries get\+Field\+Of\+View} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a4981d530c2b87b27343a301c7e738b9e}\label{classInteractor_1_1WildlifeModel_a4981d530c2b87b27343a301c7e738b9e}} 
-\mbox{\hyperlink{classController_1_1World}{World}} $\ast$ {\bfseries get\+World} ()
+\mbox{\hyperlink{classInteractor_1_1World}{World}} $\ast$ {\bfseries get\+World} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a2763c55c13b8ff24782131df8aafcf6e}\label{classInteractor_1_1WildlifeModel_a2763c55c13b8ff24782131df8aafcf6e}} 
 int {\bfseries get\+Turns\+Number\+Before\+Starving} ()
@@ -61,7 +66,7 @@ int {\bfseries get\+Turns\+Number\+Before\+Starving} ()
 void {\bfseries get\+Hungry} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a2b21cd310879bde479f0f0af0db55416}\label{classInteractor_1_1WildlifeModel_a2b21cd310879bde479f0f0af0db55416}} 
-map$<$ int, list$<$ \mbox{\hyperlink{classController_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries get\+Vision} ()
+map$<$ int, list$<$ \mbox{\hyperlink{classInteractor_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries get\+Vision} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_aeafc22ab5e0861fa91ae15a42ce4a201}\label{classInteractor_1_1WildlifeModel_aeafc22ab5e0861fa91ae15a42ce4a201}} 
 int {\bfseries get\+Moving\+Terrain\+Type} ()
@@ -88,7 +93,7 @@ void {\bfseries setY} (int y)
 void {\bfseries set\+View\+Field} (int v)
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a5a41c646f76598b993b37cb8c3b8e92c}\label{classInteractor_1_1WildlifeModel_a5a41c646f76598b993b37cb8c3b8e92c}} 
-void {\bfseries set\+World} (\mbox{\hyperlink{classController_1_1World}{World}} $\ast$w)
+void {\bfseries set\+World} (\mbox{\hyperlink{classInteractor_1_1World}{World}} $\ast$w)
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_ad89bd12b754de7229a67071f00904ca4}\label{classInteractor_1_1WildlifeModel_ad89bd12b754de7229a67071f00904ca4}} 
 void {\bfseries set\+Display\+Char} (char c)
@@ -100,7 +105,7 @@ void {\bfseries set\+Default\+Turns\+Number\+Before\+Starving} (int turns)
 void {\bfseries set\+Field\+Of\+View} (int distance)
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a922d0da6444816fe94216ad57272cd4c}\label{classInteractor_1_1WildlifeModel_a922d0da6444816fe94216ad57272cd4c}} 
-void {\bfseries set\+Vision} (map$<$ int, list$<$ \mbox{\hyperlink{classController_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$$>$ v)
+void {\bfseries set\+Vision} (map$<$ int, list$<$ \mbox{\hyperlink{classInteractor_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$$>$ v)
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a3ab9631a5d5a7f85147a78ec300152bf}\label{classInteractor_1_1WildlifeModel_a3ab9631a5d5a7f85147a78ec300152bf}} 
 void {\bfseries set\+Moving\+Terrain\+Type} (int terrain\+Type)
@@ -115,7 +120,7 @@ void {\bfseries save\+Position} ()
 bool {\bfseries is\+Knowned\+Position} (int posX, int posY)
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a86b1be2ad0bb8bb91e11d0abf5590b31}\label{classInteractor_1_1WildlifeModel_a86b1be2ad0bb8bb91e11d0abf5590b31}} 
-map$<$ int, list$<$ \mbox{\hyperlink{classController_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries open\+Your\+Eyes} ()
+map$<$ int, list$<$ \mbox{\hyperlink{classInteractor_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries open\+Your\+Eyes} ()
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a647c06fc01c910473a57a5f53f602b52}\label{classInteractor_1_1WildlifeModel_a647c06fc01c910473a57a5f53f602b52}} 
 pair$<$ int, int $>$ {\bfseries calculate\+Coordinates} (int index)
@@ -132,11 +137,11 @@ list$<$ string $>$ {\bfseries log} ()
 \doxysubsection*{Attributs publics}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classInteractor_1_1WildlifeModel_afd7aedbcd3b894b60cf2705689935431}\label{classInteractor_1_1WildlifeModel_afd7aedbcd3b894b60cf2705689935431}} 
-unsigned const int {\bfseries O\+C\+E\+AN} = 0
+\mbox{\Hypertarget{classInteractor_1_1WildlifeModel_ac3a2c217886243a42c515085937359b2}\label{classInteractor_1_1WildlifeModel_ac3a2c217886243a42c515085937359b2}} 
+unsigned int const {\bfseries OCEAN} = 0
 \item 
-\mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a1e213026e6bd3a7538745eaf7307c2f9}\label{classInteractor_1_1WildlifeModel_a1e213026e6bd3a7538745eaf7307c2f9}} 
-unsigned const int {\bfseries P\+L\+A\+IN} = 1
+\mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a7b37175321410a99bd7e1af1456272ea}\label{classInteractor_1_1WildlifeModel_a7b37175321410a99bd7e1af1456272ea}} 
+unsigned int const {\bfseries PLAIN} = 1
 \end{DoxyCompactItemize}
 \doxysubsection*{Attributs protégés}
 \begin{DoxyCompactItemize}
@@ -160,10 +165,10 @@ char {\bfseries display\+Char}
 int {\bfseries view\+Field}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a4c61b8de6e2a52dc6df51e26c04da480}\label{classInteractor_1_1WildlifeModel_a4c61b8de6e2a52dc6df51e26c04da480}} 
-int {\bfseries X\+Position}
+int {\bfseries XPosition}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a2665e50edb4497b24438f586b71a10e4}\label{classInteractor_1_1WildlifeModel_a2665e50edb4497b24438f586b71a10e4}} 
-int {\bfseries Y\+Position}
+int {\bfseries YPosition}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a5dc9ed087b34444aebfd8058f553e1a7}\label{classInteractor_1_1WildlifeModel_a5dc9ed087b34444aebfd8058f553e1a7}} 
 int {\bfseries default\+Turns\+Number\+Before\+Starving} = 10
@@ -172,7 +177,7 @@ int {\bfseries default\+Turns\+Number\+Before\+Starving} = 10
 int {\bfseries turns\+Number\+Before\+Starving}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a563c1a1d9f25e8524bd2ec4b8f4603ab}\label{classInteractor_1_1WildlifeModel_a563c1a1d9f25e8524bd2ec4b8f4603ab}} 
-\mbox{\hyperlink{classController_1_1World}{World}} $\ast$ {\bfseries world}
+\mbox{\hyperlink{classInteractor_1_1World}{World}} $\ast$ {\bfseries world}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_a1e6f12ce4319d7842f8ccc96396be789}\label{classInteractor_1_1WildlifeModel_a1e6f12ce4319d7842f8ccc96396be789}} 
 deque$<$ pair$<$ int, int $>$ $>$ {\bfseries path}
@@ -181,7 +186,7 @@ deque$<$ pair$<$ int, int $>$ $>$ {\bfseries path}
 int {\bfseries field\+Of\+View} = 1
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_aab04f616ab7f340ce94092f64a43f20e}\label{classInteractor_1_1WildlifeModel_aab04f616ab7f340ce94092f64a43f20e}} 
-map$<$ int, list$<$ \mbox{\hyperlink{classController_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries vision}
+map$<$ int, list$<$ \mbox{\hyperlink{classInteractor_1_1ClockSubscriber}{Clock\+Subscriber}} $\ast$ $>$ $>$ {\bfseries vision}
 \item 
 \mbox{\Hypertarget{classInteractor_1_1WildlifeModel_ae37ffd9ed04ea742dce08a45ad46b811}\label{classInteractor_1_1WildlifeModel_ae37ffd9ed04ea742dce08a45ad46b811}} 
 int {\bfseries moving\+Terrain\+Type}
@@ -191,11 +196,11 @@ int {\bfseries moving\+Terrain\+Type}
 \doxysubsection{Description détaillée}
 
 
-Définition à la ligne 12 du fichier Interactor.\+h.
+Définition à la ligne 130 du fichier Interactor.\+h.
 
 
 
-La documentation de cette classe a été générée à partir des fichiers suivants \+:\begin{DoxyCompactItemize}
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
 \item 
 includes/Interactor.\+h\item 
 src/interactor/Wildlife\+Model.\+cpp\end{DoxyCompactItemize}
