@@ -273,6 +273,10 @@ void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
         mvprintw(24, 0, "PLAY");
       }
       break;
+    case 27: // la touche echap ou alt (voir pour mieux ecrire pour traiter le esc comme il faut)
+      cl->stop();
+      changeScreen(0); // 0 est le main menu
+      break;
     default:
       mvprintw(24, 0, "Character pressed is = %3d Hopefully it can be printed as '%c'", c, c);
       break;
