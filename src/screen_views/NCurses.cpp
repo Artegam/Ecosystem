@@ -59,6 +59,7 @@ void ScreenViews::NCurses::mainMenu () { //TODO: une liste en parametres
   keypad(mainMenu, true);
   string choices[menuSize] =  { "New", "Save", "Load", "Quit" };
   keyb->setPositionsCount((int)menuSize);
+  mvwprintw(main, 8, 45, "Ecosystem V0.1");
   refresh();
 
   int i;
