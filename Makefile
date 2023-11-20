@@ -52,7 +52,7 @@ OBJ+=$(KEYBOARDS_O)
 .PHONY: directories clean install install-libs install-cyg-libs uninstall uninstall-libs test
 
 #all:$(EXEC)
-all:Ecosystem test install
+all:Ecosystem test
 
 Ecosystem: $(OBJ)
 	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) $(OBJ) -o $(BIN)$@ $(LIBS)
@@ -124,6 +124,7 @@ uninstall-libs:
 	sudo apt-get remove libncurses-dev
 
 test:
+	#TODO: Penser a un repertoire de test dedie aux tests
     #cli commands here for test predicate
 	# compile tests classes
 	# run test classes
