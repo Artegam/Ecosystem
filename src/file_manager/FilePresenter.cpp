@@ -12,30 +12,25 @@ list<string> FilePresenter::getSavedFiles () {
   list<string> files;
   string path = "/home/tonio/.ecosystem/";
 
-
-  /* c++17
-  for (const auto & entry : fs::directory_iterator(path))
-    files.push_back(entry.path());
-  */
-
   struct dirent *diread;
   dir_ptr = opendir(path.c_str());
 
-  diread=readdir(dir_ptr);
-  files.push_back(diread->d_name);
+  if(dir_ptr != NULL) {
 
-  do {
-    diread = readdir(dir_ptr);
-    if (diread != NULL) { // double protection obligatoire
-      string str = diread->d_name;
-      if (str.length() > 0)
-        files.push_back(diread->d_name);
-    }
-  } while(diread != NULL);
+    diread=readdir(dir_ptr);
+    files.push_back(diread->d_name);
 
-  closedir(dir_ptr);
+    do {
+      diread = readdir(dir_ptr);
+      if (diread != NULL) { // double protection obligatoire
+        string str = diread->d_name;
+        if (str.length() > 0)
+          files.push_back(diread->d_name);
+      }
+    } while(diread != NULL);
 
-  files.sort();
-
+    closedir(dir_ptr);
+    files.sort();
+  }
   return files;
 }

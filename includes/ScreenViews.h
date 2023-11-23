@@ -40,20 +40,20 @@ namespace ScreenViews {
       int currentWindow = MAIN_MENU;
 
       // Operations
-  public:
-    NCurses (keyboards::NCurses * keyb);
-    ~NCurses ();
-    void init (int worldHeight, int worldWidth);
-    void mainMenu ();
-    void loadMenu (list<string> files);
-    void infos (list<string> infos);
-    void gameplay (map<int, int> worldMap, list<Wildlife *> wildlifes);
-    void end ();
-    void hello (); // Pour tester l'affichage en cas de soucis
-    void changeScreen (const int screen);
-    int getScreen ();
-    //*****************************************//
-    void keyboardListener(WorldModel worldData);
+    public:
+      NCurses (keyboards::NCurses * keyb);
+      ~NCurses ();
+      void init (int worldHeight, int worldWidth);
+      void mainMenu ();
+      void loadMenu (list<string> files);
+      void infos (list<string> infos);
+      void gameplay (ScreenViewModel * data);
+      void end ();
+      void hello (); // Pour tester l'affichage en cas de soucis
+      void changeScreen (const int screen);
+      int getScreen ();
+      //*****************************************//
+      void keyboardListener(WorldModel worldData);
   };
 
 };

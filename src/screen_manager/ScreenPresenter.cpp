@@ -28,7 +28,7 @@ void ScreenManager::ScreenPresenter::display () {
       this->view->loadMenu(fm->getSavedFiles());
     } else if (status == data->IN_GAME) {
       this->view->infos(getInfos());
-      this->view->gameplay(data->getWorldData().getWorldMap(), data->getWildlife());
+      this->view->gameplay(data);
       this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
     } else if (status == data->GAME_OVER) {
       this->view->end();

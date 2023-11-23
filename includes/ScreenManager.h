@@ -73,7 +73,7 @@ namespace ScreenManager {
       virtual void mainMenu ();
       virtual void loadMenu (list<string> files);
       virtual void infos (list<string> infos);
-      virtual void gameplay (map<int, int> worldMap, list<Wildlife *> wildlifes);
+      virtual void gameplay (ScreenViewModel * data);
       virtual void end ();
       virtual int getScreen ();
       //*****************************************//

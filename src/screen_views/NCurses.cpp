@@ -47,7 +47,7 @@ void ScreenViews::NCurses::init (int worldHeight, int worldWidth) {
   clear();
 }
 
-void ScreenViews::NCurses::mainMenu () { //TODO: une liste en parametres
+void ScreenViews::NCurses::mainMenu () {
 
   int yMax, xMax;
   const unsigned int menuSize = 4;
@@ -62,20 +62,18 @@ void ScreenViews::NCurses::mainMenu () { //TODO: une liste en parametres
   mvwprintw(main, 8, 45, "Ecosystem V0.1");
   refresh();
 
-  int i;
-  for (i = 0; i < (int)menuSize; i++) {
+  for (int i = 0; i < (int)menuSize; i++) {
     if(i == keyb->getPositionSelected())
       wattron(mainMenu, A_REVERSE);
     mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
     wattroff(mainMenu, A_REVERSE);
   }
 
-
   // Ecoute le clavier
   keyb->setWindow(mainMenu);
   keyb->listen();
   mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
-  //*********************************************************
+
   const int position = keyb->getPositionSelected();
   if(keyb->isValid()) {
     if (position == NEW)
@@ -86,11 +84,18 @@ void ScreenViews::NCurses::mainMenu () { //TODO: une liste en parametres
       changeScreen(LOAD_MENU);
     else if (position == QUIT) {
       endwin();
+      //TODO: Il faut couper le thread avant de quitter
+      // ou utiliser exit(0) dans le main() du programme
+      // reflechir a comment quitter proprement le programme...
+      // C'est peut etre pas au bon endroit (regarder ScreenPresenter)
+      // Ou alors faire une queue de messages pour gerer les evenements
+      // graphiques...
+      //Clock * cl = worldData.getClock();
+      //cl->stop();
       exit(0);
     }
   }
   keyb->resetValid();
-  //*********************************************************
 
   refresh();
   wmove(main, 0, 0); // repositione le curseur
@@ -101,13 +106,11 @@ void ScreenViews::NCurses::mainMenu () { //TODO: une liste en parametres
 }
 
 void ScreenViews::NCurses::loadMenu (list<string> files) {
-  // ICI Zone de test
   unsigned int size = 2;
   if(files.size() > 0)
     size = files.size() + 1;
   const unsigned int menuSize = size;
   string choices[menuSize];
-  // FIN zone de test
 
   int yMax, xMax;
   getmaxyx(stdscr, yMax, xMax);
@@ -115,8 +118,6 @@ void ScreenViews::NCurses::loadMenu (list<string> files) {
   mainMenu = subwin(stdscr, menuSize+2, 10, (yMax / 2) - 5, (xMax / 2) - 5);
   box(mainMenu, ACS_VLINE, ACS_HLINE);
   keypad(mainMenu, true);
-  //const unsigned int menuSize = 3;
-  //string choices[menuSize] =  { "Save1", "Save2", "Back"};
   keyb->setPositionsCount((int)menuSize);
   refresh();
 
@@ -137,7 +138,6 @@ void ScreenViews::NCurses::loadMenu (list<string> files) {
     wattroff(mainMenu, A_REVERSE);
   }
 
-
   // Ecoute le clavier
   keyb->setWindow(mainMenu);
   keyb->listen();
@@ -156,7 +156,7 @@ void ScreenViews::NCurses::loadMenu (list<string> files) {
   usleep(20000);
 }
 
-void ScreenViews::NCurses::infos (list<string> infos) { // TODO: une liste de string en paramtres
+void ScreenViews::NCurses::infos (list<string> infos) {
   clear();
   wprintw(main, "This is the virtual world");
   int ligne = 1;
@@ -167,12 +167,13 @@ void ScreenViews::NCurses::infos (list<string> infos) { // TODO: une liste de st
   }
 }
 
-void ScreenViews::NCurses::gameplay (map<int, int> worldMap, list<Wildlife *> wildlifes) {
+void ScreenViews::NCurses::gameplay (ScreenViewModel * data) {
 
   unsigned int const OCEAN = 0;
   unsigned int const PLAIN = 1;
   unsigned int const xOffset = 1;
   unsigned int const yOffset = 1;
+  map<int, int> worldMap = data->getWorldData().getWorldMap();
   unsigned int size = worldMap.size();
 
   // dessin du bord de la fenetre
@@ -210,7 +211,7 @@ void ScreenViews::NCurses::gameplay (map<int, int> worldMap, list<Wildlife *> wi
 
   //On affiche la faune
   list<Wildlife *>::iterator it;
-
+  list<Wildlife *> wildlifes = data->getWildlife();
   for(it = wildlifes.begin(); it != wildlifes.end(); it++) {
     char type = (*it)->getDisplayChar();
 
