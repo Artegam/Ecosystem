@@ -1,0 +1,10 @@
+<map id="Interactor::Fish" name="Interactor::Fish">
+<area shape="rect" id="node1" title="class Fish &#45;" alt="" coords="243,260,362,287"/>
+<area shape="rect" id="node2" href="$classInteractor_1_1Wildlife.html" title="class Wildlife &#45;" alt="" coords="231,184,374,211"/>
+<area shape="rect" id="node3" href="$classInteractor_1_1ClockSubscriber.html" title="class ClockSubscriber &#45;" alt="" coords="5,95,203,121"/>
+<area shape="rect" id="node4" href="$classInteractor_1_1Behavior.html" title="class Behavior &#45;" alt="" coords="227,95,378,121"/>
+<area shape="rect" id="node5" href="$classInteractor_1_1WildlifeModel.html" title=" " alt="" coords="402,95,585,121"/>
+<area shape="rect" id="node6" href="$classInteractor_1_1Loggable.html" title="class Loggable &#45;" alt="" coords="237,5,389,32"/>
+<area shape="rect" id="node7" href="$classModel_1_1GenericModel.html" title="Class Model &#45;." alt="" coords="413,5,573,32"/>
+<area shape="rect" id="node8" href="$classInteractor_1_1World.html" title="class World &#45;" alt="" coords="597,5,728,32"/>
+</map>

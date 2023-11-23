@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['ncursesview_7',['NCursesView',['../classConsoleView_1_1NCursesView.html',1,'ConsoleView']]]
+  ['genericmodel_10',['GenericModel',['../classModel_1_1GenericModel.html',1,'Model']]]
 ];

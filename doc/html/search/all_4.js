@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fish_5',['Fish',['../classInteractor_1_1Fish.html',1,'Interactor']]]
+  ['explorer_5',['Explorer',['../classInteractor_1_1Explorer.html',1,'Interactor']]]
 ];

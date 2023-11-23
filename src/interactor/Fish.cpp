@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 using namespace Interactor;
-using namespace Controller;
 
 Fish::Fish () : Wildlife () {
   init();
@@ -21,7 +20,8 @@ void Fish::init() {
   data->setLifetime(10, 15);
   data->setDisplayChar('F');
   data->setViewField(2);
-  data->setDefaultTurnsNumberBeforeStarving(20);
+  data->setDefaultTurnsNumberBeforeStarving(10);
+  data->setMovingTerrainType(data->OCEAN);
   this->action = new Default ();
 }
 
@@ -38,9 +38,9 @@ void Fish::update () {
     this->action = new Explorer();
   }
 
-  //Si l animal est encore en vie aprÃs x tours
+  //Si l animal est encore en vie apres x tours
   // il y a un enfant
-  if(data->getAge() >= 9) {
-    this->addWildlife("Fish", data->random(1, 3));
+  if(data->getAge() >= data->getMaturityAge()) {
+    this->addWildlife("Fish", 1);//data->random(1, 3));
   }
 }

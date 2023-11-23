@@ -3,7 +3,6 @@
 #include <math.h>
 
 using namespace Interactor;
-using namespace Controller;
 using namespace std;
 
 Wildlife::Wildlife () {
@@ -27,19 +26,22 @@ Wildlife::Wildlife (const Wildlife * w) {
 Wildlife::Wildlife (World * world) {
   data = new WildlifeModel();
   data->setWorld(world);
-  data->setX(data->random(1, world->getWidth()));
-  data->setY(data->random(1, world->getHeight()));
-  Clock * c = world->getClock();
+  WorldModel worldData = world->getData();
+  data->setX(data->random(1, worldData.getWidth()));
+  data->setY(data->random(1, worldData.getHeight()));
+  Clock * c = worldData.getClock();
   c->subscribe(this);
 }
 
 Wildlife::Wildlife (WildlifeModel * parentData) {
   World * world = parentData->getWorld();
+  //data = new WildlifeModel(*parentData);
   data = new WildlifeModel();
   data->setWorld(world);
   data->setX(parentData->getX());
   data->setY(parentData->getY());
-  Clock * c = world->getClock();
+  WorldModel worldData = world->getData();
+  Clock * c = worldData.getClock();
   c->subscribe(this);
 }
 
@@ -51,12 +53,13 @@ void Wildlife::execute () {
 }
 
 void Wildlife::update () {
-  //printf("Je me mets a jour en Wildlife...\n");
   data->openYourEyes();
   action->compute(data);
 
+  Logger * log = new Logger("bin/mon_fichier.log");
+  log->log(data);
 
-  this->makeOld();
+  this->happyBirthday();
 }
 
 template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
@@ -64,14 +67,14 @@ template <class T> bool Wildlife::cmp(pair<T, T>& x1, pair<T, T>& x2) {
   return x1.second <= x2.second;
 }
 
-void Wildlife::makeOld() {
-  data->makeOld();
+void Wildlife::happyBirthday() {
   data->happyBirthday();
   data->getHungry();
 
   if(isDead() || isStarving()) {
     this->die = true;
-    data->getWorld()->getClock()->unsubscribe(this);
+    WorldModel worldData = data->getWorld()->getData();
+    worldData.getClock()->unsubscribe(this);
   }
 }
 
@@ -99,6 +102,7 @@ void Wildlife::addWildlife(string wildlifeName, int number) {
 	for(int i = 1; i < number; i++) {
     if(!strcmp(wildlifeName.c_str(), "Fish")) {
       new Fish(data);
+      data->setMaturityAge(2000);
     } else if (!strcmp(wildlifeName.c_str(), "Shark")) {
       new Shark(data);
     }
@@ -112,3 +116,8 @@ bool Wildlife::isStarving () {
 bool Wildlife::isDead () {
   return (data->getLifetimeRemaining() <= 0);
 }
+
+GenericModel * Wildlife::getData () {
+  return data;
+}
+

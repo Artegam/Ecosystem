@@ -25,11 +25,14 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
 
   int x = data->getX();
   int y = data->getY();
-  int width = data->getWorld()->getWidth();
-  int height = data->getWorld()->getHeight();
+  WorldModel worldData = data->getWorld()->getData();
+  map<int, int> worldMap = worldData.getWorldMap();
+  int width = worldData.getWidth();
+  int height = worldData.getHeight();
 	map<int, list<ClockSubscriber *>> myVision = data->getVision();
+  int terrainType = data->getMovingTerrainType();
 
-  vector<pair<int,int>> possibles = {
+  vector<pair<int,int>> all_possibles = {
     { (width + (x-1)) % width, (height + (y-1)) % height},
     { x                      , (height + (y-1)) % height},
     { (x+1) % width          , (height + (y-1)) % height},
@@ -40,11 +43,24 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
     { (x+1) % width          , (y+1) % height},
   };
 
-  std::vector<std::pair<int,int>>::iterator it;
-  for(it = possibles.begin(); it != possibles.end(); it++) {
-    if(data->isKnownedPosition(it->first, it->second)) {
-      possibles.erase(it);
+	vector<pair<int,int>> possiblesUnknown;
+	vector<pair<int,int>> possiblesKnown;
+
+  vector<pair<int,int>>::iterator it;
+  for(it = all_possibles.begin(); it != all_possibles.end(); it++) {
+    unsigned int index = worldData.calculateIndex(it->first, it->second);
+    if( worldMap[index] == terrainType ) {
+      if(data->isKnownedPosition(it->first, it->second)) {
+        possiblesKnown.push_back(*it);
+      } else {
+        possiblesUnknown.push_back(*it);
+      }
     }
+  }
+
+	vector<pair<int,int>> possibles = possiblesUnknown;
+  if(possiblesUnknown.size() == 0) {
+    possibles = possiblesKnown;
   }
 
   int index = data->random(0, possibles.size()-1);
