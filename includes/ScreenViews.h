@@ -38,16 +38,17 @@ namespace ScreenViews {
       int highlight = 0;
       keyboards::NCurses * keyb;
       int currentWindow = MAIN_MENU;
+      ScreenViewModel * data;
 
       // Operations
     public:
       NCurses (keyboards::NCurses * keyb);
       ~NCurses ();
-      void init (int worldHeight, int worldWidth);
+      void init (ScreenViewModel * data);
       void mainMenu ();
       void loadMenu (list<string> files);
       void infos (list<string> infos);
-      void gameplay (ScreenViewModel * data);
+      void gameplay ();
       void end ();
       void hello (); // Pour tester l'affichage en cas de soucis
       void changeScreen (const int screen);

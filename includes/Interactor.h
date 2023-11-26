@@ -50,6 +50,7 @@ namespace Interactor {
   class Clock {
     // Attributes
   private:
+    static bool executing;
     static bool running;
     static thread t1;
     static map<string, ClockSubscriber *>::iterator it;
@@ -61,6 +62,7 @@ namespace Interactor {
     // Operations
   public:
     Clock (unsigned int interv = 1000);
+    ~Clock ();
     void run ();
     void stop ();
     static void tick ();

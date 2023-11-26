@@ -17,7 +17,7 @@ void ScreenManager::ScreenPresenter::display () {
   // Est-ce qu'il faut ajouter une ou plusieur variable de status ???
   this->world->run();
   //status = GAMEPLAY;
-  this->view->init(world->getData().getHeight(), world->getData().getWidth());
+  this->view->init(data);
   while(1) {
     status = this->view->getScreen();
     if(status == data->MAIN_MENU) {
@@ -28,7 +28,7 @@ void ScreenManager::ScreenPresenter::display () {
       this->view->loadMenu(fm->getSavedFiles());
     } else if (status == data->IN_GAME) {
       this->view->infos(getInfos());
-      this->view->gameplay(data);
+      this->view->gameplay();
       this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
     } else if (status == data->GAME_OVER) {
       this->view->end();

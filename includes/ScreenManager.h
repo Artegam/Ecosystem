@@ -68,12 +68,12 @@ namespace ScreenManager {
     // Operations
     public:
       ScreenView ();
-      virtual void init (int worldHeight, int worldWidth);
+      virtual void init (ScreenViewModel * data);
       //virtual void display (ScreenViewModel * data);
       virtual void mainMenu ();
       virtual void loadMenu (list<string> files);
       virtual void infos (list<string> infos);
-      virtual void gameplay (ScreenViewModel * data);
+      virtual void gameplay ();
       virtual void end ();
       virtual int getScreen ();
       //*****************************************//

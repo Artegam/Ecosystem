@@ -9,6 +9,7 @@ using namespace uuid;
 
 bool Clock::t = false;
 unsigned int Clock::interval = 1000;
+bool Clock::executing = true;
 bool Clock::running = true;
 map<string, ClockSubscriber *> Clock::subscribers;
 map<string, ClockSubscriber *>::iterator Clock::it;
@@ -16,6 +17,12 @@ thread Clock::t1(Clock::tick);
 unsigned int Clock::turns = 0;
 
 Clock::Clock (unsigned int interv) {
+  interval = interv;
+}
+
+Clock::~Clock () {
+  executing = false;
+  t1.detach();
 }
 
 void Clock::run () {
@@ -28,7 +35,7 @@ void Clock::stop () {
 }
 
 void Clock::tick () {
-  while(1) {
+  while(executing) {
     if(running) {
       for(it = subscribers.begin(); it != subscribers.end(); it++) {
         it->second->update();

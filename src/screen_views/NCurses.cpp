@@ -17,9 +17,10 @@ ScreenViews::NCurses::~NCurses () {
   endwin();
 }
 
-void ScreenViews::NCurses::init (int worldHeight, int worldWidth) {
-  this->worldHeight = worldHeight;
-  this->worldWidth = worldWidth;
+void ScreenViews::NCurses::init (ScreenViewModel * data) {
+  this->data = data;
+  this->worldHeight = data->getWorldData().getHeight();
+  this->worldWidth = data->getWorldData().getWidth();
 
 
   initscr();
@@ -84,14 +85,9 @@ void ScreenViews::NCurses::mainMenu () {
       changeScreen(LOAD_MENU);
     else if (position == QUIT) {
       endwin();
-      //TODO: Il faut couper le thread avant de quitter
-      // ou utiliser exit(0) dans le main() du programme
-      // reflechir a comment quitter proprement le programme...
-      // C'est peut etre pas au bon endroit (regarder ScreenPresenter)
-      // Ou alors faire une queue de messages pour gerer les evenements
-      // graphiques...
-      //Clock * cl = worldData.getClock();
-      //cl->stop();
+      Clock * cl = data->getWorldData().getClock();
+      cl->stop();
+      cl->~Clock();
       exit(0);
     }
   }
@@ -167,7 +163,7 @@ void ScreenViews::NCurses::infos (list<string> infos) {
   }
 }
 
-void ScreenViews::NCurses::gameplay (ScreenViewModel * data) {
+void ScreenViews::NCurses::gameplay () {
 
   unsigned int const OCEAN = 0;
   unsigned int const PLAIN = 1;
