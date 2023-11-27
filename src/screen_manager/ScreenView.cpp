@@ -7,7 +7,7 @@ ScreenView::ScreenView () {
 }
 
 
-void ScreenView::init (int worldHeight, int worldWidth) {
+void ScreenView::init (ScreenViewModel * data) {
 }
 /*
 void ScreenView::display (ScreenViewModel * data) {
@@ -22,7 +22,7 @@ void ScreenView::loadMenu (list<string> files) {
 void ScreenView::infos (list<string> infos) {
 }
 
-void ScreenView::gameplay (map<int, int> worldMap, list<Wildlife *> wildlifes) {
+void ScreenView::gameplay () {
 }
 
 void ScreenView::end () {

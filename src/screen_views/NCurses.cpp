@@ -11,6 +11,10 @@ using namespace ScreenViews;
 
 ScreenViews::NCurses::NCurses (keyboards::NCurses * keyb) {
   this->keyb = keyb;
+  struct winsize size;
+  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
+  this->windowWidth = size.ws_col;
+  this->windowHeight = size.ws_row;
 }
 
 ScreenViews::NCurses::~NCurses () {
@@ -60,7 +64,10 @@ void ScreenViews::NCurses::mainMenu () {
   keypad(mainMenu, true);
   string choices[menuSize] =  { "New", "Save", "Load", "Quit" };
   keyb->setPositionsCount((int)menuSize);
-  mvwprintw(main, 8, 45, "Ecosystem V0.1");
+  string title = "Ecosystem V0.1";
+  int x = (this->windowWidth - title.length()) / 2;
+  int y = this->windowHeight / 4;
+  mvwprintw(main, y, x, "%s", title.c_str());
   refresh();
 
   for (int i = 0; i < (int)menuSize; i++) {

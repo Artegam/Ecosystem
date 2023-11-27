@@ -6,6 +6,8 @@
 
 #include <ncurses.h>
 #include <unistd.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 using namespace ScreenManager;
 using namespace keyboards;
@@ -39,6 +41,8 @@ namespace ScreenViews {
       keyboards::NCurses * keyb;
       int currentWindow = MAIN_MENU;
       ScreenViewModel * data;
+      int windowHeight = 0;
+      int windowWidth = 0;
 
       // Operations
     public:
