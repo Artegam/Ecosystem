@@ -6,8 +6,6 @@
 
 #include <ncurses.h>
 #include <unistd.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 
 using namespace ScreenManager;
 using namespace keyboards;

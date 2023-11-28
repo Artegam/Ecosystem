@@ -11,10 +11,13 @@ using namespace ScreenViews;
 
 ScreenViews::NCurses::NCurses (keyboards::NCurses * keyb) {
   this->keyb = keyb;
-  struct winsize size;
-  ioctl(STDOUT_FILENO, TIOCGWINSZ, &size);
-  this->windowWidth = size.ws_col;
-  this->windowHeight = size.ws_row;
+
+  // Ncurses initialization
+  initscr();
+  noecho();
+  nodelay(stdscr, TRUE); // For the keyboard
+
+  getmaxyx(stdscr, this->windowHeight, this->windowWidth);
 }
 
 ScreenViews::NCurses::~NCurses () {
@@ -25,11 +28,6 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   this->data = data;
   this->worldHeight = data->getWorldData().getHeight();
   this->worldWidth = data->getWorldData().getWidth();
-
-
-  initscr();
-  noecho();
-  nodelay(stdscr, TRUE); // For the keyboard
 
   // Creation of the windows
   main = subwin(stdscr, LINES, COLS, 0, 0);
@@ -54,11 +52,9 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
 
 void ScreenViews::NCurses::mainMenu () {
 
-  int yMax, xMax;
   const unsigned int menuSize = 4;
-  getmaxyx(stdscr, yMax, xMax);
   WINDOW * mainMenu;
-  mainMenu = subwin(stdscr, menuSize+2, 10, (yMax / 2) - 5, (xMax / 2) - 5);
+  mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   clear();
   box(mainMenu, ACS_VLINE, ACS_HLINE);
   keypad(mainMenu, true);
@@ -67,6 +63,7 @@ void ScreenViews::NCurses::mainMenu () {
   string title = "Ecosystem V0.1";
   int x = (this->windowWidth - title.length()) / 2;
   int y = this->windowHeight / 4;
+
   mvwprintw(main, y, x, "%s", title.c_str());
   refresh();
 
@@ -115,10 +112,8 @@ void ScreenViews::NCurses::loadMenu (list<string> files) {
   const unsigned int menuSize = size;
   string choices[menuSize];
 
-  int yMax, xMax;
-  getmaxyx(stdscr, yMax, xMax);
   WINDOW * mainMenu;
-  mainMenu = subwin(stdscr, menuSize+2, 10, (yMax / 2) - 5, (xMax / 2) - 5);
+  mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   box(mainMenu, ACS_VLINE, ACS_HLINE);
   keypad(mainMenu, true);
   keyb->setPositionsCount((int)menuSize);
