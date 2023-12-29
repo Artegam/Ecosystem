@@ -27,6 +27,17 @@ namespace ScreenManager {
       virtual void end ();
   };
 
+  class Node {
+    private:
+      string name;
+      list<Node *> children;
+    public:
+      Node (string name);
+      void add (Node * node);
+      list<Node *> getChildren ();
+      string getName ();
+  };
+
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
