@@ -111,7 +111,7 @@ install:
 	chmod 755 ~/.ecosystem/
 	if [ ! -d /var/log/ecosystem/ ]; then sudo mkdir /var/log/ecosystem/; fi
 
-install-tools:
+install-tools: install-libs directories
 	sudo apt-get install g++ vim
 
 install-libs:
@@ -126,8 +126,9 @@ uninstall:
 uninstall-libs:
 	sudo apt-get remove libncurses-dev
 
-uninstall-tools:
+uninstall-tools: uninstall-libs
 	sudo apt-get remove g++ vim
+	rm -r o/
 
 test:
 	#TODO: Penser a un repertoire de test dedie aux tests
