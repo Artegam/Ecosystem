@@ -16,7 +16,10 @@ void ScreenView::display (ScreenViewModel * data) {
 void ScreenView::mainMenu () {
 }
 
-void ScreenView::loadMenu (list<string> files) {
+void ScreenView::options (list<string> options) {
+}
+
+void ScreenView::load (list<string> files) {
 }
 
 void ScreenView::infos (list<string> infos) {

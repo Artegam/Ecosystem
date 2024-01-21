@@ -16,17 +16,19 @@ namespace ScreenViews {
   class NCurses : public ScreenView {
     public:
       // Screens
-      const int MAIN_MENU = 0;
-      const int SAVE_MENU = 1;
-      const int LOAD_MENU = 2;
-      const int IN_GAME   = 3;
-      const int GAME_OVER = 4;
+      const int MENU_MAIN    = 0;
+      const int MENU_OPTIONS = 1;
+      const int MENU_SAVE    = 2;
+      const int MENU_LOAD    = 3;
+      const int IN_GAME      = 4;
+      const int GAME_OVER    = 5;
 
       // Menus
-      const int NEW = 0;
-      const int SAVE = 1;
-      const int LOAD = 2;
-      const int QUIT = 3;
+      const int NEW     = 0;
+      const int OPTIONS = 1;
+      const int SAVE    = 2;
+      const int LOAD    = 3;
+      const int QUIT    = 4;
 
     private:
       // Attributes
@@ -37,10 +39,16 @@ namespace ScreenViews {
       int choice;
       int highlight = 0;
       keyboards::NCurses * keyb;
-      int currentWindow = MAIN_MENU;
+      int currentWindow = MENU_MAIN;
       ScreenViewModel * data;
       int windowHeight = 0;
       int windowWidth = 0;
+
+      WINDOW * subMenuInit (int size = 2, int width = 10);
+      void listenKeyboard (WINDOW * mainMenu, int size = 2);
+      void subMenu (int width, list<string> items);
+      void redraw (WINDOW * mainMenu);
+
 
       // Operations
     public:
@@ -48,7 +56,8 @@ namespace ScreenViews {
       ~NCurses ();
       void init (ScreenViewModel * data);
       void mainMenu ();
-      void loadMenu (list<string> files);
+      void options (list<string> options);
+      void load (list<string> files);
       void infos (list<string> infos);
       void gameplay ();
       void end ();

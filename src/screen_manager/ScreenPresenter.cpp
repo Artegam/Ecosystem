@@ -20,12 +20,15 @@ void ScreenManager::ScreenPresenter::display () {
   this->view->init(data);
   while(1) {
     status = this->view->getScreen();
-    if(status == data->MAIN_MENU) {
+    if(status == data->MENU_MAIN) {
       this->view->mainMenu();
-    } else if (status == data->LOAD_MENU) {
-      // TODO: Recuperer la liste des fichiers ici et la passer a loadMenu
+    } else if (status == data->MENU_OPTIONS) {
+      list<string> lst_options;
+      this->view->options(lst_options);
+    } else if (status == data->MENU_LOAD) {
+      // TODO: Recuperer la liste des fichiers ici et la passer a load
       FilePresenter * fm = new FilePresenter();
-      this->view->loadMenu(fm->getSavedFiles());
+      this->view->load(fm->getSavedFiles());
     } else if (status == data->IN_GAME) {
       this->view->infos(getInfos());
       this->view->gameplay();

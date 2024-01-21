@@ -5,7 +5,22 @@ using namespace ScreenManager;
 
 ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->worldData = worldData;
-  this->currentWindow = MAIN_MENU;
+  this->currentWindow = MENU_MAIN;
+
+  // Construction du menu de l'application
+  this->root = new Node("root");
+  this->root->add(new Node("New"));
+  Node * spacer = new Node("");
+  Node * back = new Node("Back");
+  Node * options = new Node("Options");
+  options->add(new Node("[ ] Ncurses"));
+  options->add(new Node("[ ] OpenGL"));
+  options->add(spacer);
+  options->add(back);
+  this->root->add(options);
+  this->root->add(new Node("Save"));
+  this->root->add(new Node("Load"));
+  this->root->add(new Node("Quit"));
 }
 
 int ScreenViewModel::getWorldHeight () {
@@ -111,3 +126,6 @@ list<string> ScreenViewModel::log() {
   return messages;
 }
 
+Node * ScreenViewModel::getMenu () {
+  return this->root;
+}

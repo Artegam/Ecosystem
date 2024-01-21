@@ -50,15 +50,80 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   clear();
 }
 
+WINDOW * ScreenViews::NCurses::subMenuInit (int size, int width) {
+  WINDOW * mainMenu;
+  //TODO: 12 est le max de la plus grande chaine. Doit servir aussi Ã  calculer X pour le centrage
+  mainMenu = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
+  box(mainMenu, ACS_VLINE, ACS_HLINE);
+  keypad(mainMenu, true);
+  keyb->setPositionsCount((int)size);
+  refresh();
+  return mainMenu;
+}
+
+void ScreenViews::NCurses::listenKeyboard (WINDOW * mainMenu, int size) {
+  // Ecoute le clavier
+  // TODO: A modifier et a rendre generique sur les positions / valeur de retour ?
+  keyb->setWindow(mainMenu);
+  keyb->listen();
+  mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
+  const unsigned int position = keyb->getPositionSelected();
+  if(keyb->isValid() && position < (const unsigned int)(size-1)) {
+    //TODO: surtout ici, pas sur que ce soit le bon endroit pour piloter les fenetres
+    changeScreen(IN_GAME);
+  } else if (keyb->isValid() && position == (const unsigned int)(size-1)) {
+    changeScreen(MENU_MAIN);
+  }
+  keyb->resetValid();
+}
+
+void ScreenViews::NCurses::subMenu (int width, list<string> items) {
+
+  unsigned int size = 2;
+  if(items.size() > 0)
+    size += items.size();
+
+  WINDOW * mainMenu = subMenuInit(size, width);
+  string choices[size];
+
+  unsigned int idx = 0;
+  list<string>::iterator it;
+  for(it = items.begin(); it != items.end(); it++)
+    choices[idx++] = (string)" [ ] " + it->c_str();
+
+  // Corps du menu
+  if(items.size() == 0)
+    choices[0] = "No items";
+  choices[size-1] = "Back";
+
+  for (int i = 0; i < (int)size; i++) {
+    if(i == keyb->getPositionSelected())
+      wattron(mainMenu, A_REVERSE);
+    mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
+    wattroff(mainMenu, A_REVERSE);
+  }
+
+  listenKeyboard(mainMenu, size);
+  redraw(mainMenu);
+}
+
+void ScreenViews::NCurses::redraw (WINDOW * mainMenu) {
+  refresh();
+  wmove(main, 0, 0); // repositione le curseur
+  wrefresh(main);
+  wrefresh(mainMenu);
+  usleep(20000);
+}
+
 void ScreenViews::NCurses::mainMenu () {
 
-  const unsigned int menuSize = 4;
+  const unsigned int menuSize = 5;
   WINDOW * mainMenu;
   mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   clear();
   box(mainMenu, ACS_VLINE, ACS_HLINE);
   keypad(mainMenu, true);
-  string choices[menuSize] =  { "New", "Save", "Load", "Quit" };
+  Node * root = this->data->getMenu();
   keyb->setPositionsCount((int)menuSize);
   string title = "Ecosystem V0.1";
   int x = (this->windowWidth - title.length()) / 2;
@@ -67,11 +132,15 @@ void ScreenViews::NCurses::mainMenu () {
   mvwprintw(main, y, x, "%s", title.c_str());
   refresh();
 
-  for (int i = 0; i < (int)menuSize; i++) {
+  list<Node *> menu = root->getChildren();
+  list<Node *>::iterator it;
+  int i = 0;
+  for(it = menu.begin(); it != menu.end(); it++) {
     if(i == keyb->getPositionSelected())
       wattron(mainMenu, A_REVERSE);
-    mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
+    mvwprintw(mainMenu, 1+i, 1, "%s", (*it)->getName().c_str());
     wattroff(mainMenu, A_REVERSE);
+    i++;
   }
 
   // Ecoute le clavier
@@ -79,14 +148,20 @@ void ScreenViews::NCurses::mainMenu () {
   keyb->listen();
   mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
 
+  // TODO: Reflechir a ameliorer la gestion du menu, fonction anonyme ?
   const int position = keyb->getPositionSelected();
   if(keyb->isValid()) {
-    if (position == NEW)
+    if (position == NEW) {
       changeScreen(IN_GAME);
+    }
+    else if (position == OPTIONS) {
+      changeScreen(MENU_OPTIONS);
+    }
     else if (position == SAVE) {
     }
-    else if (position == LOAD)
-      changeScreen(LOAD_MENU);
+    else if (position == LOAD) {
+      changeScreen(MENU_LOAD);
+    }
     else if (position == QUIT) {
       endwin();
       Clock * cl = data->getWorldData().getClock();
@@ -105,7 +180,13 @@ void ScreenViews::NCurses::mainMenu () {
   clear();
 }
 
-void ScreenViews::NCurses::loadMenu (list<string> files) {
+void ScreenViews::NCurses::options (list<string> options) {
+  options.push_back("Ncurses");
+  options.push_back("OpenGL");
+  subMenu(15, options);
+}
+
+void ScreenViews::NCurses::load (list<string> files) {
   unsigned int size = 2;
   if(files.size() > 0)
     size = files.size() + 1;
@@ -145,8 +226,9 @@ void ScreenViews::NCurses::loadMenu (list<string> files) {
     //loadSavedGame(keyb->getPositionSelected());
     changeScreen(IN_GAME);
   } else if (keyb->isValid() && position == (menuSize-1)) {
-    changeScreen(MAIN_MENU);
+    changeScreen(MENU_MAIN);
   }
+  keyb->resetValid();
   refresh();
   wmove(main, 0, 0); // repositione le curseur
   wrefresh(main);
@@ -244,7 +326,6 @@ void ScreenViews::NCurses::gameplay () {
 void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
   int c = getch();
 
-  //WorldModel worldData = this->data->getWorldData();
   Clock * cl = worldData.getClock();
 
   switch(c)
@@ -283,7 +364,6 @@ void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
   }
   refresh();
 }
-
 
 void ScreenViews::NCurses::changeScreen (const int screen) {
   currentWindow = screen;

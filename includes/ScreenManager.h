@@ -22,6 +22,7 @@ namespace ScreenManager {
     // Operations
     public:
       virtual void start ();
+      virtual void options ();
       virtual void load ();
       virtual void save ();
       virtual void end ();
@@ -31,6 +32,7 @@ namespace ScreenManager {
     private:
       string name;
       list<Node *> children;
+
     public:
       Node (string name);
       void add (Node * node);
@@ -38,20 +40,33 @@ namespace ScreenManager {
       string getName ();
   };
 
+  // interface
+  class Function {
+    public:
+      virtual void execute();
+  };
+
+  class MenuFunction : public Function {
+    public:
+      void execute ();
+  };
+
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
     public:
-      const int MAIN_MENU = 0;
-      const int SAVE_MENU = 1;
-      const int LOAD_MENU = 2;
-      const int IN_GAME   = 3;
-      const int GAME_OVER = 4;
+      const int MENU_MAIN    = 0;
+      const int MENU_OPTIONS = 1;
+      const int MENU_SAVE    = 2;
+      const int MENU_LOAD    = 3;
+      const int IN_GAME      = 4;
+      const int GAME_OVER    = 5;
     private:
       int currentWindow;
       // Attributes
       WorldModel worldData;
       list<string> messages = Loggable::log();
+      Node * root;
     public:
       ScreenViewModel (WorldModel worldData);
       int getWorldHeight ();
@@ -71,6 +86,7 @@ namespace ScreenManager {
       void setCurrentWindow(int window);
       int getCurrentWindow();
       list<string> log();
+      Node * getMenu ();
   };
 
   // interface
@@ -82,7 +98,8 @@ namespace ScreenManager {
       virtual void init (ScreenViewModel * data);
       //virtual void display (ScreenViewModel * data);
       virtual void mainMenu ();
-      virtual void loadMenu (list<string> files);
+      virtual void options (list<string> options);
+      virtual void load (list<string> files);
       virtual void infos (list<string> infos);
       virtual void gameplay ();
       virtual void end ();
