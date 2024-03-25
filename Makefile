@@ -1,7 +1,7 @@
 
 ## Repertoires par défaut dans lesquels make va chercher.
 ## L'ordre est important pour les recherches
-VPATH = o:o/model/:o/screen_views:o/file_views:o/interactor:o/screen_listeners:o/screen_manager:o/file_manager:o/keyboards:o/tests:src:includes
+VPATH = o:o/model/:o/screen_views:o/file_views:o/interactor:o/screen_listeners:o/screen_manager:o/file_manager:o/keyboards:o/sound:o/tests:src:includes
 
 TESTS = tests/
 INC = includes/
@@ -14,7 +14,7 @@ TEST_DIR = $(TESTS)$(SRC)
 
 INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
 
-LIBS = -lncurses -lstdc++fs
+LIBS = -lncurses -lstdc++fs -lopenal -lalut
 #EXEC = Ecosystem
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
@@ -27,6 +27,7 @@ INTERACTOR = $(wildcard src/interactor/*.cpp)
 SCREEN_MANAGER = $(wildcard src/screen_manager/*.cpp)
 FILE_MANAGER = $(wildcard src/file_manager/*.cpp)
 KEYBOARDS = $(wildcard src/keyboards/*.cpp)
+SOUND = $(wildcard src/sound/*.cpp)
 
 MODEL_O=$(subst $(SRC), $(OUT), $(MODEL:.cpp=.o))
 SCREEN_VIEWS_O=$(subst $(SRC), $(OUT), $(SCREEN_VIEWS:.cpp=.o))
@@ -35,6 +36,7 @@ INTERACTOR_O=$(subst $(SRC), $(OUT), $(INTERACTOR:.cpp=.o))
 SCREEN_MANAGER_O=$(subst $(SRC), $(OUT), $(SCREEN_MANAGER:.cpp=.o))
 FILE_MANAGER_O=$(subst $(SRC), $(OUT), $(FILE_MANAGER:.cpp=.o))
 KEYBOARDS_O=$(subst $(SRC), $(OUT), $(KEYBOARDS:.cpp=.o))
+SOUND_O=$(subst $(SRC), $(OUT), $(SOUND:.cpp=.o))
 
 OBJ=$(OUT)main.o
 OBJ+=$(MODEL_O)
@@ -44,6 +46,7 @@ OBJ+=$(INTERACTOR_O)
 OBJ+=$(SCREEN_MANAGER_O)
 OBJ+=$(FILE_MANAGER_O)
 OBJ+=$(KEYBOARDS_O)
+OBJ+=$(SOUND_O)
 
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
@@ -99,6 +102,7 @@ directories:
 	if [ ! -d o/screen_listeners ]; then mkdir o/screen_listeners; fi
 	if [ ! -d o/tests ]; then mkdir o/tests; fi
 	if [ ! -d o/keyboards ]; then mkdir o/keyboards; fi
+	if [ ! -d o/sound ]; then mkdir o/sound; fi
 	if [ ! -d o/ ]; then mkdir o/; fi
 
 clean:
@@ -115,7 +119,7 @@ install-tools: install-libs directories
 	sudo apt-get install g++ vim
 
 install-libs:
-	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc
+	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 install-cyg-libs:
 	apt-cyg install ncurses libncurses-devel
@@ -124,7 +128,7 @@ uninstall:
 	sudo rm -f $(INSTALL_DIR)Ecosystem
 
 uninstall-libs:
-	sudo apt-get remove libncurses-dev
+	sudo apt-get remove libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 uninstall-tools: uninstall-libs
 	sudo apt-get remove g++ vim

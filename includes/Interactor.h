@@ -111,7 +111,7 @@ namespace Interactor {
   private:
     // Operations
   public:
-    virtual void print (WorldModel data);
+    virtual void display ();
   };
 
   /// class World - 

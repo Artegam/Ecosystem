@@ -5,7 +5,7 @@ using namespace ScreenManager;
 
 ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->worldData = worldData;
-  this->currentWindow = MENU_MAIN;
+  this->currentWindow = MAIN;
 
   // Construction du menu de l'application
   this->root = new Node("root");
@@ -13,8 +13,8 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   Node * spacer = new Node("");
   Node * back = new Node("Back");
   Node * options = new Node("Options");
-  options->add(new Node("[ ] Ncurses"));
-  options->add(new Node("[ ] OpenGL"));
+  options->add(new Item("Ncurses"));
+  options->add(new Item("OpenGL"));
   options->add(spacer);
   options->add(back);
   this->root->add(options);

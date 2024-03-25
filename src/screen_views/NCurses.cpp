@@ -9,7 +9,7 @@ using namespace ScreenViews;
 #define SHARK_PAIR     4
 #define FISH_PAIR      5
 
-ScreenViews::NCurses::NCurses (keyboards::NCurses * keyb) {
+ScreenViews::NCurses::NCurses (Keyboard * keyb) {
   this->keyb = keyb;
 
   // Ncurses initialization
@@ -34,6 +34,9 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   window= subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
   box(window, ACS_VLINE, ACS_HLINE);
 
+  // Enable keyboard for first standart screen
+  keypad(stdscr, true);
+
   if (has_colors() == FALSE) {
     endwin();
     printf("Your terminal does not support color\n");
@@ -55,16 +58,16 @@ WINDOW * ScreenViews::NCurses::subMenuInit (int size, int width) {
   //TODO: 12 est le max de la plus grande chaine. Doit servir aussi Ã  calculer X pour le centrage
   mainMenu = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
   box(mainMenu, ACS_VLINE, ACS_HLINE);
-  keypad(mainMenu, true);
   keyb->setPositionsCount((int)size);
   refresh();
   return mainMenu;
 }
 
-void ScreenViews::NCurses::listenKeyboard (WINDOW * mainMenu, int size) {
+/*
+void ScreenViews::NCurses::listenKeyboard (WINDOW * win, int size) {
   // Ecoute le clavier
   // TODO: A modifier et a rendre generique sur les positions / valeur de retour ?
-  keyb->setWindow(mainMenu);
+  keyb->setWindow(win);
   keyb->listen();
   mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
   const unsigned int position = keyb->getPositionSelected();
@@ -76,53 +79,49 @@ void ScreenViews::NCurses::listenKeyboard (WINDOW * mainMenu, int size) {
   }
   keyb->resetValid();
 }
+*/
 
-void ScreenViews::NCurses::subMenu (int width, list<string> items) {
-
-  unsigned int size = 2;
-  if(items.size() > 0)
-    size += items.size();
-
-  WINDOW * mainMenu = subMenuInit(size, width);
-  string choices[size];
-
-  unsigned int idx = 0;
-  list<string>::iterator it;
-  for(it = items.begin(); it != items.end(); it++)
-    choices[idx++] = (string)" [ ] " + it->c_str();
-
-  // Corps du menu
-  if(items.size() == 0)
-    choices[0] = "No items";
-  choices[size-1] = "Back";
-
-  for (int i = 0; i < (int)size; i++) {
-    if(i == keyb->getPositionSelected())
-      wattron(mainMenu, A_REVERSE);
-    mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
-    wattroff(mainMenu, A_REVERSE);
-  }
-
-  listenKeyboard(mainMenu, size);
-  redraw(mainMenu);
+WINDOW * ScreenViews::NCurses::getWindow () {
+  return window;
 }
 
-void ScreenViews::NCurses::redraw (WINDOW * mainMenu) {
+void ScreenViews::NCurses::redraw (WINDOW * win) {
   refresh();
   wmove(main, 0, 0); // repositione le curseur
   wrefresh(main);
-  wrefresh(mainMenu);
+  wrefresh(win);
   usleep(20000);
+}
+
+void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu) {
+  list<Node *>::iterator it;
+  int i = 0;
+  for(it = menu.begin(); it != menu.end(); it++) {
+    if(i == keyb->getPosition())
+      wattron(win, A_REVERSE);
+    string prefix = "";
+    if (Item* item = dynamic_cast<Item*>(*it)) {
+      if(item->isSelected()) {
+        prefix = "[x] ";
+      } else {
+        prefix = "[ ] ";
+      }
+    }
+    mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), (*it)->getName().c_str());
+    wattroff(win, A_REVERSE);
+    i++;
+  }
 }
 
 void ScreenViews::NCurses::mainMenu () {
 
   const unsigned int menuSize = 5;
-  WINDOW * mainMenu;
-  mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
-  clear();
-  box(mainMenu, ACS_VLINE, ACS_HLINE);
-  keypad(mainMenu, true);
+  window = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+  box(window, ACS_VLINE, ACS_HLINE);
   Node * root = this->data->getMenu();
   keyb->setPositionsCount((int)menuSize);
   string title = "Ecosystem V0.1";
@@ -132,24 +131,16 @@ void ScreenViews::NCurses::mainMenu () {
   mvwprintw(main, y, x, "%s", title.c_str());
   refresh();
 
-  list<Node *> menu = root->getChildren();
-  list<Node *>::iterator it;
-  int i = 0;
-  for(it = menu.begin(); it != menu.end(); it++) {
-    if(i == keyb->getPositionSelected())
-      wattron(mainMenu, A_REVERSE);
-    mvwprintw(mainMenu, 1+i, 1, "%s", (*it)->getName().c_str());
-    wattroff(mainMenu, A_REVERSE);
-    i++;
-  }
+  // Affiche le menu principal
+  display(window, root->getChildren());
 
   // Ecoute le clavier
-  keyb->setWindow(mainMenu);
-  keyb->listen();
-  mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
-
+  //keyb->listen();
+  //keyb->listen(getChar());
+  mvprintw(25, 0, "POSITION: %d", keyb->getPosition());
+/*
   // TODO: Reflechir a ameliorer la gestion du menu, fonction anonyme ?
-  const int position = keyb->getPositionSelected();
+  const int position = keyb->getPosition();
   if(keyb->isValid()) {
     if (position == NEW) {
       changeScreen(IN_GAME);
@@ -170,20 +161,61 @@ void ScreenViews::NCurses::mainMenu () {
       exit(0);
     }
   }
+  */
   keyb->resetValid();
 
   refresh();
   wmove(main, 0, 0); // repositione le curseur
   wrefresh(main);
-  wrefresh(mainMenu);
+  wrefresh(window);
   usleep(20000);
-  clear();
 }
 
 void ScreenViews::NCurses::options (list<string> options) {
-  options.push_back("Ncurses");
-  options.push_back("OpenGL");
-  subMenu(15, options);
+
+  Node * root = this->data->getMenu();
+
+  list<Node *> menu =  root->getChildren();
+
+  unsigned N = 1;/* index of the element you want to retrieve */
+  list<Node *>::iterator it = menu.begin();
+  if (menu.size() > N)
+  {
+    advance(it, N);
+    // 'it' points to the element at index 'N'
+  }
+
+  list<Node *> opts =  (*it)->getChildren();
+
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+
+  WINDOW * optionMenu = subMenuInit(opts.size(), 15);
+  display(optionMenu, opts);
+
+  // Ecoute le clavier
+  // TODO: A reecrire et a reflechir mieux que ca
+  //keyb->listen();
+  mvprintw(25, 0, "POSITION: %d", keyb->getPosition());
+  /*
+  const unsigned int position = keyb->getPosition();
+
+  if(keyb->isValid() && position < (opts.size()-1)) {
+    //loadSavedGame(keyb->getPosition());
+    changeScreen(IN_GAME);
+  } else if (keyb->isValid() && position == (opts.size()-1)) {
+    changeScreen(MENU_MAIN);
+  }
+*/
+  keyb->resetValid();
+  refresh();
+  wmove(main, 0, 0); // repositione le curseur
+  wrefresh(main);
+  wrefresh(optionMenu);
+  usleep(20000);
+
 }
 
 void ScreenViews::NCurses::load (list<string> files) {
@@ -195,8 +227,11 @@ void ScreenViews::NCurses::load (list<string> files) {
 
   WINDOW * mainMenu;
   mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
   box(mainMenu, ACS_VLINE, ACS_HLINE);
-  keypad(mainMenu, true);
   keyb->setPositionsCount((int)menuSize);
   refresh();
 
@@ -211,23 +246,24 @@ void ScreenViews::NCurses::load (list<string> files) {
 
   int i;
   for (i = 0; i < (int)menuSize; i++) {
-    if(i == keyb->getPositionSelected())
+    if(i == keyb->getPosition())
       wattron(mainMenu, A_REVERSE);
     mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
     wattroff(mainMenu, A_REVERSE);
   }
 
   // Ecoute le clavier
-  keyb->setWindow(mainMenu);
-  keyb->listen();
-  mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
-  const unsigned int position = keyb->getPositionSelected();
+  //keyb->listen();
+  mvprintw(25, 0, "POSITION: %d", keyb->getPosition());
+  /*
+  const unsigned int position = keyb->getPosition();
   if(keyb->isValid() && position < (menuSize-1)) {
-    //loadSavedGame(keyb->getPositionSelected());
+    //loadSavedGame(keyb->getPosition());
     changeScreen(IN_GAME);
   } else if (keyb->isValid() && position == (menuSize-1)) {
     changeScreen(MENU_MAIN);
   }
+  */
   keyb->resetValid();
   refresh();
   wmove(main, 0, 0); // repositione le curseur
@@ -237,7 +273,10 @@ void ScreenViews::NCurses::load (list<string> files) {
 }
 
 void ScreenViews::NCurses::infos (list<string> infos) {
-  clear();
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
   wprintw(main, "This is the virtual world");
   int ligne = 1;
   list<string>::iterator info;
@@ -256,6 +295,12 @@ void ScreenViews::NCurses::gameplay () {
   map<int, int> worldMap = data->getWorldData().getWorldMap();
   unsigned int size = worldMap.size();
 
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+
+  window= subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
   // dessin du bord de la fenetre
   box(window, ACS_VLINE, ACS_HLINE);
 
@@ -321,7 +366,7 @@ void ScreenViews::NCurses::gameplay () {
   usleep(200000);
   // fin dessin de la fenetre
 }
-
+/*
 //TODO: Mettre cette fonction dans une classe appropriee au clavier (controller?)
 void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
   int c = getch();
@@ -364,21 +409,16 @@ void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
   }
   refresh();
 }
-
-void ScreenViews::NCurses::changeScreen (const int screen) {
-  currentWindow = screen;
-  keyb->setDefaultPosition();
-  mvprintw(26, 0, "CHANGE SCREEN ! Window: %d", currentWindow);
-}
-
-int ScreenViews::NCurses::getScreen () {
-  return currentWindow;
-}
+*/
 
 void ScreenViews::NCurses::end () {
-  mvwprintw(main, 14, 20, "******************");
-  mvwprintw(main, 15, 20, "This is the end...");
-  mvwprintw(main, 16, 20, "******************");
+  mvwprintw(stdscr, 14, 20, "******************");
+  mvwprintw(stdscr, 15, 20, "This is the end...");
+  mvwprintw(stdscr, 16, 20, "******************");
+}
+
+int ScreenViews::NCurses::getChar () {
+  return wgetch(stdscr);
 }
 
 void ScreenViews::NCurses::hello () {

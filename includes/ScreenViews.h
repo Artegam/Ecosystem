@@ -2,13 +2,11 @@
 #define SCREENVIEWS_H
 
 #include "ScreenManager.h"
-#include "Keyboards.h"
 
 #include <ncurses.h>
 #include <unistd.h>
 
 using namespace ScreenManager;
-using namespace keyboards;
 
 namespace ScreenViews {
 
@@ -38,34 +36,35 @@ namespace ScreenViews {
       int worldWidth = 0;
       int choice;
       int highlight = 0;
-      keyboards::NCurses * keyb;
+      Keyboard * keyb;
       int currentWindow = MENU_MAIN;
       ScreenViewModel * data;
       int windowHeight = 0;
       int windowWidth = 0;
 
       WINDOW * subMenuInit (int size = 2, int width = 10);
-      void listenKeyboard (WINDOW * mainMenu, int size = 2);
-      void subMenu (int width, list<string> items);
+      //void listenKeyboard (WINDOW * mainMenu, int size = 2);
       void redraw (WINDOW * mainMenu);
+      void display (WINDOW * mainMenu, list<Node *> menu);
 
 
       // Operations
     public:
-      NCurses (keyboards::NCurses * keyb);
+      NCurses (Keyboard * keyb);
       ~NCurses ();
       void init (ScreenViewModel * data);
+      WINDOW * getWindow ();
       void mainMenu ();
       void options (list<string> options);
       void load (list<string> files);
       void infos (list<string> infos);
       void gameplay ();
       void end ();
+      int getChar ();
       void hello (); // Pour tester l'affichage en cas de soucis
-      void changeScreen (const int screen);
-      int getScreen ();
+      //void changeScreen (const int screen);
       //*****************************************//
-      void keyboardListener(WorldModel worldData);
+      //void keyboardListener(WorldModel worldData);
   };
 
 };

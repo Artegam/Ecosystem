@@ -2,6 +2,6 @@
 
 using namespace Interactor;
 
-void OutputDevice::print (WorldModel data) {
+void OutputDevice::display () {
 }
 

@@ -8,6 +8,7 @@ ScreenView::ScreenView () {
 
 
 void ScreenView::init (ScreenViewModel * data) {
+  model = data;
 }
 /*
 void ScreenView::display (ScreenViewModel * data) {
@@ -34,6 +35,10 @@ void ScreenView::end () {
 void ScreenView::keyboardListener(WorldModel worldData) {
 }
 
-int ScreenView::getScreen () {
+int ScreenView::getChar () {
   return 0;
+}
+
+void ScreenView::clearScreen () {
+  toClear = true;
 }

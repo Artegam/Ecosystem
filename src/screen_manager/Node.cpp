@@ -19,3 +19,6 @@ string Node::getName () {
   return this->name;
 }
 
+void Node::validate () {
+}
+
