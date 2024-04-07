@@ -148,6 +148,7 @@ namespace ScreenManager {
       virtual void mainMenu ();
       virtual void options (list<string> options);
       virtual void load (list<string> files);
+      virtual void save (string filename);
       virtual void infos (list<string> infos);
       virtual void gameplay ();
       virtual void end ();

@@ -23,6 +23,9 @@ void ScreenView::options (list<string> options) {
 void ScreenView::load (list<string> files) {
 }
 
+void ScreenView::save (string filename) {
+}
+
 void ScreenView::infos (list<string> infos) {
 }
 

@@ -85,7 +85,38 @@ void ScreenPresenter::display () {
 
       case LOAD:
         // TODO: Recuperer la liste des fichiers ici et la passer a load
-        this->view->load(fm->getSavedFiles());
+        if(keyb->isValid()) {
+          switch (keyb->getPosition()) {
+            case 0:
+              //changeScreen(IN_GAME);
+              // Select first option
+              break;
+            case 1: // Back
+              changeScreen(MAIN);
+              break;
+          }
+          keyb->resetValid();
+        } else {
+          this->view->load(fm->getSavedFiles());
+        }
+        break;
+
+      case SAVE:
+        // TODO: Recuperer la liste des fichiers ici et la passer a load
+        if(keyb->isValid()) {
+          switch (keyb->getPosition()) {
+            case 0:
+              //changeScreen(IN_GAME);
+              // Select first option
+              break;
+            case 1: // Back
+              changeScreen(MAIN);
+              break;
+          }
+          keyb->resetValid();
+        } else {
+          this->view->save("save.sav");
+        }
         break;
 
       case IN_GAME:
@@ -93,14 +124,21 @@ void ScreenPresenter::display () {
         this->view->gameplay();
         //TODO: ICI gestion clavier pour la partie en cours ????
         this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
+        keyb->resetValid();
         break;
 
       case GAME_OVER:
+        if(keyb->isValid()) {
+          keyb->resetValid();
+          exit(0);
+        } else {
         this->view->end();
+        }
         break;
 
       default:
         this->view->mainMenu();
+        keyb->resetValid();
         break;
     }
   }
