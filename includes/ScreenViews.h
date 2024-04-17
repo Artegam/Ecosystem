@@ -62,6 +62,7 @@ namespace ScreenViews {
       void end ();
       int getChar ();
       void hello (); // Pour tester l'affichage en cas de soucis
+      void validateOption (int optionNumber);
       //void changeScreen (const int screen);
       //*****************************************//
       //void keyboardListener(WorldModel worldData);

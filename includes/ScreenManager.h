@@ -156,6 +156,7 @@ namespace ScreenManager {
       void clearScreen ();
       //*****************************************//
       virtual void keyboardListener(WorldModel worldData);
+      virtual void validateOption (int optionNumber);
   };
 
   /// class ScreenPresenter - 

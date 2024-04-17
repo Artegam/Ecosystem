@@ -176,7 +176,7 @@ void ScreenViews::NCurses::options (list<string> options) {
   Node * root = this->data->getMenu();
 
   list<Node *> menu =  root->getChildren();
-
+//TODO: tres mal ecrit ici, a refaire.
   unsigned N = 1;/* index of the element you want to retrieve */
   list<Node *>::iterator it = menu.begin();
   if (menu.size() > N)
@@ -215,6 +215,26 @@ void ScreenViews::NCurses::options (list<string> options) {
   wrefresh(main);
   wrefresh(optionMenu);
   usleep(20000);
+
+}
+
+void ScreenViews::NCurses::validateOption (int optionNumber) {
+  Node * root = this->data->getMenu();
+  list<Node *> menu =  root->getChildren();
+
+  // 1 is option menu
+  unsigned N = 1;/* index of the element you want to retrieve */
+  list<Node *>::iterator it = menu.begin();
+  if (menu.size() > N)
+  {
+    advance(it, N);
+    // 'it' points to the element at index 'N'
+  }
+
+  list<Node *> opts =  (*it)->getChildren();
+  list<Node *>::iterator it2 = opts.begin();
+  advance(it2, optionNumber);
+  (*it2)->validate();
 
 }
 

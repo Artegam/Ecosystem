@@ -66,12 +66,10 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              //changeScreen(IN_GAME);
-              // Select first option
+              this->view->validateOption(0);
               break;
             case 1:
-              //changeScreen(OPTIONS);
-              // Select second option
+              this->view->validateOption(1);
               break;
             case 3: // Back
               changeScreen(MAIN);
