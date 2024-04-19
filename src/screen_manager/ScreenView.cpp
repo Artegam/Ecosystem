@@ -45,3 +45,14 @@ int ScreenView::getChar () {
 void ScreenView::clearScreen () {
   toClear = true;
 }
+
+void ScreenView::clearOptions (list<Node *> options) {
+	list<Node *>::iterator option;
+
+  for(option = options.begin(); option != options.end(); option++) {
+		(*option)->clear();
+	}
+}
+
+void ScreenView::validateOption (int optionNumber) {
+}

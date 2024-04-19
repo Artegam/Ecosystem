@@ -22,3 +22,7 @@ string Node::getName () {
 void Node::validate () {
 }
 
+void Node::clear () {
+}
+
+

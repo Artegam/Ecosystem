@@ -234,6 +234,7 @@ void ScreenViews::NCurses::validateOption (int optionNumber) {
   list<Node *> opts =  (*it)->getChildren();
   list<Node *>::iterator it2 = opts.begin();
   advance(it2, optionNumber);
+	clearOptions(opts);
   (*it2)->validate();
 
 }

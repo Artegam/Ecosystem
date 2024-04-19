@@ -72,6 +72,7 @@ namespace ScreenManager {
       list<Node *> getChildren ();
       virtual string getName ();
       virtual void validate ();
+      virtual void clear ();
   };
 
   class Item : public Node {
@@ -85,6 +86,7 @@ namespace ScreenManager {
       bool isSelected ();
       string getName ();
       void validate ();
+      void clear ();
   };
 
   // interface
@@ -154,6 +156,7 @@ namespace ScreenManager {
       virtual void end ();
       virtual int getChar ();
       void clearScreen ();
+			void clearOptions (list<Node *> options);
       //*****************************************//
       virtual void keyboardListener(WorldModel worldData);
       virtual void validateOption (int optionNumber);

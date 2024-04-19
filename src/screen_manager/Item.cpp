@@ -23,3 +23,7 @@ string Item::getName () {
 void Item::validate () {
   fct(this);
 }
+
+void Item::clear () {
+  this->selected = false;
+}
