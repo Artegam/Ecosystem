@@ -116,7 +116,7 @@ install:
 	if [ ! -d /var/log/ecosystem/ ]; then sudo mkdir /var/log/ecosystem/; fi
 
 install-tools: install-libs directories
-	sudo apt-get install g++ vim
+	sudo apt-get install g++ vim dia
 
 install-libs:
 	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
@@ -131,7 +131,7 @@ uninstall-libs:
 	sudo apt-get remove libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 uninstall-tools: uninstall-libs
-	sudo apt-get remove g++ vim
+	sudo apt-get remove g++ vim dia
 	rm -r o/
 
 test:
