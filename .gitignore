@@ -1,7 +1,10 @@
 # Fichiers de compilation
 #########################
+bin/
+o/
 *.o
 
 # Fichiers temporaires
 ########################
 *~
+*.swp

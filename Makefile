@@ -104,6 +104,7 @@ directories:
 	if [ ! -d o/keyboards ]; then mkdir o/keyboards; fi
 	if [ ! -d o/sound ]; then mkdir o/sound; fi
 	if [ ! -d o/ ]; then mkdir o/; fi
+	if [ ! -d bin/ ]; then mkdir bin/; fi
 
 clean:
 	find o/ -name *.o | xargs rm;find . -name "*~" | xargs rm -f
