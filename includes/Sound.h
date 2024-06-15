@@ -9,7 +9,7 @@
 #include <inttypes.h>
 #include <unistd.h>
 #include <stdbool.h>
-//#include <thread>
+#include <thread>
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -36,13 +36,14 @@ namespace sound {
   class Music {
     private:
       //static thread m;
-      static ALuint streaming_source[1];
       ALCcontext * openal_output_context;
       ALCdevice * openal_output_device;
-      static ALuint source;
 
     public:
-      Music ();
+      static ALuint source;
+      static ALuint streaming_source[1];
+
+     Music ();
       ~Music ();
 
       static void play ();

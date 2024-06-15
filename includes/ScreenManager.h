@@ -3,10 +3,12 @@
 
 #include "Interactor.h"
 #include "FileManager.h"
+#include "Sound.h"
 #include <list>
 
 using namespace Interactor;
 using namespace FileManager;
+using namespace sound;
 
 namespace ScreenManager {
 
@@ -100,6 +102,15 @@ namespace ScreenManager {
       void execute ();
   };
 
+  // interface
+  /// class Sound -
+  class Sound {
+    private:
+
+    public:
+      Sound();
+  };
+
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
@@ -111,6 +122,7 @@ namespace ScreenManager {
       list<string> messages = Loggable::log();
       Node * root;
       Keyboard * keyboard;
+      Sound * snd;
 
     public:
       ScreenViewModel (WorldModel worldData);
@@ -147,16 +159,16 @@ namespace ScreenManager {
     public:
       ScreenView ();
       virtual void init (ScreenViewModel * data);
-      virtual void mainMenu ();
-      virtual void options (list<string> options);
-      virtual void load (list<string> files);
+      virtual void mainMenu (int keybPosition = -1);
+      virtual void options (list<string> options, int keybPosition = -1);
+      virtual void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       virtual void save (string filename);
       virtual void infos (list<string> infos);
       virtual void gameplay ();
       virtual void end ();
       virtual int getChar ();
       void clearScreen ();
-			void clearOptions (list<Node *> options);
+      void clearOptions (list<Node *> options);
       //*****************************************//
       virtual void keyboardListener(WorldModel worldData);
       virtual void validateOption (int optionNumber);

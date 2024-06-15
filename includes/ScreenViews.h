@@ -36,7 +36,6 @@ namespace ScreenViews {
       int worldWidth = 0;
       int choice;
       int highlight = 0;
-      Keyboard * keyb;
       int currentWindow = MENU_MAIN;
       ScreenViewModel * data;
       int windowHeight = 0;
@@ -45,7 +44,7 @@ namespace ScreenViews {
       WINDOW * subMenuInit (int size = 2, int width = 10);
       //void listenKeyboard (WINDOW * mainMenu, int size = 2);
       void redraw (WINDOW * mainMenu);
-      void display (WINDOW * mainMenu, list<Node *> menu);
+      static void display (WINDOW * mainMenu, list<Node *> menu, int keybPosition = -1);
 
 
       // Operations
@@ -54,9 +53,9 @@ namespace ScreenViews {
       ~NCurses ();
       void init (ScreenViewModel * data);
       WINDOW * getWindow ();
-      void mainMenu ();
-      void options (list<string> options);
-      void load (list<string> files);
+      void mainMenu (int keybPosition = -1);
+      void options (list<string> options, int keybPosition = -1);
+      void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       void infos (list<string> infos);
       void gameplay ();
       void end ();

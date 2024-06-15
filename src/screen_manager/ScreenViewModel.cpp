@@ -21,6 +21,9 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->root->add(new Node("Save"));
   this->root->add(new Node("Load"));
   this->root->add(new Node("Quit"));
+
+  // Creation et lancement de la musique
+  snd = new Sound();
 }
 
 int ScreenViewModel::getWorldHeight () {

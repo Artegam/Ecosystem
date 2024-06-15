@@ -14,13 +14,13 @@ void ScreenView::init (ScreenViewModel * data) {
 void ScreenView::display (ScreenViewModel * data) {
 }
 */
-void ScreenView::mainMenu () {
+void ScreenView::mainMenu (int keybPosition) {
 }
 
-void ScreenView::options (list<string> options) {
+void ScreenView::options (list<string> options, int keybPosition) {
 }
 
-void ScreenView::load (list<string> files) {
+void ScreenView::load (list<string> files, const unsigned int menuSize, int keybPosition) {
 }
 
 void ScreenView::save (string filename) {

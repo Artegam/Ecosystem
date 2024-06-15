@@ -1,6 +1,5 @@
 #include "ScreenManager.h"
 #include "Interactor.h"
-#include "Sound.h"
 
 #include "Keyboards.h"
 #include "ScreenViews.h"
@@ -9,7 +8,6 @@
 
 using namespace ScreenManager;
 using namespace Interactor;
-using namespace sound;
 
 // Prototypes
 void display(World * w);
@@ -18,6 +16,7 @@ int main(int argc, char** argv) {
   // Let's play the music ....
   Music m;
   std::thread t_m(&Music::play);
+  t_m.detach();
 
   // creation d'un monde 20x30
   World * w = new World(20, 30);

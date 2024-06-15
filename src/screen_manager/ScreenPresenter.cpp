@@ -19,6 +19,7 @@ void ScreenPresenter::setStatus (const int newStatus) {
 }
 
 void ScreenPresenter::display () {
+  const unsigned int menuSize = 5;
   list<string> lst_options;
   FilePresenter * fm = new FilePresenter();
 
@@ -57,7 +58,9 @@ void ScreenPresenter::display () {
           }
           keyb->resetValid();
         } else {
-          this->view->mainMenu(); //TODO: Traiter aussi le menu principal comme pour les options
+          keyb->setPositionsCount((int)menuSize);
+          this->view->mainMenu(keyb->getPosition()); //TODO: Traiter aussi le menu principal comme pour les options
+          keyb->resetValid();
         }
         break;
 
@@ -77,25 +80,45 @@ void ScreenPresenter::display () {
           }
           keyb->resetValid();
         } else {
-          this->view->options(lst_options);
+          Node * root = this->data->getMenu();
+          list<Node *> menu =  root->getChildren();
+          list<Node *>::iterator it = menu.begin();
+          advance(it, 1);
+          list<Node *> opts =  (*it)->getChildren();
+          keyb->setPositionsCount((int)opts.size());
+          this->view->options(lst_options, keyb->getPosition());
+          keyb->resetValid();
         }
         break;
 
       case LOAD:
-        // TODO: Recuperer la liste des fichiers ici et la passer a load
-        if(keyb->isValid()) {
-          switch (keyb->getPosition()) {
-            case 0:
-              //changeScreen(IN_GAME);
-              // Select first option
-              break;
-            case 1: // Back
-              changeScreen(MAIN);
-              break;
+        {
+          // TODO: Recuperer la liste des fichiers ici et la passer a load
+          list<string> files = fm->getSavedFiles();
+          unsigned int size = 2;
+          if(files.size() > 0)
+            size = files.size() + 1;
+
+          if(keyb->isValid()) {
+            unsigned int choice = 0;
+            if (keyb->getPosition() == (size - 1))
+              choice = 2;
+
+            switch (choice) {
+              case 0:
+                // TODO: Select file to be loaded
+                //changeScreen(IN_GAME);
+                break;
+              case 2: // Back to main menu
+                changeScreen(MAIN);
+                break;
+            }
+            keyb->resetValid();
+          } else {
+            keyb->setPositionsCount((int)size);
+            this->view->load(files, size, keyb->getPosition());
+            keyb->resetValid();
           }
-          keyb->resetValid();
-        } else {
-          this->view->load(fm->getSavedFiles());
         }
         break;
 
@@ -113,6 +136,7 @@ void ScreenPresenter::display () {
           }
           keyb->resetValid();
         } else {
+          //TODO: Bug here !!!
           this->view->save("save.sav");
         }
         break;
@@ -135,7 +159,8 @@ void ScreenPresenter::display () {
         break;
 
       default:
-        this->view->mainMenu();
+        keyb->setPositionsCount((int)menuSize);
+        this->view->mainMenu(keyb->getPosition());
         keyb->resetValid();
         break;
     }
@@ -188,6 +213,7 @@ int ScreenPresenter::getScreen () {
 }
 
 void ScreenPresenter::changeScreen (const int nextScreen) {
+  keyb->defaultPosition();
   screen = nextScreen;
   this->view->clearScreen();
 }
