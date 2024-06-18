@@ -62,24 +62,6 @@ WINDOW * ScreenViews::NCurses::subMenuInit (int size, int width) {
   return mainMenu;
 }
 
-/*
-void ScreenViews::NCurses::listenKeyboard (WINDOW * win, int size) {
-  // Ecoute le clavier
-  // TODO: A modifier et a rendre generique sur les positions / valeur de retour ?
-  keyb->setWindow(win);
-  keyb->listen();
-  mvprintw(25, 0, "POSITION: %d", keyb->getPositionSelected());
-  const unsigned int position = keyb->getPositionSelected();
-  if(keyb->isValid() && position < (const unsigned int)(size-1)) {
-    //TODO: surtout ici, pas sur que ce soit le bon endroit pour piloter les fenetres
-    changeScreen(IN_GAME);
-  } else if (keyb->isValid() && position == (const unsigned int)(size-1)) {
-    changeScreen(MENU_MAIN);
-  }
-  keyb->resetValid();
-}
-*/
-
 WINDOW * ScreenViews::NCurses::getWindow () {
   return window;
 }
@@ -326,50 +308,6 @@ void ScreenViews::NCurses::gameplay () {
   usleep(200000);
   // fin dessin de la fenetre
 }
-/*
-//TODO: Mettre cette fonction dans une classe appropriee au clavier (controller?)
-void ScreenViews::NCurses::keyboardListener(WorldModel worldData) {
-  int c = getch();
-
-  Clock * cl = worldData.getClock();
-
-  switch(c)
-  {	case KEY_UP:
-      break;
-    case KEY_DOWN:
-      break;
-    case 115:// 's' pour save
-      if(cl->isRunning())
-        cl->stop();
-      //data->save();
-      mvprintw(24, 0, "SAVED");
-      break;
-    case 108:// 'l' pour load
-      if(cl->isRunning())
-        cl->stop();
-      //data->load();
-      mvprintw(24, 0, "LOADED");
-      break;
-    case 112: // 'p' pour la pause
-      if(cl->isRunning()) {
-        cl->stop();
-        mvprintw(24, 0, "PAUSE");
-      } else {
-        cl->run();
-        mvprintw(24, 0, "PLAY");
-      }
-      break;
-    case 27: // la touche echap ou alt (voir pour mieux ecrire pour traiter le esc comme il faut)
-      cl->stop();
-      changeScreen(0); // 0 est le main menu
-      break;
-    default:
-      mvprintw(24, 0, "Character pressed is = %3d Hopefully it can be printed as '%c'", c, c);
-      break;
-  }
-  refresh();
-}
-*/
 
 void ScreenViews::NCurses::end () {
   mvwprintw(stdscr, 14, 20, "******************");

@@ -7,11 +7,6 @@ ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel * svm, Keyboard
   this->data = svm;
   this->keyb = kb;
   this->view = sv;
-  /*
-     this->data = new ScreenViewModel(world->getData());
-     this->keyb = new Keyboards::NCurses();
-     this->view = new ScreenViews::NCurses(keyb);
-     */
 }
 
 void ScreenPresenter::setStatus (const int newStatus) {
