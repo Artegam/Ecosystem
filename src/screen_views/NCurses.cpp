@@ -30,9 +30,9 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   this->worldWidth = data->getWorldData().getWidth();
 
   // Creation of the windows
-  main = subwin(stdscr, LINES, COLS, 0, 0);
-  window= subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
-  box(window, ACS_VLINE, ACS_HLINE);
+  windows[ROOT] = subwin(stdscr, LINES, COLS, 0, 0);
+  windows[IN_GAME] = subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
+  box(windows[IN_GAME], ACS_VLINE, ACS_HLINE);
 
   // Enable keyboard for first standart screen
   keypad(stdscr, true);
@@ -53,23 +53,22 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   clear();
 }
 
-WINDOW * ScreenViews::NCurses::subMenuInit (int size, int width) {
-  WINDOW * mainMenu;
+WINDOW * ScreenViews::NCurses::createWindow (int size, int width) {
   //TODO: 12 est le max de la plus grande chaine. Doit servir aussi Ã  calculer X pour le centrage
-  mainMenu = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
-  box(mainMenu, ACS_VLINE, ACS_HLINE);
+  WINDOW * window = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
+  box(window, ACS_VLINE, ACS_HLINE);
   refresh();
-  return mainMenu;
+  return window;
 }
 
 WINDOW * ScreenViews::NCurses::getWindow () {
-  return window;
+  return windows[currentWindow];
 }
 
 void ScreenViews::NCurses::redraw (WINDOW * win) {
   refresh();
-  wmove(main, 0, 0); // repositione le curseur
-  wrefresh(main);
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
   wrefresh(win);
   usleep(20000);
 }
@@ -97,29 +96,29 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
 void ScreenViews::NCurses::mainMenu (int keybPosition) {
 
   const unsigned int menuSize = 5;
-  window = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[MENU_MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(window, ACS_VLINE, ACS_HLINE);
+  box(windows[MENU_MAIN], ACS_VLINE, ACS_HLINE);
   Node * root = this->data->getMenu();
   string title = "Ecosystem V0.1";
   int x = (this->windowWidth - title.length()) / 2;
   int y = this->windowHeight / 4;
 
-  mvwprintw(main, y, x, "%s", title.c_str());
+  mvwprintw(windows[ROOT], y, x, "%s", title.c_str());
   refresh();
 
   // Affiche le menu principal
-  std::thread t_m(&NCurses::display, window, root->getChildren(), keybPosition);
+  std::thread t_m(&NCurses::display, windows[MENU_MAIN], root->getChildren(), keybPosition);
   t_m.detach();
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
-  wmove(main, 0, 0); // repositione le curseur
-  wrefresh(main);
-  wrefresh(window);
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[MENU_MAIN]);
   usleep(20000);
 }
 
@@ -143,16 +142,15 @@ void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
   }
 
   list<Node *> opts =  (*it)->getChildren();
-  WINDOW * optionMenu = subMenuInit((int)opts.size(), 15);
-  display(optionMenu, opts, keybPosition);
+  windows[MENU_OPTIONS] = createWindow((int)opts.size(), 15);
+  display(windows[MENU_OPTIONS], opts, keybPosition);
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
-  wmove(main, 0, 0); // repositione le curseur
-  wrefresh(main);
-  wrefresh(optionMenu);
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[MENU_OPTIONS]);
   usleep(20000);
-
 }
 
 void ScreenViews::NCurses::validateOption (int optionNumber) {
@@ -173,19 +171,17 @@ void ScreenViews::NCurses::validateOption (int optionNumber) {
   advance(it2, optionNumber);
 	clearOptions(opts);
   (*it2)->validate();
-
 }
 
 void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize, int keybPosition) {
   string choices[menuSize];
 
-  WINDOW * mainMenu;
-  mainMenu = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[MENU_MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(mainMenu, ACS_VLINE, ACS_HLINE);
+  box(windows[MENU_MAIN], ACS_VLINE, ACS_HLINE);
   refresh();
 
   unsigned int idx = 0;
@@ -200,17 +196,17 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   int i;
   for (i = 0; i < (int)menuSize; i++) {
     if(i == keybPosition)
-      wattron(mainMenu, A_REVERSE);
-    mvwprintw(mainMenu, 1+i, 1, "%s", choices[i].c_str());
-    wattroff(mainMenu, A_REVERSE);
+      wattron(windows[MENU_MAIN], A_REVERSE);
+    mvwprintw(windows[MENU_MAIN], 1+i, 1, "%s", choices[i].c_str());
+    wattroff(windows[MENU_MAIN], A_REVERSE);
   }
 
   // Ecoute le clavier
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
-  wmove(main, 0, 0); // repositione le curseur
-  wrefresh(main);
-  wrefresh(mainMenu);
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[MENU_MAIN]);
   usleep(20000);
 }
 
@@ -219,11 +215,11 @@ void ScreenViews::NCurses::infos (list<string> infos) {
     clear();
     toClear = false;
   }
-  wprintw(main, "This is the virtual world");
+  wprintw(windows[ROOT], "This is the virtual world");
   int ligne = 1;
   list<string>::iterator info;
   for(info = infos.begin(); info != infos.end(); info++) {
-    mvwprintw(main, ligne, 50, "%s", info->c_str());
+    mvwprintw(windows[ROOT], ligne, 50, "%s", info->c_str());
     ligne++;
   }
 }
@@ -242,9 +238,9 @@ void ScreenViews::NCurses::gameplay () {
     toClear = false;
   }
 
-  window= subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
+  windows[IN_GAME] = subwin(stdscr, worldHeight + 2, worldWidth + 2, 1, 0);
   // dessin du bord de la fenetre
-  box(window, ACS_VLINE, ACS_HLINE);
+  box(windows[IN_GAME], ACS_VLINE, ACS_HLINE);
 
 	for(unsigned int index = 0; index < size; index++) {
     int x = xOffset + (index % worldWidth);
@@ -252,17 +248,17 @@ void ScreenViews::NCurses::gameplay () {
 
 		if(worldMap[index] == OCEAN) {
       //TODO: A reecrire...
-			wattron(window, COLOR_PAIR(WATER_PAIR));
-			mvwaddch(window, y, x, '~');
-			wattroff(window, COLOR_PAIR(WATER_PAIR));
+			wattron(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
+			mvwaddch(windows[IN_GAME], y, x, '~');
+			wattroff(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
 		} else if (worldMap[index] == PLAIN) {
-			wattron(window, COLOR_PAIR(PLAIN_PAIR));
-			mvwaddch(window, y, x, 'o');
-			wattroff(window, COLOR_PAIR(PLAIN_PAIR));
+			wattron(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
+			mvwaddch(windows[IN_GAME], y, x, 'o');
+			wattroff(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
     } else {
-			wattron(window, COLOR_PAIR(EMPTY_PAIR));
-			mvwaddch(window, y, x, '.');
-			wattroff(window, COLOR_PAIR(EMPTY_PAIR));
+			wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
+			mvwaddch(windows[IN_GAME], y, x, '.');
+			wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
     }
 	}
 
@@ -283,28 +279,28 @@ void ScreenViews::NCurses::gameplay () {
     char type = (*it)->getDisplayChar();
 
     if(type == 'F') {
-      wattron(window, COLOR_PAIR(FISH_PAIR));
+      wattron(windows[IN_GAME], COLOR_PAIR(FISH_PAIR));
     } else if(type == 'S') {
-      wattron(window, COLOR_PAIR(SHARK_PAIR));
+      wattron(windows[IN_GAME], COLOR_PAIR(SHARK_PAIR));
     } else {
-      wattron(window, COLOR_PAIR(EMPTY_PAIR));
+      wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
     }
 
-    mvwaddch(window, (*it)->getY()+1, (*it)->getX()+1, (*it)->getDisplayChar());
+    mvwaddch(windows[IN_GAME], (*it)->getY()+1, (*it)->getX()+1, (*it)->getDisplayChar());
 
     if(type == 'F') {
-      wattroff(window, COLOR_PAIR(FISH_PAIR));
+      wattroff(windows[IN_GAME], COLOR_PAIR(FISH_PAIR));
     } else if(type == 'S') {
-      wattroff(window, COLOR_PAIR(SHARK_PAIR));
+      wattroff(windows[IN_GAME], COLOR_PAIR(SHARK_PAIR));
     } else {
-      wattroff(window, COLOR_PAIR(EMPTY_PAIR));
+      wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
     }
   }
 
   refresh();
-  wrefresh(window);
-  wmove(main, 0, 50); // repositione le curseur
-  wrefresh(main);
+  wrefresh(windows[IN_GAME]);
+  wmove(windows[ROOT], 0, 50); // repositione le curseur
+  wrefresh(windows[ROOT]);
   usleep(200000);
   // fin dessin de la fenetre
 }

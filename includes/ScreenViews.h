@@ -14,12 +14,13 @@ namespace ScreenViews {
   class NCurses : public ScreenView {
     public:
       // Screens
-      const int MENU_MAIN    = 0;
-      const int MENU_OPTIONS = 1;
-      const int MENU_SAVE    = 2;
-      const int MENU_LOAD    = 3;
-      const int IN_GAME      = 4;
-      const int GAME_OVER    = 5;
+      const int ROOT         = 0;
+      const int MENU_MAIN    = 1;
+      const int MENU_OPTIONS = 2;
+      const int MENU_SAVE    = 3;
+      const int MENU_LOAD    = 4;
+      const int IN_GAME      = 5;
+      const int GAME_OVER    = 6;
 
       // Menus
       const int NEW     = 0;
@@ -30,8 +31,7 @@ namespace ScreenViews {
 
     private:
       // Attributes
-      WINDOW * main;
-      WINDOW * window;
+      WINDOW * windows[7];
       int worldHeight = 0;
       int worldWidth = 0;
       int choice;
@@ -41,7 +41,7 @@ namespace ScreenViews {
       int windowHeight = 0;
       int windowWidth = 0;
 
-      WINDOW * subMenuInit (int size = 2, int width = 10);
+      WINDOW * createWindow (int size = 2, int width = 10);
       //void listenKeyboard (WINDOW * mainMenu, int size = 2);
       void redraw (WINDOW * mainMenu);
       static void display (WINDOW * mainMenu, list<Node *> menu, int keybPosition = -1);
