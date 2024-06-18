@@ -162,7 +162,8 @@ namespace ScreenManager {
       virtual void mainMenu (int keybPosition = -1);
       virtual void options (list<string> options, int keybPosition = -1);
       virtual void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
-      virtual void save (string filename);
+      virtual void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
+      //virtual void save (string filename);
       virtual void infos (list<string> infos);
       virtual void gameplay ();
       virtual void end ();

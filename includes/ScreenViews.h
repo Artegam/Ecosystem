@@ -55,6 +55,7 @@ namespace ScreenViews {
       WINDOW * getWindow ();
       void mainMenu (int keybPosition = -1);
       void options (list<string> options, int keybPosition = -1);
+      void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       void infos (list<string> infos);
       void gameplay ();

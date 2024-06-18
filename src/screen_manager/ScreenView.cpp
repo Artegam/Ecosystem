@@ -23,8 +23,13 @@ void ScreenView::options (list<string> options, int keybPosition) {
 void ScreenView::load (list<string> files, const unsigned int menuSize, int keybPosition) {
 }
 
+void ScreenView::save (list<string> files, const unsigned int menuSize, int keybPosition) {
+}
+
+/*
 void ScreenView::save (string filename) {
 }
+*/
 
 void ScreenView::infos (list<string> infos) {
 }

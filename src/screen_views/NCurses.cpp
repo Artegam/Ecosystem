@@ -124,22 +124,15 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
 
 void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
 
-  Node * root = this->data->getMenu();
-
-  list<Node *> menu =  root->getChildren();
-//TODO: tres mal ecrit ici, a refaire.
-  unsigned N = 1;/* index of the element you want to retrieve */
-  list<Node *>::iterator it = menu.begin();
-  if (menu.size() > N)
-  {
-    advance(it, N);
-    // 'it' points to the element at index 'N'
-  }
-
   if (toClear) {
     clear();
     toClear = false;
   }
+
+  Node * root = this->data->getMenu();
+  list<Node *> menu =  root->getChildren();
+  list<Node *>::iterator it = menu.begin();
+	advance(it, MENU_OPTIONS - 1);
 
   list<Node *> opts =  (*it)->getChildren();
   windows[MENU_OPTIONS] = createWindow((int)opts.size(), 15);
@@ -156,15 +149,8 @@ void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
 void ScreenViews::NCurses::validateOption (int optionNumber) {
   Node * root = this->data->getMenu();
   list<Node *> menu =  root->getChildren();
-
-  // 1 is option menu
-  unsigned N = 1;/* index of the element you want to retrieve */
   list<Node *>::iterator it = menu.begin();
-  if (menu.size() > N)
-  {
-    advance(it, N);
-    // 'it' points to the element at index 'N'
-  }
+	advance(it, MENU_OPTIONS - 1);
 
   list<Node *> opts =  (*it)->getChildren();
   list<Node *>::iterator it2 = opts.begin();
@@ -173,15 +159,15 @@ void ScreenViews::NCurses::validateOption (int optionNumber) {
   (*it2)->validate();
 }
 
-void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize, int keybPosition) {
+void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize, int keybPosition) {
   string choices[menuSize];
 
-  windows[MENU_MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[MENU_SAVE] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(windows[MENU_MAIN], ACS_VLINE, ACS_HLINE);
+  box(windows[MENU_SAVE], ACS_VLINE, ACS_HLINE);
   refresh();
 
   unsigned int idx = 0;
@@ -196,9 +182,9 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   int i;
   for (i = 0; i < (int)menuSize; i++) {
     if(i == keybPosition)
-      wattron(windows[MENU_MAIN], A_REVERSE);
-    mvwprintw(windows[MENU_MAIN], 1+i, 1, "%s", choices[i].c_str());
-    wattroff(windows[MENU_MAIN], A_REVERSE);
+      wattron(windows[MENU_SAVE], A_REVERSE);
+    mvwprintw(windows[MENU_SAVE], 1+i, 1, "%s", choices[i].c_str());
+    wattroff(windows[MENU_SAVE], A_REVERSE);
   }
 
   // Ecoute le clavier
@@ -206,7 +192,44 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
-  wrefresh(windows[MENU_MAIN]);
+  wrefresh(windows[MENU_SAVE]);
+  usleep(20000);
+}
+
+void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize, int keybPosition) {
+  string choices[menuSize];
+
+  windows[MENU_LOAD] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+  box(windows[MENU_LOAD], ACS_VLINE, ACS_HLINE);
+  refresh();
+
+  unsigned int idx = 0;
+  list<string>::iterator it;
+  for(it = files.begin(); it != files.end(); it++)
+    choices[idx++] = it->c_str();
+
+  if(files.size() == 0)
+    choices[0] = "No saves";
+  choices[menuSize-1] = "Back";
+
+  int i;
+  for (i = 0; i < (int)menuSize; i++) {
+    if(i == keybPosition)
+      wattron(windows[MENU_LOAD], A_REVERSE);
+    mvwprintw(windows[MENU_LOAD], 1+i, 1, "%s", choices[i].c_str());
+    wattroff(windows[MENU_LOAD], A_REVERSE);
+  }
+
+  // Ecoute le clavier
+  mvprintw(25, 0, "POSITION: %d", keybPosition);
+  refresh();
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[MENU_LOAD]);
   usleep(20000);
 }
 
