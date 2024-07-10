@@ -11,7 +11,6 @@ using namespace FileManager;
 using namespace sound;
 
 namespace ScreenManager {
-
   // Keyboard keys
   const int KEYB_UP     = 0;
   const int KEYB_DOWN   = 1;
@@ -20,12 +19,13 @@ namespace ScreenManager {
   const int KEYB_ESCAPE = 4;
 
   // Screens
-  const int MAIN        = 0;
-  const int OPTIONS     = 1;
-  const int SAVE        = 2;
-  const int LOAD        = 3;
-  const int IN_GAME     = 4;
-  const int GAME_OVER   = 5;
+  const int ROOT       = 0;
+  const int MAIN       = 1;
+  const int OPTIONS    = 2;
+  const int SAVE       = 3;
+  const int LOAD       = 4;
+  const int IN_GAME    = 5;
+  const int GAME_OVER  = 6;
 
   // interface
   /// class Menu - 

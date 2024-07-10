@@ -96,12 +96,12 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
 void ScreenViews::NCurses::mainMenu (int keybPosition) {
 
   const unsigned int menuSize = 5;
-  windows[MENU_MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(windows[MENU_MAIN], ACS_VLINE, ACS_HLINE);
+  box(windows[MAIN], ACS_VLINE, ACS_HLINE);
   Node * root = this->data->getMenu();
   string title = "Ecosystem V0.1";
   int x = (this->windowWidth - title.length()) / 2;
@@ -111,14 +111,14 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
   refresh();
 
   // Affiche le menu principal
-  std::thread t_m(&NCurses::display, windows[MENU_MAIN], root->getChildren(), keybPosition);
+  std::thread t_m(&NCurses::display, windows[MAIN], root->getChildren(), keybPosition);
   t_m.detach();
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
-  wrefresh(windows[MENU_MAIN]);
+  wrefresh(windows[MAIN]);
   usleep(20000);
 }
 
@@ -132,17 +132,17 @@ void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
   Node * root = this->data->getMenu();
   list<Node *> menu =  root->getChildren();
   list<Node *>::iterator it = menu.begin();
-	advance(it, MENU_OPTIONS - 1);
+	advance(it, OPTIONS - 1);
 
   list<Node *> opts =  (*it)->getChildren();
-  windows[MENU_OPTIONS] = createWindow((int)opts.size(), 15);
-  display(windows[MENU_OPTIONS], opts, keybPosition);
+  windows[OPTIONS] = createWindow((int)opts.size(), 15);
+  display(windows[OPTIONS], opts, keybPosition);
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
-  wrefresh(windows[MENU_OPTIONS]);
+  wrefresh(windows[OPTIONS]);
   usleep(20000);
 }
 
@@ -150,7 +150,7 @@ void ScreenViews::NCurses::validateOption (int optionNumber) {
   Node * root = this->data->getMenu();
   list<Node *> menu =  root->getChildren();
   list<Node *>::iterator it = menu.begin();
-	advance(it, MENU_OPTIONS - 1);
+	advance(it, OPTIONS - 1);
 
   list<Node *> opts =  (*it)->getChildren();
   list<Node *>::iterator it2 = opts.begin();
@@ -162,12 +162,12 @@ void ScreenViews::NCurses::validateOption (int optionNumber) {
 void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize, int keybPosition) {
   string choices[menuSize];
 
-  windows[MENU_SAVE] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[SAVE] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(windows[MENU_SAVE], ACS_VLINE, ACS_HLINE);
+  box(windows[SAVE], ACS_VLINE, ACS_HLINE);
   refresh();
 
   unsigned int idx = 0;
@@ -182,9 +182,9 @@ void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize
   int i;
   for (i = 0; i < (int)menuSize; i++) {
     if(i == keybPosition)
-      wattron(windows[MENU_SAVE], A_REVERSE);
-    mvwprintw(windows[MENU_SAVE], 1+i, 1, "%s", choices[i].c_str());
-    wattroff(windows[MENU_SAVE], A_REVERSE);
+      wattron(windows[SAVE], A_REVERSE);
+    mvwprintw(windows[SAVE], 1+i, 1, "%s", choices[i].c_str());
+    wattroff(windows[SAVE], A_REVERSE);
   }
 
   // Ecoute le clavier
@@ -192,19 +192,19 @@ void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
-  wrefresh(windows[MENU_SAVE]);
+  wrefresh(windows[SAVE]);
   usleep(20000);
 }
 
 void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize, int keybPosition) {
   string choices[menuSize];
 
-  windows[MENU_LOAD] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+  windows[LOAD] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;
   }
-  box(windows[MENU_LOAD], ACS_VLINE, ACS_HLINE);
+  box(windows[LOAD], ACS_VLINE, ACS_HLINE);
   refresh();
 
   unsigned int idx = 0;
@@ -219,9 +219,9 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   int i;
   for (i = 0; i < (int)menuSize; i++) {
     if(i == keybPosition)
-      wattron(windows[MENU_LOAD], A_REVERSE);
-    mvwprintw(windows[MENU_LOAD], 1+i, 1, "%s", choices[i].c_str());
-    wattroff(windows[MENU_LOAD], A_REVERSE);
+      wattron(windows[LOAD], A_REVERSE);
+    mvwprintw(windows[LOAD], 1+i, 1, "%s", choices[i].c_str());
+    wattroff(windows[LOAD], A_REVERSE);
   }
 
   // Ecoute le clavier
@@ -229,7 +229,7 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
-  wrefresh(windows[MENU_LOAD]);
+  wrefresh(windows[LOAD]);
   usleep(20000);
 }
 

@@ -96,7 +96,7 @@ void ScreenPresenter::display () {
 
           if(keyb->isValid()) {
             unsigned int choice = 0;
-            if (keyb->getPosition() == (size - 1))
+            if ((unsigned int)keyb->getPosition() == (size - 1))
               choice = 2;
 
             switch (choice) {
@@ -127,7 +127,7 @@ void ScreenPresenter::display () {
 
           if(keyb->isValid()) {
             unsigned int choice = 0;
-            if (keyb->getPosition() == (size - 1))
+            if ((unsigned int)keyb->getPosition() == (size - 1))
               choice = 2;
 
             switch (choice) {

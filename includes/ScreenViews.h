@@ -12,23 +12,6 @@ namespace ScreenViews {
 
   /// class NCursesView -
   class NCurses : public ScreenView {
-    public:
-      // Screens
-      const int ROOT         = 0;
-      const int MENU_MAIN    = 1;
-      const int MENU_OPTIONS = 2;
-      const int MENU_SAVE    = 3;
-      const int MENU_LOAD    = 4;
-      const int IN_GAME      = 5;
-      const int GAME_OVER    = 6;
-
-      // Menus
-      const int NEW     = 0;
-      const int OPTIONS = 1;
-      const int SAVE    = 2;
-      const int LOAD    = 3;
-      const int QUIT    = 4;
-
     private:
       // Attributes
       WINDOW * windows[7];
@@ -36,7 +19,7 @@ namespace ScreenViews {
       int worldWidth = 0;
       int choice;
       int highlight = 0;
-      int currentWindow = MENU_MAIN;
+      int currentWindow = MAIN;
       ScreenViewModel * data;
       int windowHeight = 0;
       int windowWidth = 0;
