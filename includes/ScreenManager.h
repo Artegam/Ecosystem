@@ -22,10 +22,12 @@ namespace ScreenManager {
   const int ROOT       = 0;
   const int MAIN       = 1;
   const int OPTIONS    = 2;
-  const int SAVE       = 3;
-  const int LOAD       = 4;
-  const int IN_GAME    = 5;
-  const int GAME_OVER  = 6;
+  const int LANGUAGES  = 3;
+  const int VIDEO      = 4;
+  const int SAVE       = 5;
+  const int LOAD       = 6;
+  const int IN_GAME    = 7;
+  const int GAME_OVER  = 8;
 
   // interface
   /// class Menu - 
@@ -63,34 +65,6 @@ namespace ScreenManager {
       bool isValid ();
   };
 
-  class Node {
-    private:
-      string name;
-      list<Node *> children;
-
-    public:
-      Node (string name);
-      void add (Node * node);
-      list<Node *> getChildren ();
-      virtual string getName ();
-      virtual void validate ();
-      virtual void clear ();
-  };
-
-  class Item : public Node {
-    private:
-      bool selected = false;
-      function<void(Item *)> fct;
-
-    public:
-      Item (string name);
-      void select ();
-      bool isSelected ();
-      string getName ();
-      void validate ();
-      void clear ();
-  };
-
   // interface
   class Function {
     public:
@@ -111,15 +85,48 @@ namespace ScreenManager {
       Sound();
   };
 
+  class Node {
+    private:
+      string name;
+      //TODO: ici mettre le pointeur sur fonction ?
+      //void (*fct)();
+      list<Node *> children;
+      Node * parent;
+
+    public:
+      Node (string name);
+      void add (Node * node);
+      list<Node *> getChildren ();
+      virtual string getName ();
+      Node * getParent ();
+      virtual void validate ();
+      virtual void clear ();
+  };
+
+  class Item : public Node {
+    private:
+      bool selected = false;
+      function<void(Item *)> fct;
+
+    public:
+      Item (string name);
+      void select ();
+      bool isSelected ();
+      string getName ();
+      void validate ();
+      void clear ();
+  };
+
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
-    public:
     private:
-      int currentWindow;
       // Attributes
       WorldModel worldData;
       list<string> messages = Loggable::log();
+      list<Node *> parentNodes;
+      Node * currentNode;
+      list<Node *> root_lst;
       Node * root;
       Keyboard * keyboard;
       Sound * snd;
@@ -143,7 +150,10 @@ namespace ScreenManager {
       void setCurrentWindow(int window);
       int getCurrentWindow();
       list<string> log();
-      Node * getMenu ();
+      void validateNode(int position);
+      void backNode();
+      list<Node *> getMenu ();
+      list<Node *> getParents ();
   };
 
   // interface
@@ -160,7 +170,9 @@ namespace ScreenManager {
       ScreenView ();
       virtual void init (ScreenViewModel * data);
       virtual void mainMenu (int keybPosition = -1);
-      virtual void options (list<string> options, int keybPosition = -1);
+      virtual void options (int keybPosition = -1);
+      virtual void languages (int keybPosition = -1);
+      virtual void video (int keybPosition = -1);
       virtual void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       virtual void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       //virtual void save (string filename);

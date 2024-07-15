@@ -19,7 +19,17 @@ string Node::getName () {
   return this->name;
 }
 
+Node * Node::getParent () {
+  return this->parent;
+}
+
 void Node::validate () {
+  try {
+    //fct();
+  } catch (std::bad_function_call& e) {
+    // TODO: Needs to put the logger here !!!
+    //std::cout << "ERROR: Bad function call\n";
+  }
 }
 
 void Node::clear () {

@@ -14,9 +14,9 @@ namespace ScreenViews {
   class NCurses : public ScreenView {
     private:
       // Attributes
-      WINDOW * windows[7];
-      int worldHeight = 0;
-      int worldWidth = 0;
+      WINDOW * windows[9];
+      int worldHeight = 1;
+      int worldWidth = 1;
       int choice;
       int highlight = 0;
       int currentWindow = MAIN;
@@ -25,7 +25,6 @@ namespace ScreenViews {
       int windowWidth = 0;
 
       WINDOW * createWindow (int size = 2, int width = 10);
-      //void listenKeyboard (WINDOW * mainMenu, int size = 2);
       void redraw (WINDOW * mainMenu);
       static void display (WINDOW * mainMenu, list<Node *> menu, int keybPosition = -1);
 
@@ -37,7 +36,9 @@ namespace ScreenViews {
       void init (ScreenViewModel * data);
       WINDOW * getWindow ();
       void mainMenu (int keybPosition = -1);
-      void options (list<string> options, int keybPosition = -1);
+      void options (int keybPosition = -1);
+      void languages (int keybPosition = -1);
+      void video (int keybPosition = -1);
       void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
       void infos (list<string> infos);
@@ -46,9 +47,6 @@ namespace ScreenViews {
       int getChar ();
       void hello (); // Pour tester l'affichage en cas de soucis
       void validateOption (int optionNumber);
-      //void changeScreen (const int screen);
-      //*****************************************//
-      //void keyboardListener(WorldModel worldData);
   };
 
 };

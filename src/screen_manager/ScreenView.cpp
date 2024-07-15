@@ -17,7 +17,13 @@ void ScreenView::display (ScreenViewModel * data) {
 void ScreenView::mainMenu (int keybPosition) {
 }
 
-void ScreenView::options (list<string> options, int keybPosition) {
+void ScreenView::options (int keybPosition) {
+}
+
+void ScreenView::languages (int keybPosition) {
+}
+
+void ScreenView::video (int keybPosition) {
 }
 
 void ScreenView::load (list<string> files, const unsigned int menuSize, int keybPosition) {

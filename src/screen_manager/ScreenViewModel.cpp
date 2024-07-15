@@ -5,7 +5,9 @@ using namespace ScreenManager;
 
 ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->worldData = worldData;
-  this->currentWindow = MAIN;
+
+  function<void(Node *)> fct = [] (Node * n) {
+  };
 
   // Construction du menu de l'application
   this->root = new Node("root");
@@ -13,14 +15,26 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   Node * spacer = new Node("");
   Node * back = new Node("Back");
   Node * options = new Node("Options");
-  options->add(new Item("Ncurses"));
-  options->add(new Item("OpenGL"));
+  Node * languages = new Node("Languages");
+  languages->add(new Item("English"));
+  languages->add(new Item("French"));
+  languages->add(spacer);
+  languages->add(back);
+  options->add(languages);
+  Node * video = new Node("Video");
+  video->add(new Item("Ncurses"));
+  video->add(new Item("OpenGL"));
+  video->add(spacer);
+  video->add(back);
+  options->add(video);
   options->add(spacer);
   options->add(back);
   this->root->add(options);
   this->root->add(new Node("Save"));
   this->root->add(new Node("Load"));
   this->root->add(new Node("Quit"));
+
+  this->currentNode = root;
 
   // Creation et lancement de la musique
   snd = new Sound();
@@ -129,6 +143,30 @@ list<string> ScreenViewModel::log() {
   return messages;
 }
 
-Node * ScreenViewModel::getMenu () {
-  return this->root;
+void ScreenViewModel::validateNode(int position) {
+  list<Node *> lst = getMenu();
+  list<Node *>::iterator it = lst.begin();
+  advance(it, position);
+  // TODO: Reflechir ici avec des groupItem par exemple
+  // Verifie si il s'agit d'un Item
+  Item * i = dynamic_cast<Item*> ((*it));
+  if( i != NULL) {
+    i->select();
+  } else {
+    parentNodes.push_front(this->currentNode);
+    this->currentNode = (*it);
+  }
+}
+
+void ScreenViewModel::backNode() {
+  this->currentNode = parentNodes.front();
+  parentNodes.pop_front();
+}
+
+list<Node *> ScreenViewModel::getMenu () {
+  return currentNode->getChildren();
+}
+
+list<Node *> ScreenViewModel::getParents () {
+  return parentNodes;
 }

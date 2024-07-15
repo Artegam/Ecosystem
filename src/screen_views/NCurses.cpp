@@ -102,7 +102,6 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
     toClear = false;
   }
   box(windows[MAIN], ACS_VLINE, ACS_HLINE);
-  Node * root = this->data->getMenu();
   string title = "Ecosystem V0.1";
   int x = (this->windowWidth - title.length()) / 2;
   int y = this->windowHeight / 4;
@@ -111,7 +110,7 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
   refresh();
 
   // Affiche le menu principal
-  std::thread t_m(&NCurses::display, windows[MAIN], root->getChildren(), keybPosition);
+  std::thread t_m(&NCurses::display, windows[MAIN], data->getMenu(), keybPosition);
   t_m.detach();
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
@@ -122,21 +121,20 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
   usleep(20000);
 }
 
-void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
+void ScreenViews::NCurses::options (int keybPosition) {
 
   if (toClear) {
     clear();
     toClear = false;
   }
 
-  Node * root = this->data->getMenu();
-  list<Node *> menu =  root->getChildren();
-  list<Node *>::iterator it = menu.begin();
-	advance(it, OPTIONS - 1);
-
-  list<Node *> opts =  (*it)->getChildren();
-  windows[OPTIONS] = createWindow((int)opts.size(), 15);
-  display(windows[OPTIONS], opts, keybPosition);
+  // TODO: enregistrer la position courante du curseur ?
+  // Que signifie l'ecran OPTIONS ?
+  //
+  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
+  list<Node *> menu = data->getMenu();
+  windows[OPTIONS] = createWindow((int)menu.size(), 15);
+  display(windows[OPTIONS], menu, keybPosition);
 
   mvprintw(25, 0, "POSITION: %d", keybPosition);
   refresh();
@@ -146,17 +144,58 @@ void ScreenViews::NCurses::options (list<string> options, int keybPosition) {
   usleep(20000);
 }
 
-void ScreenViews::NCurses::validateOption (int optionNumber) {
-  Node * root = this->data->getMenu();
-  list<Node *> menu =  root->getChildren();
-  list<Node *>::iterator it = menu.begin();
-	advance(it, OPTIONS - 1);
+void ScreenViews::NCurses::languages (int keybPosition) {
 
-  list<Node *> opts =  (*it)->getChildren();
-  list<Node *>::iterator it2 = opts.begin();
-  advance(it2, optionNumber);
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+
+  // TODO: enregistrer la position courante du curseur ?
+  // Que signifie l'ecran OPTIONS ?
+  //
+  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
+  list<Node *> menu = data->getMenu();
+  windows[LANGUAGES] = createWindow((int)menu.size(), 15);
+  display(windows[LANGUAGES], menu, keybPosition);
+
+  mvprintw(25, 0, "POSITION: %d", keybPosition);
+  refresh();
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[LANGUAGES]);
+  usleep(20000);
+}
+
+void ScreenViews::NCurses::video (int keybPosition) {
+
+  if (toClear) {
+    clear();
+    toClear = false;
+  }
+
+  // TODO: enregistrer la position courante du curseur ?
+  // Que signifie l'ecran OPTIONS ?
+  //
+  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
+  list<Node *> menu = data->getMenu();
+  windows[VIDEO] = createWindow((int)menu.size(), 15);
+  display(windows[VIDEO], menu, keybPosition);
+
+  mvprintw(25, 0, "POSITION: %d", keybPosition);
+  refresh();
+  wmove(windows[ROOT], 0, 0); // repositione le curseur
+  wrefresh(windows[ROOT]);
+  wrefresh(windows[VIDEO]);
+  usleep(20000);
+}
+
+void ScreenViews::NCurses::validateOption (int optionNumber) {
+  list<Node *> opts = data->getMenu();
+  list<Node *>::iterator it = opts.begin();
+  advance(it, optionNumber);
 	clearOptions(opts);
-  (*it2)->validate();
+  (*it)->validate();
 }
 
 void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize, int keybPosition) {

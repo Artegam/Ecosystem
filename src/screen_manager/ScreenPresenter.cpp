@@ -24,13 +24,11 @@ void ScreenPresenter::display () {
   this->view->init(data);
   while(1) {
 
-    // TODO: Keyboard management here...
+    //Keyboard management here...
     keyb->listen(this->view->getChar());
-    //int position = keyb->getPosition();
- /*else if (keyb->isValid() && position == (const unsigned int)(size-1)) {
-      changeScreen(MAIN);
-    }*/
 
+    //TODO: Essayer de supprimer la gestion de changement d ecran avec la variable screen
+    // voir comment on peux faire avec la liste des nodes
     switch (screen) {
       case MAIN:
         if(keyb->isValid()) {
@@ -40,6 +38,8 @@ void ScreenPresenter::display () {
               break;
             case 1:
               changeScreen(OPTIONS);
+              data->validateNode(1);
+              keyb->setPositionsCount((int)data->getMenu().size());
               break;
             case 2:
               changeScreen(SAVE);
@@ -51,39 +51,90 @@ void ScreenPresenter::display () {
               changeScreen(GAME_OVER);
               break;
           }
-          keyb->resetValid();
         } else {
           keyb->setPositionsCount((int)menuSize);
           this->view->mainMenu(keyb->getPosition()); //TODO: Traiter aussi le menu principal comme pour les options
-          keyb->resetValid();
         }
+        keyb->resetValid();
         break;
 
       case OPTIONS:
         // On a une position ici ???
+        // TODO: Il faudrait reecrire ceci mieux que ca, avec la position du clavier, etc...
+        // reflechir au bon positionnement de ce code
+        // Ca devrait se trouver dans la fonction anonyme pour le Node en question
+        // on peux valider en fonction du nombre d'enfant et de la position du clavier
+        // on peux avoir une fonction display ou draw generique pour le bloc if
+        // le bloc else est specifique
+        // quelle classe a la responsabilite de changer d ecran ?
+        // Qui doit composer l arbre du menu ?
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              this->view->validateOption(0);
+              changeScreen(LANGUAGES);
+              data->validateNode(0);
               break;
             case 1:
-              this->view->validateOption(1);
+              changeScreen(VIDEO);
+              data->validateNode(1);
               break;
             case 3: // Back
               changeScreen(MAIN);
+              data->backNode();
               break;
           }
-          keyb->resetValid();
+          keyb->setPositionsCount((int)data->getMenu().size());
         } else {
-          Node * root = this->data->getMenu();
-          list<Node *> menu =  root->getChildren();
-          list<Node *>::iterator it = menu.begin();
-          advance(it, 1);
-          list<Node *> opts =  (*it)->getChildren();
-          keyb->setPositionsCount((int)opts.size());
-          this->view->options(lst_options, keyb->getPosition());
-          keyb->resetValid();
+          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
         }
+        keyb->resetValid();
+        break;
+
+      case LANGUAGES:
+        if(keyb->isValid()) {
+          switch (keyb->getPosition()) {
+            case 0:
+              changeScreen(LANGUAGES);
+              this->view->validateOption(0);
+              break;
+            case 1:
+              changeScreen(VIDEO);
+              this->view->validateOption(1);
+              break;
+            case 3: // Back
+              changeScreen(OPTIONS);
+              data->backNode();
+              keyb->setPositionsCount((int)data->getMenu().size());
+              break;
+          }
+        } else {
+          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
+        }
+        keyb->resetValid();
+        break;
+
+      case VIDEO:
+        if(keyb->isValid()) {
+          switch (keyb->getPosition()) {
+            case 0:
+              changeScreen(LANGUAGES);
+              this->view->validateOption(0);
+              break;
+            case 1:
+              changeScreen(VIDEO);
+              this->view->validateOption(1);
+              break;
+            case 3: // Back
+              changeScreen(OPTIONS);
+              data->backNode();
+              keyb->setPositionsCount((int)data->getMenu().size());
+              break;
+          }
+        } else {
+          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
+        }
+
+        keyb->resetValid();
         break;
 
       case LOAD:
@@ -161,7 +212,7 @@ void ScreenPresenter::display () {
           keyb->resetValid();
           exit(0);
         } else {
-        this->view->end();
+          this->view->end();
         }
         break;
 
@@ -224,5 +275,4 @@ void ScreenPresenter::changeScreen (const int nextScreen) {
   screen = nextScreen;
   this->view->clearScreen();
 }
-
 
