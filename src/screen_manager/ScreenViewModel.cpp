@@ -11,28 +11,26 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
 
   // Construction du menu de l'application
   this->root = new Node("root");
-  this->root->add(new Node("New"));
-  Node * spacer = new Node("");
-  Node * back = new Node("Back");
-  Node * options = new Node("Options");
-  Node * languages = new Node("Languages");
-  languages->add(new Item("English"));
-  languages->add(new Item("French"));
-  languages->add(spacer);
-  languages->add(back);
-  options->add(languages);
-  Node * video = new Node("Video");
-  video->add(new Item("Ncurses"));
-  video->add(new Item("OpenGL"));
-  video->add(spacer);
-  video->add(back);
-  options->add(video);
-  options->add(spacer);
-  options->add(back);
-  this->root->add(options);
-  this->root->add(new Node("Save"));
-  this->root->add(new Node("Load"));
-  this->root->add(new Node("Quit"));
+  this->root->add("New");
+  this->root->add("Options");
+  Node * options = this->root->getNode("Options");
+  options->add("languages");
+  options->add("video");
+  options->add("");
+  options->add("back");
+  Node * languages = options->getNode("languages");
+  languages->addItem("English");
+  languages->addItem("French");
+  languages->add("");
+  languages->add("back");
+  Node * video = options->getNode("video");
+  video->addItem("NCurses");
+  video->addItem("OpenGL");
+  video->add("");
+  video->add("back");
+  this->root->add("Save");
+  this->root->add("Load");
+  this->root->add("Quit");
 
   this->currentNode = root;
 

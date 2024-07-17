@@ -5,10 +5,32 @@ using namespace ScreenManager;
 
 Node::Node (string name) {
   this->name = name;
+  this->parent = this;
+}
+
+Node::Node (Node * parent, string name) {
+  this->name = name;
+  this->parent = parent;
 }
 
 void Node::add (Node * node) {
   this->children.push_back(node);
+}
+
+void Node::add (string name) {
+  Node * node = new Node(this, name);
+  this->children.push_back(node);
+}
+
+void Node::addItem (string name) {
+  Item * item = new Item(this, name);
+  this->children.push_back(item);
+}
+
+void Node::erase (unsigned int position) {
+  list<Node *>::iterator it = this->children.begin();
+  advance(it, position);
+  this->children.erase(it);
 }
 
 list<Node *> Node::getChildren () {
@@ -21,6 +43,16 @@ string Node::getName () {
 
 Node * Node::getParent () {
   return this->parent;
+}
+
+Node * Node::getNode(string name) {
+  list<Node *>::iterator it;
+  for(it = children.begin(); it != children.end(); it++) {
+    if((*it)->getName() == name)
+      return (*it);
+  }
+
+  return NULL;
 }
 
 void Node::validate () {

@@ -8,6 +8,12 @@ Item::Item (string name) : Node (name) {
   };
 }
 
+Item::Item (Node * parent, string name) : Node (parent, name) {
+  fct = [] (Item * i) {
+    i->select();
+  };
+}
+
 void Item::select () {
   this->selected = !this->selected;
 }

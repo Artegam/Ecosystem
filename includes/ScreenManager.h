@@ -95,10 +95,15 @@ namespace ScreenManager {
 
     public:
       Node (string name);
+      Node (Node * parent, string name);
       void add (Node * node);
+      void add (string name);
+      void addItem (string name);
+      void erase (unsigned int position);
       list<Node *> getChildren ();
       virtual string getName ();
       Node * getParent ();
+      Node * getNode(string name);
       virtual void validate ();
       virtual void clear ();
   };
@@ -110,6 +115,7 @@ namespace ScreenManager {
 
     public:
       Item (string name);
+      Item (Node * parent, string name);
       void select ();
       bool isSelected ();
       string getName ();
