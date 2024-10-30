@@ -73,17 +73,20 @@ void ScreenPresenter::display () {
             case 0:
               changeScreen(LANGUAGES);
               data->validateNode(0);
+              keyb->setPositionsCount((int)data->getMenu().size());
               break;
             case 1:
               changeScreen(VIDEO);
               data->validateNode(1);
+              keyb->setPositionsCount(4);
               break;
             case 3: // Back
               changeScreen(MAIN);
               data->backNode();
+              keyb->setPositionsCount((int)data->getMenu().size());
               break;
           }
-          keyb->setPositionsCount((int)data->getMenu().size());
+          //keyb->setPositionsCount((int)data->getMenu().size());
         } else {
           this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
         }
@@ -94,11 +97,11 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              changeScreen(LANGUAGES);
+              //changeScreen(LANGUAGES);
               this->view->validateOption(0);
               break;
             case 1:
-              changeScreen(VIDEO);
+              //changeScreen(VIDEO);
               this->view->validateOption(1);
               break;
             case 3: // Back
@@ -108,7 +111,7 @@ void ScreenPresenter::display () {
               break;
           }
         } else {
-          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
+          this->view->languages(keyb->getPosition()); // Affiche l ecran languages grace a la vue
         }
         keyb->resetValid();
         break;
@@ -117,11 +120,11 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              changeScreen(LANGUAGES);
+              //changeScreen(LANGUAGES);
               this->view->validateOption(0);
               break;
             case 1:
-              changeScreen(VIDEO);
+              //changeScreen(VIDEO);
               this->view->validateOption(1);
               break;
             case 3: // Back
@@ -131,7 +134,7 @@ void ScreenPresenter::display () {
               break;
           }
         } else {
-          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
+          this->view->video(keyb->getPosition()); // Affiche l ecran video grace a la vue
         }
 
         keyb->resetValid();

@@ -27,6 +27,11 @@ void Node::addItem (string name) {
   this->children.push_back(item);
 }
 
+void Node::addGroup (string name) {
+  GroupItem * group = new GroupItem(this, name);
+  this->children.push_back(group);
+}
+
 void Node::erase (unsigned int position) {
   list<Node *>::iterator it = this->children.begin();
   advance(it, position);

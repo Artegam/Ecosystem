@@ -120,7 +120,7 @@ install-tools: install-libs directories
 	sudo apt-get install g++ vim dia
 
 install-libs:
-	sudo apt-get install libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get install libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 install-cyg-libs:
 	apt-cyg install ncurses libncurses-devel
@@ -129,7 +129,7 @@ uninstall:
 	sudo rm -f $(INSTALL_DIR)Ecosystem
 
 uninstall-libs:
-	sudo apt-get remove libncurses5 libncursesw5-dev libncurses5-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get remove libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 uninstall-tools: uninstall-libs
 	sudo apt-get remove g++ vim dia

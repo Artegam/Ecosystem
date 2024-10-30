@@ -4,6 +4,7 @@
 #include "Interactor.h"
 #include "FileManager.h"
 #include "Sound.h"
+#include <functional>
 #include <list>
 
 using namespace Interactor;
@@ -99,6 +100,7 @@ namespace ScreenManager {
       void add (Node * node);
       void add (string name);
       void addItem (string name);
+      void addGroup (string name);
       void erase (unsigned int position);
       list<Node *> getChildren ();
       virtual string getName ();
@@ -111,7 +113,7 @@ namespace ScreenManager {
   class Item : public Node {
     private:
       bool selected = false;
-      function<void(Item *)> fct;
+      std::function<void(Item *)> fct;
 
     public:
       Item (string name);
@@ -121,6 +123,21 @@ namespace ScreenManager {
       string getName ();
       void validate ();
       void clear ();
+  };
+
+  class GroupItem : public Node {
+    private:
+      string defaultItem;
+      string selectedItem;
+      list<Item *> grp;
+
+    public:
+      GroupItem (string name);
+      GroupItem (Node * parent, string name);
+      void setDefault (string name);
+      Item * getSelectedItem ();
+      void display ();
+      void selectItem (string name);
   };
 
   // DataStructure
@@ -160,6 +177,7 @@ namespace ScreenManager {
       void backNode();
       list<Node *> getMenu ();
       list<Node *> getParents ();
+      string getTitle ();
   };
 
   // interface

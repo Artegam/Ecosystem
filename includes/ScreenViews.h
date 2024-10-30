@@ -35,6 +35,8 @@ namespace ScreenViews {
       ~NCurses ();
       void init (ScreenViewModel * data);
       WINDOW * getWindow ();
+      void displayCursorPosition (int keybPosition);
+      static void logCursorPosition (int keybPosition);
       void mainMenu (int keybPosition = -1);
       void options (int keybPosition = -1);
       void languages (int keybPosition = -1);

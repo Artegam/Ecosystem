@@ -298,14 +298,14 @@ namespace Interactor {
 
   /// class Logger - 
   class Logger {
-  private:
-		string filename;
-    // Operations
-  public:
-    Logger (const string filename);
-    void log (Loggable * l);
+    private:
+      string filename;
+      // Operations
+    public:
+      Logger (const string filename);
+      void log (Loggable * l);
+      void log (string message);
   };
-
 
 };
 

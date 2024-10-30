@@ -47,14 +47,17 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   init_pair(EMPTY_PAIR, COLOR_WHITE, COLOR_BLACK);
   init_pair(WATER_PAIR, COLOR_BLUE, COLOR_BLACK);
   init_pair(PLAIN_PAIR, COLOR_GREEN, COLOR_BLACK);
-	init_pair(SHARK_PAIR, COLOR_RED, COLOR_BLACK);
-	init_pair(FISH_PAIR, COLOR_CYAN, COLOR_BLACK);
+  init_pair(SHARK_PAIR, COLOR_RED, COLOR_BLACK);
+  init_pair(FISH_PAIR, COLOR_CYAN, COLOR_BLACK);
   attron(COLOR_PAIR(EMPTY_PAIR));
   clear();
 }
 
 WINDOW * ScreenViews::NCurses::createWindow (int size, int width) {
   //TODO: 12 est le max de la plus grande chaine. Doit servir aussi Ã  calculer X pour le centrage
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("create window() size: " + to_string(size) + " width: " + to_string(width));
+
   WINDOW * window = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
   box(window, ACS_VLINE, ACS_HLINE);
   refresh();
@@ -76,13 +79,27 @@ void ScreenViews::NCurses::redraw (WINDOW * win) {
 void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPosition) {
   list<Node *>::iterator it;
   int i = 0;
+
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("1-Nb menu: " + to_string(menu.size()));
+  logCursorPosition(keybPosition);
+
   for(it = menu.begin(); it != menu.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      display(win, menugroup, keybPosition);
+      i += menugroup.size();
+      mvwprintw(win, 0, 1, "nb: %d", i);
+      log->log("2-Nb: " + to_string(i));
+      it++;
+    }
+
     if(i == keybPosition)
       wattron(win, A_REVERSE);
     string prefix = "";
     if (Item* item = dynamic_cast<Item*>(*it)) {
       if(item->isSelected()) {
-        prefix = "[x] ";
+        prefix = "[x] "; // TODO: mettre dans une constante ? selected / unselected
       } else {
         prefix = "[ ] ";
       }
@@ -93,7 +110,19 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
   }
 }
 
+void ScreenViews::NCurses::displayCursorPosition (int keybPosition) {
+  mvprintw(25, 0, "POSITION: %d", keybPosition);
+  refresh();
+}
+
+void ScreenViews::NCurses::logCursorPosition (int keybPosition) {
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("Cursor position: " + to_string(keybPosition));
+}
+
 void ScreenViews::NCurses::mainMenu (int keybPosition) {
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("appel de mainMenu()");
 
   const unsigned int menuSize = 5;
   windows[MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
@@ -102,19 +131,18 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
     toClear = false;
   }
   box(windows[MAIN], ACS_VLINE, ACS_HLINE);
-  string title = "Ecosystem V0.1";
-  int x = (this->windowWidth - title.length()) / 2;
+  int x = (this->windowWidth - data->getTitle().length()) / 2;
   int y = this->windowHeight / 4;
 
-  mvwprintw(windows[ROOT], y, x, "%s", title.c_str());
+  mvwprintw(windows[ROOT], y, x, "%s", data->getTitle().c_str());
   refresh();
+
+  displayCursorPosition(keybPosition);
 
   // Affiche le menu principal
   std::thread t_m(&NCurses::display, windows[MAIN], data->getMenu(), keybPosition);
   t_m.detach();
 
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[MAIN]);
@@ -122,22 +150,18 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
 }
 
 void ScreenViews::NCurses::options (int keybPosition) {
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("appel de options()");
 
   if (toClear) {
     clear();
     toClear = false;
   }
 
-  // TODO: enregistrer la position courante du curseur ?
-  // Que signifie l'ecran OPTIONS ?
-  //
-  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
-  list<Node *> menu = data->getMenu();
-  windows[OPTIONS] = createWindow((int)menu.size(), 15);
-  display(windows[OPTIONS], menu, keybPosition);
+  windows[OPTIONS] = createWindow(data->getMenu().size(), 15);
+  display(windows[OPTIONS], data->getMenu(), keybPosition);
 
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
+  displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[OPTIONS]);
@@ -145,22 +169,18 @@ void ScreenViews::NCurses::options (int keybPosition) {
 }
 
 void ScreenViews::NCurses::languages (int keybPosition) {
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("appel de languages()");
 
   if (toClear) {
     clear();
     toClear = false;
   }
 
-  // TODO: enregistrer la position courante du curseur ?
-  // Que signifie l'ecran OPTIONS ?
-  //
-  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
-  list<Node *> menu = data->getMenu();
-  windows[LANGUAGES] = createWindow((int)menu.size(), 15);
-  display(windows[LANGUAGES], menu, keybPosition);
+  windows[LANGUAGES] = createWindow(data->getMenu().size(), 15);
+  display(windows[LANGUAGES], data->getMenu(), keybPosition);
 
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
+  displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[LANGUAGES]);
@@ -168,22 +188,19 @@ void ScreenViews::NCurses::languages (int keybPosition) {
 }
 
 void ScreenViews::NCurses::video (int keybPosition) {
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("appel de video()");
 
   if (toClear) {
     clear();
     toClear = false;
   }
 
-  // TODO: enregistrer la position courante du curseur ?
-  // Que signifie l'ecran OPTIONS ?
-  //
-  // Il faudrait remplacer le code ci-dessous pour un parcours generique de la liste nommee options
-  list<Node *> menu = data->getMenu();
-  windows[VIDEO] = createWindow((int)menu.size(), 15);
-  display(windows[VIDEO], menu, keybPosition);
+  //windows[VIDEO] = createWindow(data->getMenu().size(), 15);
+  windows[VIDEO] = createWindow(4, 15);
+  display(windows[VIDEO], data->getMenu(), keybPosition);
 
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
+  displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[VIDEO]);
@@ -191,10 +208,22 @@ void ScreenViews::NCurses::video (int keybPosition) {
 }
 
 void ScreenViews::NCurses::validateOption (int optionNumber) {
+  list<Node *>::iterator it;
   list<Node *> opts = data->getMenu();
-  list<Node *>::iterator it = opts.begin();
+  list<Node *> menu;
+
+  for(it = opts.begin(); it != opts.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      menu.insert(menu.end(), menugroup.begin(), menugroup.end());
+    } else {
+      menu.insert(menu.end(), *it);
+    }
+  }
+
+  it = menu.begin();
   advance(it, optionNumber);
-	clearOptions(opts);
+  clearOptions(menu);
   (*it)->validate();
 }
 
@@ -227,8 +256,7 @@ void ScreenViews::NCurses::save (list<string> files, const unsigned int menuSize
   }
 
   // Ecoute le clavier
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
+  displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[SAVE]);
@@ -264,8 +292,7 @@ void ScreenViews::NCurses::load (list<string> files, const unsigned int menuSize
   }
 
   // Ecoute le clavier
-  mvprintw(25, 0, "POSITION: %d", keybPosition);
-  refresh();
+  displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
   wrefresh(windows[ROOT]);
   wrefresh(windows[LOAD]);

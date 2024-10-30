@@ -58,11 +58,11 @@ void ScreenView::clearScreen () {
 }
 
 void ScreenView::clearOptions (list<Node *> options) {
-	list<Node *>::iterator option;
+  list<Node *>::iterator option;
 
   for(option = options.begin(); option != options.end(); option++) {
-		(*option)->clear();
-	}
+    (*option)->clear();
+  }
 }
 
 void ScreenView::validateOption (int optionNumber) {

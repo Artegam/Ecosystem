@@ -24,10 +24,16 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   languages->add("");
   languages->add("back");
   Node * video = options->getNode("video");
-  video->addItem("NCurses");
-  video->addItem("OpenGL");
+  video->addGroup("videogroup");
+  GroupItem * videogroup = (GroupItem *)video->getNode("videogroup");
+  videogroup->addItem("NCurses");
+  videogroup->addItem("OpenGL");
   video->add("");
   video->add("back");
+  //videogroup->setDefault("NCurses");
+  videogroup->setDefault("OpenGL");
+  //video->add("");
+  //video->add("back");
   this->root->add("Save");
   this->root->add("Load");
   this->root->add("Quit");
@@ -141,6 +147,7 @@ list<string> ScreenViewModel::log() {
   return messages;
 }
 
+//TODO: Mettre le code dans la classe Node
 void ScreenViewModel::validateNode(int position) {
   list<Node *> lst = getMenu();
   list<Node *>::iterator it = lst.begin();
@@ -156,6 +163,7 @@ void ScreenViewModel::validateNode(int position) {
   }
 }
 
+//TODO: renommer back
 void ScreenViewModel::backNode() {
   this->currentNode = parentNodes.front();
   parentNodes.pop_front();
@@ -167,4 +175,8 @@ list<Node *> ScreenViewModel::getMenu () {
 
 list<Node *> ScreenViewModel::getParents () {
   return parentNodes;
+}
+
+string ScreenViewModel::getTitle () {
+  return "Ecosystem V0.1";
 }
