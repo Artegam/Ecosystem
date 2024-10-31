@@ -170,7 +170,20 @@ void ScreenViewModel::backNode() {
 }
 
 list<Node *> ScreenViewModel::getMenu () {
-  return currentNode->getChildren();
+  list<Node *>::iterator it;
+  list<Node *> opts = currentNode->getChildren();
+  list<Node *> menu;
+
+  for(it = opts.begin(); it != opts.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      menu.insert(menu.end(), menugroup.begin(), menugroup.end());
+    } else {
+      menu.insert(menu.end(), *it);
+    }
+  }
+
+  return menu;
 }
 
 list<Node *> ScreenViewModel::getParents () {

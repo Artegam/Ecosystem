@@ -85,15 +85,6 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
   logCursorPosition(keybPosition);
 
   for(it = menu.begin(); it != menu.end(); it++) {
-    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
-      list<Node *> menugroup = grp->getChildren();
-      display(win, menugroup, keybPosition);
-      i += menugroup.size();
-      mvwprintw(win, 0, 1, "nb: %d", i);
-      log->log("2-Nb: " + to_string(i));
-      it++;
-    }
-
     if(i == keybPosition)
       wattron(win, A_REVERSE);
     string prefix = "";
@@ -209,17 +200,7 @@ void ScreenViews::NCurses::video (int keybPosition) {
 
 void ScreenViews::NCurses::validateOption (int optionNumber) {
   list<Node *>::iterator it;
-  list<Node *> opts = data->getMenu();
-  list<Node *> menu;
-
-  for(it = opts.begin(); it != opts.end(); it++) {
-    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
-      list<Node *> menugroup = grp->getChildren();
-      menu.insert(menu.end(), menugroup.begin(), menugroup.end());
-    } else {
-      menu.insert(menu.end(), *it);
-    }
-  }
+  list<Node *> menu = data->getMenu();
 
   it = menu.begin();
   advance(it, optionNumber);
