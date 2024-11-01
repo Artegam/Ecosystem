@@ -90,7 +90,7 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
     string prefix = "";
     if (Item* item = dynamic_cast<Item*>(*it)) {
       if(item->isSelected()) {
-        prefix = "[x] "; // TODO: mettre dans une constante ? selected / unselected
+        prefix = "[x] "; // TODO: mettre dans une constante ? selected / unselected ou bien dans un fichier de style ?
       } else {
         prefix = "[ ] ";
       }
@@ -312,35 +312,25 @@ void ScreenViews::NCurses::gameplay () {
   // dessin du bord de la fenetre
   box(windows[IN_GAME], ACS_VLINE, ACS_HLINE);
 
-	for(unsigned int index = 0; index < size; index++) {
+  for(unsigned int index = 0; index < size; index++) {
     int x = xOffset + (index % worldWidth);
     int y = yOffset + ((index - (x - xOffset)) / worldWidth);
 
-		if(worldMap[index] == OCEAN) {
-      //TODO: A reecrire...
-			wattron(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
-			mvwaddch(windows[IN_GAME], y, x, '~');
-			wattroff(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
-		} else if (worldMap[index] == PLAIN) {
-			wattron(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
-			mvwaddch(windows[IN_GAME], y, x, 'o');
-			wattroff(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
+    if(worldMap[index] == OCEAN) {
+      //TODO: A reecrire... fichier de style ?
+      wattron(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
+      mvwaddch(windows[IN_GAME], y, x, '~');
+      wattroff(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
+    } else if (worldMap[index] == PLAIN) {
+      wattron(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
+      mvwaddch(windows[IN_GAME], y, x, 'o');
+      wattroff(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
     } else {
-			wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
-			mvwaddch(windows[IN_GAME], y, x, '.');
-			wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
-    }
-	}
-
-/*
-  for(int y = 1; y <= data->getWorldHeight(); y++) {
-    for(int x = 1; x <= data->getWorldWidth(); x++) {
-      wattron(window, COLOR_PAIR(WATER_PAIR));
-      mvwaddch(window, y, x, '~');
-      wattroff(window, COLOR_PAIR(WATER_PAIR));
+      wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
+      mvwaddch(windows[IN_GAME], y, x, '.');
+      wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
     }
   }
-*/
 
   //On affiche la faune
   list<Wildlife *>::iterator it;

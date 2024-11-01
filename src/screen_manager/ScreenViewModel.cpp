@@ -19,10 +19,13 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   options->add("");
   options->add("back");
   Node * languages = options->getNode("languages");
-  languages->addItem("English");
-  languages->addItem("French");
+  languages->addGroup("languagesgroup");
+  GroupItem * languagesgroup = (GroupItem *)languages->getNode("languagesgroup");
+  languagesgroup->addItem("English");
+  languagesgroup->addItem("French");
   languages->add("");
   languages->add("back");
+  languagesgroup->setDefault("English");
   Node * video = options->getNode("video");
   video->addGroup("videogroup");
   GroupItem * videogroup = (GroupItem *)video->getNode("videogroup");
@@ -30,10 +33,7 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   videogroup->addItem("OpenGL");
   video->add("");
   video->add("back");
-  //videogroup->setDefault("NCurses");
-  videogroup->setDefault("OpenGL");
-  //video->add("");
-  //video->add("back");
+  videogroup->setDefault("NCurses");
   this->root->add("Save");
   this->root->add("Load");
   this->root->add("Quit");
