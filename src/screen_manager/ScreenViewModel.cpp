@@ -193,3 +193,12 @@ list<Node *> ScreenViewModel::getParents () {
 string ScreenViewModel::getTitle () {
   return "Ecosystem V0.1";
 }
+
+map<string, string> ScreenViewModel::getDictionary() {
+  map<string, string> dictionary;
+  dictionary["selectedChar"] = "v";
+  dictionary["unselectedChar"] = " ";
+  dictionary["selectedItem"] = "[" + dictionary["selectedChar"] + "] ";
+  dictionary["unselectedItem"] = "[" + dictionary["unselectedChar"] + "] ";
+  return dictionary;
+}

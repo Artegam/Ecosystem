@@ -178,6 +178,7 @@ namespace ScreenManager {
       list<Node *> getMenu ();
       list<Node *> getParents ();
       string getTitle ();
+      map<string, string> getDictionary();
   };
 
   // interface

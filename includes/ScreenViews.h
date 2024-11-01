@@ -26,7 +26,7 @@ namespace ScreenViews {
 
       WINDOW * createWindow (int size = 2, int width = 10);
       void redraw (WINDOW * mainMenu);
-      static void display (WINDOW * mainMenu, list<Node *> menu, int keybPosition = -1);
+      static void display (WINDOW * mainMenu, list<Node *> menu, map<string, string> dictionary, int keybPosition = -1);
 
 
       // Operations

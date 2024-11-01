@@ -76,7 +76,7 @@ void ScreenViews::NCurses::redraw (WINDOW * win) {
   usleep(20000);
 }
 
-void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPosition) {
+void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, map<string, string> dictionary, int keybPosition) {
   list<Node *>::iterator it;
   int i = 0;
 
@@ -90,9 +90,9 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, int keybPos
     string prefix = "";
     if (Item* item = dynamic_cast<Item*>(*it)) {
       if(item->isSelected()) {
-        prefix = "[x] "; // TODO: mettre dans une constante ? selected / unselected ou bien dans un fichier de style ?
+        prefix = dictionary["selectedItem"];
       } else {
-        prefix = "[ ] ";
+        prefix = dictionary["unselectedItem"];
       }
     }
     mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), (*it)->getName().c_str());
@@ -131,7 +131,7 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
   displayCursorPosition(keybPosition);
 
   // Affiche le menu principal
-  std::thread t_m(&NCurses::display, windows[MAIN], data->getMenu(), keybPosition);
+  std::thread t_m(&NCurses::display, windows[MAIN], data->getMenu(), data->getDictionary(), keybPosition);
   t_m.detach();
 
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -150,7 +150,7 @@ void ScreenViews::NCurses::options (int keybPosition) {
   }
 
   windows[OPTIONS] = createWindow(data->getMenu().size(), 15);
-  display(windows[OPTIONS], data->getMenu(), keybPosition);
+  display(windows[OPTIONS], data->getMenu(), data->getDictionary(), keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -169,7 +169,7 @@ void ScreenViews::NCurses::languages (int keybPosition) {
   }
 
   windows[LANGUAGES] = createWindow(data->getMenu().size(), 15);
-  display(windows[LANGUAGES], data->getMenu(), keybPosition);
+  display(windows[LANGUAGES], data->getMenu(), data->getDictionary(), keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -189,7 +189,7 @@ void ScreenViews::NCurses::video (int keybPosition) {
 
   //windows[VIDEO] = createWindow(data->getMenu().size(), 15);
   windows[VIDEO] = createWindow(4, 15);
-  display(windows[VIDEO], data->getMenu(), keybPosition);
+  display(windows[VIDEO], data->getMenu(), data->getDictionary(), keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
