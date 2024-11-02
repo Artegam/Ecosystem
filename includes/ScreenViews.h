@@ -26,6 +26,7 @@ namespace ScreenViews {
 
       WINDOW * createWindow (int size = 2, int width = 10);
       void redraw (WINDOW * mainMenu);
+      void drawChar (WINDOW * win, int x, int y, char c, char color);
       static void display (WINDOW * mainMenu, list<Node *> menu, map<string, string> dictionary, int keybPosition = -1);
 
 

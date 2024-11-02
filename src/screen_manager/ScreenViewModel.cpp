@@ -200,5 +200,8 @@ map<string, string> ScreenViewModel::getDictionary() {
   dictionary["unselectedChar"] = " ";
   dictionary["selectedItem"] = "[" + dictionary["selectedChar"] + "] ";
   dictionary["unselectedItem"] = "[" + dictionary["unselectedChar"] + "] ";
+  dictionary["Empty"] = ".";
+  dictionary["Water"] = "~";
+  dictionary["Plain"] = "o";
   return dictionary;
 }

@@ -68,6 +68,12 @@ WINDOW * ScreenViews::NCurses::getWindow () {
   return windows[currentWindow];
 }
 
+void ScreenViews::NCurses::drawChar (WINDOW * win, int x, int y, char c, char color) {
+  wattron(win, COLOR_PAIR(color));
+  mvwaddch(win, y, x, c);
+  wattroff(win, COLOR_PAIR(color));
+}
+
 void ScreenViews::NCurses::redraw (WINDOW * win) {
   refresh();
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -302,6 +308,7 @@ void ScreenViews::NCurses::gameplay () {
   unsigned int const yOffset = 1;
   map<int, int> worldMap = data->getWorldData().getWorldMap();
   unsigned int size = worldMap.size();
+  map<string, string> dict = data->getDictionary();
 
   if (toClear) {
     clear();
@@ -312,23 +319,17 @@ void ScreenViews::NCurses::gameplay () {
   // dessin du bord de la fenetre
   box(windows[IN_GAME], ACS_VLINE, ACS_HLINE);
 
+  // Drawing the map
   for(unsigned int index = 0; index < size; index++) {
     int x = xOffset + (index % worldWidth);
     int y = yOffset + ((index - (x - xOffset)) / worldWidth);
 
     if(worldMap[index] == OCEAN) {
-      //TODO: A reecrire... fichier de style ?
-      wattron(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
-      mvwaddch(windows[IN_GAME], y, x, '~');
-      wattroff(windows[IN_GAME], COLOR_PAIR(WATER_PAIR));
+      drawChar (windows[IN_GAME], x, y, dict["Water"].c_str()[0], WATER_PAIR);
     } else if (worldMap[index] == PLAIN) {
-      wattron(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
-      mvwaddch(windows[IN_GAME], y, x, 'o');
-      wattroff(windows[IN_GAME], COLOR_PAIR(PLAIN_PAIR));
+      drawChar (windows[IN_GAME], x, y, dict["Plain"].c_str()[0], PLAIN_PAIR);
     } else {
-      wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
-      mvwaddch(windows[IN_GAME], y, x, '.');
-      wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
+      drawChar (windows[IN_GAME], x, y, dict["Empty"].c_str()[0], EMPTY_PAIR);
     }
   }
 
@@ -337,23 +338,15 @@ void ScreenViews::NCurses::gameplay () {
   list<Wildlife *> wildlifes = data->getWildlife();
   for(it = wildlifes.begin(); it != wildlifes.end(); it++) {
     char type = (*it)->getDisplayChar();
+    int x = (*it)->getX()+1;
+    int y = (*it)->getY()+1;
 
     if(type == 'F') {
-      wattron(windows[IN_GAME], COLOR_PAIR(FISH_PAIR));
+      drawChar (windows[IN_GAME], x, y, type, FISH_PAIR);
     } else if(type == 'S') {
-      wattron(windows[IN_GAME], COLOR_PAIR(SHARK_PAIR));
+      drawChar (windows[IN_GAME], x, y, type, SHARK_PAIR);
     } else {
-      wattron(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
-    }
-
-    mvwaddch(windows[IN_GAME], (*it)->getY()+1, (*it)->getX()+1, (*it)->getDisplayChar());
-
-    if(type == 'F') {
-      wattroff(windows[IN_GAME], COLOR_PAIR(FISH_PAIR));
-    } else if(type == 'S') {
-      wattroff(windows[IN_GAME], COLOR_PAIR(SHARK_PAIR));
-    } else {
-      wattroff(windows[IN_GAME], COLOR_PAIR(EMPTY_PAIR));
+      drawChar (windows[IN_GAME], x, y, type, EMPTY_PAIR);
     }
   }
 
