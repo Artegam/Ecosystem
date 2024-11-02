@@ -53,12 +53,15 @@ void ScreenViews::NCurses::init (ScreenViewModel * data) {
   clear();
 }
 
-WINDOW * ScreenViews::NCurses::createWindow (int size, int width) {
-  //TODO: 12 est le max de la plus grande chaine. Doit servir aussi Ã  calculer X pour le centrage
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("create window() size: " + to_string(size) + " width: " + to_string(width));
+WINDOW * ScreenViews::NCurses::createWindow (int height, int width) {
+  const int edges = 2;
+  const int yOffset = (this->windowHeight / 2) - 5;
+  const int xOffset = ((this->windowWidth - width) / 2);
 
-  WINDOW * window = subwin(stdscr, size+2, width, (this->windowHeight / 2) - 5, ((this->windowWidth - width) / 2));
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("create window() size: " + to_string(height) + " width: " + to_string(width));
+
+  WINDOW * window = subwin(stdscr, height + edges, width, yOffset, xOffset);
   box(window, ACS_VLINE, ACS_HLINE);
   refresh();
   return window;
