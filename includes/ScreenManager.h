@@ -153,6 +153,9 @@ namespace ScreenManager {
       Node * root;
       Keyboard * keyboard;
       Sound * snd;
+      list<string> languages;
+      unsigned int language = 0;
+      map<string, string> dict;
 
     public:
       ScreenViewModel (WorldModel worldData);
@@ -179,6 +182,12 @@ namespace ScreenManager {
       list<Node *> getParents ();
       string getTitle ();
       map<string, string> getDictionary();
+      list<list<string>> getLanguages ();
+      map<string, string> getTheme ();
+      list<list<string>> getFile (string filename);
+      unsigned int getLanguage ();
+      void setLanguage (unsigned int lang = 0);
+      void loadMenu ();
   };
 
   // interface

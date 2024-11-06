@@ -9,35 +9,8 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   function<void(Node *)> fct = [] (Node * n) {
   };
 
-  // Construction du menu de l'application
-  this->root = new Node("root");
-  this->root->add("New");
-  this->root->add("Options");
-  Node * options = this->root->getNode("Options");
-  options->add("languages");
-  options->add("video");
-  options->add("");
-  options->add("back");
-  Node * languages = options->getNode("languages");
-  languages->addGroup("languagesgroup");
-  GroupItem * languagesgroup = (GroupItem *)languages->getNode("languagesgroup");
-  languagesgroup->addItem("English");
-  languagesgroup->addItem("French");
-  languages->add("");
-  languages->add("back");
-  languagesgroup->setDefault("English");
-  Node * video = options->getNode("video");
-  video->addGroup("videogroup");
-  GroupItem * videogroup = (GroupItem *)video->getNode("videogroup");
-  videogroup->addItem("NCurses");
-  videogroup->addItem("OpenGL");
-  video->add("");
-  video->add("back");
-  videogroup->setDefault("NCurses");
-  this->root->add("Save");
-  this->root->add("Load");
-  this->root->add("Quit");
-
+  this->dict = getDictionary();
+  loadMenu();
   this->currentNode = root;
 
   // Creation et lancement de la musique
@@ -195,13 +168,139 @@ string ScreenViewModel::getTitle () {
 }
 
 map<string, string> ScreenViewModel::getDictionary() {
-  map<string, string> dictionary;
-  dictionary["selectedChar"] = "v";
-  dictionary["unselectedChar"] = " ";
-  dictionary["selectedItem"] = "[" + dictionary["selectedChar"] + "] ";
-  dictionary["unselectedItem"] = "[" + dictionary["unselectedChar"] + "] ";
-  dictionary["Empty"] = ".";
-  dictionary["Water"] = "~";
-  dictionary["Plain"] = "o";
-  return dictionary;
+  //TODO: essayer de nettoyer ce tas de merde, faire sortir la fonctionalite du dictionnaire
+  map<string, map<string, string>> dictionaries;
+  map<string, string> theme = getTheme();
+  dictionaries["Theme"] = theme;
+
+  // Ici debut du nouveau fonctionnement
+  list<list<string>> file = getLanguages();
+  // Traitement des données pour qu elles soient exploitables en map<?>
+  list<list<string>>::iterator it;
+  list<string>::iterator it2;
+  list<string> header;
+  list<string> line;
+
+  it = file.begin();
+  line = (*it);
+  header = (*it);
+  for(it2 = ++line.begin(); it2 != line.end(); it2++) {
+    map<string, string> dict;
+    dictionaries[(*it2)] = dict;
+    this->languages.push_back((*it2));
+  }
+
+  for(it = ++file.begin(); it != file.end(); it++) {
+    line = (*it);
+
+    list<string>::iterator ith;
+    it2 = line.begin();
+    string keyword = (*it2);
+
+    for(ith = ++header.begin(); ith != header.end(); ith++) {
+      dictionaries[(*ith)][keyword] = (*++it2);
+    }
+  }
+  // Selection du dictionnaire et retour
+  list<string>::iterator itl = this->languages.begin();
+  advance(itl, this->language);
+
+  string k = (*itl);
+  dictionaries[k].insert(theme.begin(), theme.end());
+  return dictionaries[k];
+}
+
+list<list<string>> ScreenViewModel::getLanguages () {
+  return getFile("languages.csv");
+}
+
+map<string, string> ScreenViewModel::getTheme () {
+  map<string, string> theme;
+  list<list<string>> file = getFile("theme.csv");
+
+  list<list<string>>::iterator it;
+  list<string> line;
+
+  for(it = file.begin(); it != file.end(); it++) {
+    line = (*it);
+    list<string>::iterator itl;
+    itl = line.begin();
+    string keyword = (*itl);
+    string val = (*++itl);
+    theme[keyword] = val;
+  }
+
+  return theme;
+}
+
+
+ list<list<string>> ScreenViewModel::getFile (string filename) {
+  ifstream ifs;
+  ifs.open (filename.c_str());
+
+  char c = ifs.get();
+  string word;
+  list<string> line;
+  list<list<string>> file;
+  while (ifs.good()) {
+    if(c == '\n') {
+      //EOL
+      line.push_back(word);
+      file.push_back(line);
+      line.clear();
+      word = "";
+    } else if(c == ';') {
+      //separator
+      line.push_back(word);
+      word = "";
+    } else {
+      word += c;
+    }
+    c = ifs.get();
+  }
+
+  ifs.close();
+  return file;
+}
+
+unsigned int ScreenViewModel::getLanguage () {
+  return this->language;
+}
+
+void ScreenViewModel::setLanguage (unsigned int lang) {
+  this->language = lang;
+  this->dict = getDictionary();
+}
+
+void ScreenViewModel::loadMenu () {
+  // Construction du menu de l'application
+  this->root = new Node("root");
+  this->root->add("New");
+  this->root->add("Options");
+  Node * options = this->root->getNode("Options");
+  options->add("Languages");
+  options->add("Video");
+  options->add("");
+  options->add("Back");
+  Node * languages = options->getNode("Languages");
+  languages->addGroup("languagesgroup");
+  GroupItem * languagesgroup = (GroupItem *)languages->getNode("languagesgroup");
+
+  list<string>::iterator it;
+  for(it = this->languages.begin(); it != this->languages.end(); it++)
+    languagesgroup->addItem((*it));
+  languages->add("");
+  languages->add("Back");
+  languagesgroup->setDefault("English");
+  Node * video = options->getNode("Video");
+  video->addGroup("videogroup");
+  GroupItem * videogroup = (GroupItem *)video->getNode("videogroup");
+  videogroup->addItem("NCurses");
+  videogroup->addItem("OpenGL");
+  video->add("");
+  video->add("Back");
+  videogroup->setDefault("NCurses");
+  this->root->add("Save");
+  this->root->add("Load");
+  this->root->add("Quit");
 }

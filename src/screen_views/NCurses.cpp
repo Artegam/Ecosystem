@@ -104,7 +104,7 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, map<string,
         prefix = dictionary["unselectedItem"];
       }
     }
-    mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), (*it)->getName().c_str());
+    mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), dictionary[(*it)->getName()].c_str());
     wattroff(win, A_REVERSE);
     i++;
   }
@@ -123,7 +123,7 @@ void ScreenViews::NCurses::logCursorPosition (int keybPosition) {
 void ScreenViews::NCurses::mainMenu (int keybPosition) {
   Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
   log->log("appel de mainMenu()");
-
+//TODO: dimentionner automatiquement la largeur de la fenêtre en focntion du menu
   const unsigned int menuSize = 5;
   windows[MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {

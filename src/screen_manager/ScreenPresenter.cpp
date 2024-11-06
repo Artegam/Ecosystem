@@ -97,12 +97,14 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              //changeScreen(LANGUAGES);
+              data->setLanguage(0);
               this->view->validateOption(0);
+              this->view->clearScreen();
               break;
             case 1:
-              //changeScreen(VIDEO);
+              data->setLanguage(1);
               this->view->validateOption(1);
+              this->view->clearScreen();
               break;
             case 3: // Back
               changeScreen(OPTIONS);
@@ -120,11 +122,9 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              //changeScreen(LANGUAGES);
               this->view->validateOption(0);
               break;
             case 1:
-              //changeScreen(VIDEO);
               this->view->validateOption(1);
               break;
             case 3: // Back
