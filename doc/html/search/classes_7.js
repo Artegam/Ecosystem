@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['loggable_38',['Loggable',['../classInteractor_1_1Loggable.html',1,'Interactor']]],
-  ['logger_39',['Logger',['../classInteractor_1_1Logger.html',1,'Interactor']]]
+  ['inputdevice_49',['InputDevice',['../classScreenManager_1_1InputDevice.html',1,'ScreenManager']]],
+  ['item_50',['Item',['../classScreenManager_1_1Item.html',1,'ScreenManager']]]
 ];

@@ -11,8 +11,7 @@ class \mbox{\hyperlink{classScreenManager_1_1ScreenView}{Screen\+View}} -\/
 
 
 
-Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+:
-\nopagebreak
+Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -22,36 +21,63 @@ Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+:
 \doxysubsection*{Fonctions membres publiques}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a12187c0cad823cf957f590d07f30992f}\label{classScreenManager_1_1ScreenView_a12187c0cad823cf957f590d07f30992f}} 
-virtual void {\bfseries init} (int world\+Height, int world\+Width)
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_af9f2c0b6ef8c3a5d337fe341d4503423}\label{classScreenManager_1_1ScreenView_af9f2c0b6ef8c3a5d337fe341d4503423}} 
+virtual void {\bfseries init} (\mbox{\hyperlink{classScreenManager_1_1ScreenViewModel}{Screen\+View\+Model}} $\ast$data)
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenView_adfdb0a0fb06c971d5844ff4b4eb3b5c9}\label{classScreenManager_1_1ScreenView_adfdb0a0fb06c971d5844ff4b4eb3b5c9}} 
-virtual void {\bfseries main\+Menu} ()
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a46c8443e40ebf85b83894216264d5f0b}\label{classScreenManager_1_1ScreenView_a46c8443e40ebf85b83894216264d5f0b}} 
+virtual void {\bfseries main\+Menu} (int keyb\+Position=-\/1)
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a12249401ec9e7cbe081cc0b1da57c5ea}\label{classScreenManager_1_1ScreenView_a12249401ec9e7cbe081cc0b1da57c5ea}} 
-virtual void {\bfseries load\+Menu} (list$<$ string $>$ files)
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a8d4d105692353314ba181ac93cbbc8f6}\label{classScreenManager_1_1ScreenView_a8d4d105692353314ba181ac93cbbc8f6}} 
+virtual void {\bfseries options} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a8e5a404adff4fce0de96cdad5005c48f}\label{classScreenManager_1_1ScreenView_a8e5a404adff4fce0de96cdad5005c48f}} 
+virtual void {\bfseries languages} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a411fe719f79094ba1a7afe38b274efcc}\label{classScreenManager_1_1ScreenView_a411fe719f79094ba1a7afe38b274efcc}} 
+virtual void {\bfseries video} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_ab16740e3cd19fee9d07e8c492a0d7f79}\label{classScreenManager_1_1ScreenView_ab16740e3cd19fee9d07e8c492a0d7f79}} 
+virtual void {\bfseries load} (list$<$ string $>$ files, const unsigned int menu\+Size, int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a3d430fadc97d732f23ad6b1377f5f54c}\label{classScreenManager_1_1ScreenView_a3d430fadc97d732f23ad6b1377f5f54c}} 
+virtual void {\bfseries save} (list$<$ string $>$ files, const unsigned int menu\+Size, int keyb\+Position=-\/1)
 \item 
 \mbox{\Hypertarget{classScreenManager_1_1ScreenView_a22362ec34773c505801fe75758ce864f}\label{classScreenManager_1_1ScreenView_a22362ec34773c505801fe75758ce864f}} 
 virtual void {\bfseries infos} (list$<$ string $>$ infos)
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a89e6c8fefcea81ef2cd451732099e010}\label{classScreenManager_1_1ScreenView_a89e6c8fefcea81ef2cd451732099e010}} 
-virtual void {\bfseries gameplay} (map$<$ int, int $>$ world\+Map, list$<$ \mbox{\hyperlink{classInteractor_1_1Wildlife}{Wildlife}} $\ast$ $>$ wildlifes)
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a5b528ae6637dc36413de866fec429ecd}\label{classScreenManager_1_1ScreenView_a5b528ae6637dc36413de866fec429ecd}} 
+virtual void {\bfseries gameplay} ()
 \item 
 \mbox{\Hypertarget{classScreenManager_1_1ScreenView_a87c37d72bd4626cac6a2e33ed1448ff9}\label{classScreenManager_1_1ScreenView_a87c37d72bd4626cac6a2e33ed1448ff9}} 
 virtual void {\bfseries end} ()
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a301069ea77f42a61ecc6d90ba66577e6}\label{classScreenManager_1_1ScreenView_a301069ea77f42a61ecc6d90ba66577e6}} 
-virtual int {\bfseries get\+Screen} ()
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a050cc62157e2e91516328548ca6c2d52}\label{classScreenManager_1_1ScreenView_a050cc62157e2e91516328548ca6c2d52}} 
+virtual int {\bfseries get\+Char} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_ae2d34c748d1caf4efd064f9212b2ac13}\label{classScreenManager_1_1ScreenView_ae2d34c748d1caf4efd064f9212b2ac13}} 
+void {\bfseries clear\+Screen} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_aa170eeb772b3749d189de2dfb130e4b1}\label{classScreenManager_1_1ScreenView_aa170eeb772b3749d189de2dfb130e4b1}} 
+void {\bfseries clear\+Options} (list$<$ \mbox{\hyperlink{classScreenManager_1_1Node}{Node}} $\ast$ $>$ options)
 \item 
 \mbox{\Hypertarget{classScreenManager_1_1ScreenView_aaf14add4087965b379f04f14850ee7cd}\label{classScreenManager_1_1ScreenView_aaf14add4087965b379f04f14850ee7cd}} 
 virtual void {\bfseries keyboard\+Listener} (\mbox{\hyperlink{classInteractor_1_1WorldModel}{World\+Model}} world\+Data)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_aac8b1958bc2fe780e41aceb93939fa20}\label{classScreenManager_1_1ScreenView_aac8b1958bc2fe780e41aceb93939fa20}} 
+virtual void {\bfseries validate\+Option} (int option\+Number)
+\end{DoxyCompactItemize}
+\doxysubsection*{Attributs protégés}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenView_a86aa69f84e8d5aa60fd889c941139373}\label{classScreenManager_1_1ScreenView_a86aa69f84e8d5aa60fd889c941139373}} 
+bool {\bfseries to\+Clear} = false
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Description détaillée}
 class \mbox{\hyperlink{classScreenManager_1_1ScreenView}{Screen\+View}} -\/ 
 
-Définition à la ligne 67 du fichier Screen\+Manager.\+h.
+Définition à la ligne 195 du fichier Screen\+Manager.\+h.
 
 
 

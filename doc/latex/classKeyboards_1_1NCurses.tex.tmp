@@ -1,0 +1,32 @@
+\hypertarget{classKeyboards_1_1NCurses}{}\doxysection{Référence de la classe Keyboards\+::NCurses}
+\label{classKeyboards_1_1NCurses}\index{Keyboards::NCurses@{Keyboards::NCurses}}
+
+
+Graphe d\textquotesingle{}héritage de Keyboards\+::NCurses\+:
+% FIG 0
+
+
+Graphe de collaboration de Keyboards\+::NCurses\+:
+% FIG 1
+\doxysubsection*{Fonctions membres publiques}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classKeyboards_1_1NCurses_af4302719dc7f0ca560fbbdc5816f0cb6}\label{classKeyboards_1_1NCurses_af4302719dc7f0ca560fbbdc5816f0cb6}} 
+void {\bfseries listen} (unsigned int character)
+\item 
+\mbox{\Hypertarget{classKeyboards_1_1NCurses_ab2985bd4b6c997615c0ec9e9dea161bc}\label{classKeyboards_1_1NCurses_ab2985bd4b6c997615c0ec9e9dea161bc}} 
+void {\bfseries set\+Window} (WINDOW $\ast$win)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Description détaillée}
+
+
+Définition à la ligne 11 du fichier Keyboards.\+h.
+
+
+
+La documentation de cette classe a été générée à partir du fichier suivant \+:\begin{DoxyCompactItemize}
+\item 
+includes/Keyboards.\+h\item 
+src/keyboards/NCurses.\+cpp\end{DoxyCompactItemize}

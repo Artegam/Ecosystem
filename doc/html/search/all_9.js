@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['ncurses_15',['NCurses',['../classkeyboards_1_1NCurses.html',1,'keyboards::NCurses'],['../classScreenViews_1_1NCurses.html',1,'ScreenViews::NCurses']]]
+  ['loggable_16',['Loggable',['../classInteractor_1_1Loggable.html',1,'Interactor']]],
+  ['logger_17',['Logger',['../classInteractor_1_1Logger.html',1,'Interactor']]]
 ];

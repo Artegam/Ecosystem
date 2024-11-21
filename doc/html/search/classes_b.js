@@ -1,8 +1,5 @@
 var searchData=
 [
-  ['screenpresenter_44',['ScreenPresenter',['../classScreenManager_1_1ScreenPresenter.html',1,'ScreenManager']]],
-  ['screenview_45',['ScreenView',['../classScreenManager_1_1ScreenView.html',1,'ScreenManager']]],
-  ['screenviewmodel_46',['ScreenViewModel',['../classScreenManager_1_1ScreenViewModel.html',1,'ScreenManager']]],
-  ['shark_47',['Shark',['../classInteractor_1_1Shark.html',1,'Interactor']]],
-  ['survival_48',['Survival',['../classInteractor_1_1Survival.html',1,'Interactor']]]
+  ['ncurses_58',['NCurses',['../classKeyboards_1_1NCurses.html',1,'Keyboards::NCurses'],['../classScreenViews_1_1NCurses.html',1,'ScreenViews::NCurses']]],
+  ['node_59',['Node',['../classScreenManager_1_1Node.html',1,'ScreenManager']]]
 ];

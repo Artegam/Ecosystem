@@ -11,8 +11,7 @@ class \mbox{\hyperlink{classScreenManager_1_1ScreenViewModel}{Screen\+View\+Mode
 
 
 
-Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+Model\+:
-\nopagebreak
+Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+Model\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,8 +20,7 @@ Graphe d\textquotesingle{}héritage de Screen\+Manager\+::Screen\+View\+Model\+:
 \end{figure}
 
 
-Graphe de collaboration de Screen\+Manager\+::Screen\+View\+Model\+:
-\nopagebreak
+Graphe de collaboration de Screen\+Manager\+::Screen\+View\+Model\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -85,31 +83,49 @@ int {\bfseries get\+Current\+Window} ()
 \item 
 \mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a5fd1e59b16b9d3f736efe2717a1fa4f6}\label{classScreenManager_1_1ScreenViewModel_a5fd1e59b16b9d3f736efe2717a1fa4f6}} 
 list$<$ string $>$ {\bfseries log} ()
-\end{DoxyCompactItemize}
-\doxysubsection*{Attributs publics}
-\begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a8fd7318286f1e47488a4c80bb3922f4e}\label{classScreenManager_1_1ScreenViewModel_a8fd7318286f1e47488a4c80bb3922f4e}} 
-const int {\bfseries MAIN\+\_\+\+MENU} = 0
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a89eb6bd58776473211c70a7b0cd3d42f}\label{classScreenManager_1_1ScreenViewModel_a89eb6bd58776473211c70a7b0cd3d42f}} 
+void {\bfseries validate\+Node} (int position)
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_acdcff762744e1ac2f0a6fd517bb139fe}\label{classScreenManager_1_1ScreenViewModel_acdcff762744e1ac2f0a6fd517bb139fe}} 
-const int {\bfseries SAVE\+\_\+\+MENU} = 1
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_aa278716a54c722507f35db6b66235ae2}\label{classScreenManager_1_1ScreenViewModel_aa278716a54c722507f35db6b66235ae2}} 
+void {\bfseries back\+Node} ()
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a53cc908e3361f981487b237955287348}\label{classScreenManager_1_1ScreenViewModel_a53cc908e3361f981487b237955287348}} 
-const int {\bfseries LOAD\+\_\+\+MENU} = 2
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a60e721ff1cc8357c227030b8f419adb1}\label{classScreenManager_1_1ScreenViewModel_a60e721ff1cc8357c227030b8f419adb1}} 
+list$<$ \mbox{\hyperlink{classScreenManager_1_1Node}{Node}} $\ast$ $>$ {\bfseries get\+Menu} ()
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a0ccfaa28d02306e326cb529e2bf9cdd6}\label{classScreenManager_1_1ScreenViewModel_a0ccfaa28d02306e326cb529e2bf9cdd6}} 
-const int {\bfseries IN\+\_\+\+GAME} = 3
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_abe8689055428dfef462a105f13abe317}\label{classScreenManager_1_1ScreenViewModel_abe8689055428dfef462a105f13abe317}} 
+list$<$ \mbox{\hyperlink{classScreenManager_1_1Node}{Node}} $\ast$ $>$ {\bfseries get\+Parents} ()
 \item 
-\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_afdc72b5004d3cfe68ed83d25d05d2f59}\label{classScreenManager_1_1ScreenViewModel_afdc72b5004d3cfe68ed83d25d05d2f59}} 
-const int {\bfseries GAME\+\_\+\+OVER} = 4
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a535ab1452303086ea92f07e75cc6f9d4}\label{classScreenManager_1_1ScreenViewModel_a535ab1452303086ea92f07e75cc6f9d4}} 
+string {\bfseries get\+Title} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a8cb90f3701dc783f025280e9461fbeb5}\label{classScreenManager_1_1ScreenViewModel_a8cb90f3701dc783f025280e9461fbeb5}} 
+map$<$ string, string $>$ {\bfseries get\+Dictionary} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_ad8a4424127ca5cbe6801dde84f186647}\label{classScreenManager_1_1ScreenViewModel_ad8a4424127ca5cbe6801dde84f186647}} 
+list$<$ list$<$ string $>$ $>$ {\bfseries get\+Languages} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a5eca36d30dc2a96d8965606649c4dadc}\label{classScreenManager_1_1ScreenViewModel_a5eca36d30dc2a96d8965606649c4dadc}} 
+map$<$ string, string $>$ {\bfseries get\+Theme} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_aa8cb7ae6d6d01c0f86ac25a50f2c8bd0}\label{classScreenManager_1_1ScreenViewModel_aa8cb7ae6d6d01c0f86ac25a50f2c8bd0}} 
+list$<$ list$<$ string $>$ $>$ {\bfseries get\+File} (string filename)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_aba16a22a746b75a20487c92b51552a82}\label{classScreenManager_1_1ScreenViewModel_aba16a22a746b75a20487c92b51552a82}} 
+unsigned int {\bfseries get\+Language} ()
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_ae299b438cc986496ac94d561cba21f78}\label{classScreenManager_1_1ScreenViewModel_ae299b438cc986496ac94d561cba21f78}} 
+void {\bfseries set\+Language} (unsigned int lang=0)
+\item 
+\mbox{\Hypertarget{classScreenManager_1_1ScreenViewModel_a8fb35eba979f7fa3154623099ffc5276}\label{classScreenManager_1_1ScreenViewModel_a8fb35eba979f7fa3154623099ffc5276}} 
+void {\bfseries load\+Menu} ()
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Description détaillée}
 class \mbox{\hyperlink{classScreenManager_1_1ScreenViewModel}{Screen\+View\+Model}} -\/ 
 
-Définition à la ligne 32 du fichier Screen\+Manager.\+h.
+Définition à la ligne 145 du fichier Screen\+Manager.\+h.
 
 
 

@@ -11,8 +11,7 @@ class NCurses\+View -\/
 
 
 
-Graphe d\textquotesingle{}héritage de Screen\+Views\+::NCurses\+:
-\nopagebreak
+Graphe d\textquotesingle{}héritage de Screen\+Views\+::NCurses\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -21,8 +20,7 @@ Graphe d\textquotesingle{}héritage de Screen\+Views\+::NCurses\+:
 \end{figure}
 
 
-Graphe de collaboration de Screen\+Views\+::NCurses\+:
-\nopagebreak
+Graphe de collaboration de Screen\+Views\+::NCurses\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -32,75 +30,67 @@ Graphe de collaboration de Screen\+Views\+::NCurses\+:
 \doxysubsection*{Fonctions membres publiques}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a644ad2172f9ef4b73db86a8dbbfdd32a}\label{classScreenViews_1_1NCurses_a644ad2172f9ef4b73db86a8dbbfdd32a}} 
-{\bfseries NCurses} (\mbox{\hyperlink{classkeyboards_1_1NCurses}{keyboards\+::\+NCurses}} $\ast$keyb)
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a17810301057b8ccc8cddb01bbb221128}\label{classScreenViews_1_1NCurses_a17810301057b8ccc8cddb01bbb221128}} 
+{\bfseries NCurses} (\mbox{\hyperlink{classScreenManager_1_1Keyboard}{Keyboard}} $\ast$keyb)
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a291de492d33b50206085b0213d3c1a79}\label{classScreenViews_1_1NCurses_a291de492d33b50206085b0213d3c1a79}} 
-void {\bfseries init} (int world\+Height, int world\+Width)
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a7a2aff2183c8f1f09a6918f6aea2adae}\label{classScreenViews_1_1NCurses_a7a2aff2183c8f1f09a6918f6aea2adae}} 
+void {\bfseries init} (\mbox{\hyperlink{classScreenManager_1_1ScreenViewModel}{Screen\+View\+Model}} $\ast$data)
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a3301f0b87ee99a6030758e3f46834a5e}\label{classScreenViews_1_1NCurses_a3301f0b87ee99a6030758e3f46834a5e}} 
-void {\bfseries main\+Menu} ()
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_ab17f531f43ea627038786e4c7a063e5b}\label{classScreenViews_1_1NCurses_ab17f531f43ea627038786e4c7a063e5b}} 
+WINDOW $\ast$ {\bfseries get\+Window} ()
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ae6b2cd0aeadfb71c0431e7704b4f36f9}\label{classScreenViews_1_1NCurses_ae6b2cd0aeadfb71c0431e7704b4f36f9}} 
-void {\bfseries load\+Menu} (list$<$ string $>$ files)
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a5a5cf9aba06fc037344986b95fc25d8c}\label{classScreenViews_1_1NCurses_a5a5cf9aba06fc037344986b95fc25d8c}} 
+void {\bfseries display\+Cursor\+Position} (int keyb\+Position)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_aa8fc58af36d1892a05d4be0fb050db4f}\label{classScreenViews_1_1NCurses_aa8fc58af36d1892a05d4be0fb050db4f}} 
+void {\bfseries main\+Menu} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_ac2bc6ec0dc1c061956d8f800cbfa2e21}\label{classScreenViews_1_1NCurses_ac2bc6ec0dc1c061956d8f800cbfa2e21}} 
+void {\bfseries options} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a78bbb7c3f957cb3af3cac993f4a50a72}\label{classScreenViews_1_1NCurses_a78bbb7c3f957cb3af3cac993f4a50a72}} 
+void {\bfseries languages} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a90ade019d89c11f832755543a6fe924b}\label{classScreenViews_1_1NCurses_a90ade019d89c11f832755543a6fe924b}} 
+void {\bfseries video} (int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a38b06c823ca207b94191a1e2acc20fb1}\label{classScreenViews_1_1NCurses_a38b06c823ca207b94191a1e2acc20fb1}} 
+void {\bfseries save} (list$<$ string $>$ files, const unsigned int menu\+Size, int keyb\+Position=-\/1)
+\item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_ad4e3b8547f8d6e9247e504a9cf655dec}\label{classScreenViews_1_1NCurses_ad4e3b8547f8d6e9247e504a9cf655dec}} 
+void {\bfseries load} (list$<$ string $>$ files, const unsigned int menu\+Size, int keyb\+Position=-\/1)
 \item 
 \mbox{\Hypertarget{classScreenViews_1_1NCurses_ab721fe578d7c7c02286a1aaf25761248}\label{classScreenViews_1_1NCurses_ab721fe578d7c7c02286a1aaf25761248}} 
 void {\bfseries infos} (list$<$ string $>$ infos)
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ade20a609858d2912d9adc678786274bd}\label{classScreenViews_1_1NCurses_ade20a609858d2912d9adc678786274bd}} 
-void {\bfseries gameplay} (map$<$ int, int $>$ world\+Map, list$<$ \mbox{\hyperlink{classInteractor_1_1Wildlife}{Wildlife}} $\ast$ $>$ wildlifes)
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_abef158f9ef273c7c14beec43173fcd98}\label{classScreenViews_1_1NCurses_abef158f9ef273c7c14beec43173fcd98}} 
+void {\bfseries gameplay} ()
 \item 
 \mbox{\Hypertarget{classScreenViews_1_1NCurses_a55219cb65091886729dbef8b297bb82c}\label{classScreenViews_1_1NCurses_a55219cb65091886729dbef8b297bb82c}} 
 void {\bfseries end} ()
 \item 
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_ad8593264737ad577fb8f8ac9fdb52b9e}\label{classScreenViews_1_1NCurses_ad8593264737ad577fb8f8ac9fdb52b9e}} 
+int {\bfseries get\+Char} ()
+\item 
 \mbox{\Hypertarget{classScreenViews_1_1NCurses_a795f5f3bd93efe56038bf4eaa823ef8d}\label{classScreenViews_1_1NCurses_a795f5f3bd93efe56038bf4eaa823ef8d}} 
 void {\bfseries hello} ()
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a24a03c36c315d8727e5c4c332f1e8e8f}\label{classScreenViews_1_1NCurses_a24a03c36c315d8727e5c4c332f1e8e8f}} 
-void {\bfseries change\+Screen} (const int screen)
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a3b5686fa9c3468c14d7a153e664ea030}\label{classScreenViews_1_1NCurses_a3b5686fa9c3468c14d7a153e664ea030}} 
-int {\bfseries get\+Screen} ()
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ac88ae6ce9a8e8a91557776274df8e681}\label{classScreenViews_1_1NCurses_ac88ae6ce9a8e8a91557776274df8e681}} 
-void {\bfseries keyboard\+Listener} (\mbox{\hyperlink{classInteractor_1_1WorldModel}{World\+Model}} world\+Data)
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_adf61e70f61873d0a9df28feecccffcfa}\label{classScreenViews_1_1NCurses_adf61e70f61873d0a9df28feecccffcfa}} 
+void {\bfseries validate\+Option} (int option\+Number)
 \end{DoxyCompactItemize}
-\doxysubsection*{Attributs publics}
+\doxysubsection*{Fonctions membres publiques statiques}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ae92c14b1fcaff14a4695b2f4d88c3896}\label{classScreenViews_1_1NCurses_ae92c14b1fcaff14a4695b2f4d88c3896}} 
-const int {\bfseries MAIN\+\_\+\+MENU} = 0
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ac949eb954b936f1a72dd68839df73ebd}\label{classScreenViews_1_1NCurses_ac949eb954b936f1a72dd68839df73ebd}} 
-const int {\bfseries SAVE\+\_\+\+MENU} = 1
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_ac113185c1d79569bec072246628ed6f3}\label{classScreenViews_1_1NCurses_ac113185c1d79569bec072246628ed6f3}} 
-const int {\bfseries LOAD\+\_\+\+MENU} = 2
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a46a7928d275717ff5ac775662f71f2e1}\label{classScreenViews_1_1NCurses_a46a7928d275717ff5ac775662f71f2e1}} 
-const int {\bfseries IN\+\_\+\+GAME} = 3
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a7d2ff5ce9cc8b1103e195ae7cc3fe3cc}\label{classScreenViews_1_1NCurses_a7d2ff5ce9cc8b1103e195ae7cc3fe3cc}} 
-const int {\bfseries GAME\+\_\+\+OVER} = 4
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a9bc16a65a78185a3dbdb8c7af5f8c47a}\label{classScreenViews_1_1NCurses_a9bc16a65a78185a3dbdb8c7af5f8c47a}} 
-const int {\bfseries NEW} = 0
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a8c696aff169c1272d5c0dcca5c530d3f}\label{classScreenViews_1_1NCurses_a8c696aff169c1272d5c0dcca5c530d3f}} 
-const int {\bfseries SAVE} = 1
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a3a9f256d597de464377933afb7e77284}\label{classScreenViews_1_1NCurses_a3a9f256d597de464377933afb7e77284}} 
-const int {\bfseries LOAD} = 2
-\item 
-\mbox{\Hypertarget{classScreenViews_1_1NCurses_a5cad33bf9c41457dcb8de02646e6a866}\label{classScreenViews_1_1NCurses_a5cad33bf9c41457dcb8de02646e6a866}} 
-const int {\bfseries QUIT} = 3
+\mbox{\Hypertarget{classScreenViews_1_1NCurses_a3e0f1d5bef17825dc3819edfff96905d}\label{classScreenViews_1_1NCurses_a3e0f1d5bef17825dc3819edfff96905d}} 
+static void {\bfseries log\+Cursor\+Position} (int keyb\+Position)
 \end{DoxyCompactItemize}
+\doxysubsection*{Membres hérités additionnels}
 
 
 \doxysubsection{Description détaillée}
 class NCurses\+View -\/ 
 
-Définition à la ligne 16 du fichier Screen\+Views.\+h.
+Définition à la ligne 14 du fichier Screen\+Views.\+h.
 
 
 

@@ -84,13 +84,13 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  <span class="comment">// DataStructure</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classFileManager_1_1FileViewModel.html">   13</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classFileManager_1_1FileViewModel.html">FileViewModel</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1Loggable.html">Loggable</a>, <span class="keyword">public</span> <a class="code" href="classModel_1_1GenericModel.html">GenericModel</a> {</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> worldData;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> worldData;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    list&lt;string&gt; messages = Loggable::log();</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="classFileManager_1_1FileViewModel.html">FileViewModel</a> (<a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> worldData);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> getWorldHeight ();</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> getWorldWidth ();</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> getWorldData ();</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> getWorldData ();</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">bool</span> isRunning ();</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">bool</span> getTic ();</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> getWildlifeCount ();</div>
@@ -106,26 +106,26 @@ $(function() {
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <span class="comment">// interface</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classFileManager_1_1FileView.html">   36</a></span>&#160;<span class="comment"></span>  <span class="keyword">class </span><a class="code" href="classFileManager_1_1FileView.html">FileView</a> {</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="classFileManager_1_1FileView.html">FileView</a> ();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="classFileManager_1_1FileView.html">FileView</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> * filepath);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> save ();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> load ();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      <a class="code" href="classFileManager_1_1FileView.html">FileView</a> ();</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      <a class="code" href="classFileManager_1_1FileView.html">FileView</a> (<span class="keyword">const</span> <span class="keywordtype">char</span> * filepath);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> save ();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      <span class="keyword">virtual</span> <span class="keywordtype">void</span> load ();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  };</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
 <div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="classFileManager_1_1FilePresenter.html">   46</a></span>&#160;  <span class="keyword">class </span><a class="code" href="classFileManager_1_1FilePresenter.html">FilePresenter</a> : <span class="keyword">public</span> <a class="code" href="classInteractor_1_1OutputDevice.html">OutputDevice</a> {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// Attributes</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="classFileManager_1_1FileView.html">FileView</a> * view;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="classFileManager_1_1FileViewModel.html">FileViewModel</a> * data;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="classInteractor_1_1World.html">World</a> * world;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    DIR *dir_ptr;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">struct </span>dirent *diread;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// Operations</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="classFileManager_1_1FilePresenter.html">FilePresenter</a> ();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> print (<a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> data);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    list&lt;string&gt; getSavedFiles ();</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <a class="code" href="classFileManager_1_1FileView.html">FileView</a> * view;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      <a class="code" href="classFileManager_1_1FileViewModel.html">FileViewModel</a> * data;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <a class="code" href="classInteractor_1_1World.html">World</a> * world;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      DIR *dir_ptr;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keyword">struct </span>dirent *diread;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="comment">// Operations</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <a class="code" href="classFileManager_1_1FilePresenter.html">FilePresenter</a> ();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <span class="keywordtype">void</span> print (<a class="code" href="classInteractor_1_1WorldModel.html">WorldModel</a> data);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      list&lt;string&gt; getSavedFiles ();</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  };</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
@@ -135,9 +135,9 @@ $(function() {
 <div class="ttc" id="aclassFileManager_1_1FileView_html"><div class="ttname"><a href="classFileManager_1_1FileView.html">FileManager::FileView</a></div><div class="ttdoc">class FileView -</div><div class="ttdef"><b>Definition:</b> <a href="FileManager_8h_source.html#l00036">FileManager.h:36</a></div></div>
 <div class="ttc" id="aclassInteractor_1_1ClockSubscriber_html"><div class="ttname"><a href="classInteractor_1_1ClockSubscriber.html">Interactor::ClockSubscriber</a></div><div class="ttdoc">class ClockSubscriber -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00033">Interactor.h:33</a></div></div>
 <div class="ttc" id="aclassInteractor_1_1Loggable_html"><div class="ttname"><a href="classInteractor_1_1Loggable.html">Interactor::Loggable</a></div><div class="ttdoc">class Loggable -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00024">Interactor.h:24</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1OutputDevice_html"><div class="ttname"><a href="classInteractor_1_1OutputDevice.html">Interactor::OutputDevice</a></div><div class="ttdoc">class Loggable -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00108">Interactor.h:108</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1WorldModel_html"><div class="ttname"><a href="classInteractor_1_1WorldModel.html">Interactor::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00077">Interactor.h:77</a></div></div>
-<div class="ttc" id="aclassInteractor_1_1World_html"><div class="ttname"><a href="classInteractor_1_1World.html">Interactor::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00116">Interactor.h:116</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1OutputDevice_html"><div class="ttname"><a href="classInteractor_1_1OutputDevice.html">Interactor::OutputDevice</a></div><div class="ttdoc">class Loggable -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00110">Interactor.h:110</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1WorldModel_html"><div class="ttname"><a href="classInteractor_1_1WorldModel.html">Interactor::WorldModel</a></div><div class="ttdoc">class WorldModel -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00079">Interactor.h:79</a></div></div>
+<div class="ttc" id="aclassInteractor_1_1World_html"><div class="ttname"><a href="classInteractor_1_1World.html">Interactor::World</a></div><div class="ttdoc">class World -</div><div class="ttdef"><b>Definition:</b> <a href="Interactor_8h_source.html#l00118">Interactor.h:118</a></div></div>
 <div class="ttc" id="aclassModel_1_1GenericModel_html"><div class="ttname"><a href="classModel_1_1GenericModel.html">Model::GenericModel</a></div><div class="ttdoc">Class Model -.</div><div class="ttdef"><b>Definition:</b> <a href="Model_8h_source.html#l00012">Model.h:12</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
