@@ -120,12 +120,31 @@ void ScreenViews::NCurses::logCursorPosition (int keybPosition) {
   log->log("Cursor position: " + to_string(keybPosition));
 }
 
+const unsigned int ScreenViews::NCurses::computeMaxWidth (list<Node *> menu) {
+  map<string, string> dict = data->getDictionary();
+  list<Node *>::iterator it;
+  unsigned int max = 0;
+  unsigned int len = 0;
+
+  for(it = menu.begin(); it != menu.end(); it++) {
+    len = dict[(*it)->getName()].size();
+    if (dynamic_cast<Item*>(*it))
+      len += 4;
+    if (max < len)
+      max = len;
+  }
+
+  return max;
+}
+
 void ScreenViews::NCurses::mainMenu (int keybPosition) {
   Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
   log->log("appel de mainMenu()");
-//TODO: dimentionner automatiquement la largeur de la fenêtre en focntion du menu
-  const unsigned int menuSize = 5;
-  windows[MAIN] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
+
+  list<Node *> menu = data->getMenu();
+  const unsigned int menuMaxWidth = computeMaxWidth(menu);
+  const unsigned int edges = 2;
+  windows[MAIN] = subwin(stdscr, menu.size()+edges, menuMaxWidth+edges, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
   if (toClear) {
     clear();
     toClear = false;

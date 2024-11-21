@@ -50,6 +50,7 @@ namespace ScreenViews {
       int getChar ();
       void hello (); // Pour tester l'affichage en cas de soucis
       void validateOption (int optionNumber);
+      const unsigned int computeMaxWidth (list<Node *> menu);
   };
 
 };

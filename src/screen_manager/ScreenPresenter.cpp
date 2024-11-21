@@ -30,7 +30,7 @@ void ScreenPresenter::display () {
     //TODO: Essayer de supprimer la gestion de changement d ecran avec la variable screen
     // voir comment on peux faire avec la liste des nodes
     switch (screen) {
-      case MAIN:
+      default: //MAIN menu
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
@@ -53,7 +53,7 @@ void ScreenPresenter::display () {
           }
         } else {
           keyb->setPositionsCount((int)menuSize);
-          this->view->mainMenu(keyb->getPosition()); //TODO: Traiter aussi le menu principal comme pour les options
+          this->view->mainMenu(keyb->getPosition());
         }
         keyb->resetValid();
         break;
@@ -71,7 +71,7 @@ void ScreenPresenter::display () {
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              changeScreen(LANGUAGES);
+              changeScreen(LANGUAGES); //TODO: attention au calcul de la largeur de la fenetre
               data->validateNode(0);
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
@@ -218,12 +218,6 @@ void ScreenPresenter::display () {
           this->view->end();
         }
         break;
-
-      default:
-        keyb->setPositionsCount((int)menuSize);
-        this->view->mainMenu(keyb->getPosition());
-        keyb->resetValid();
-        break;
     }
   }
 }
@@ -263,8 +257,6 @@ void ScreenPresenter::end () {
 ScreenViewModel * ScreenPresenter::getData () {
   return this->data;
 }
-
-
 
 void ScreenPresenter::print (WorldModel data) {
 }
