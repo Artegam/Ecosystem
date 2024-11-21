@@ -117,7 +117,7 @@ install:
 	if [ ! -d /var/log/ecosystem/ ]; then sudo mkdir /var/log/ecosystem/; fi
 
 install-tools: install-libs directories
-	sudo apt-get install g++ vim dia
+	sudo apt-get install g++ vim dia dia2code doxygen
 
 install-libs:
 	sudo apt-get install libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
@@ -132,7 +132,7 @@ uninstall-libs:
 	sudo apt-get remove libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 uninstall-tools: uninstall-libs
-	sudo apt-get remove g++ vim dia
+	sudo apt-get remove g++ vim dia dia2code doxygen
 	rm -r o/
 
 test:
