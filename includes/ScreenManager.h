@@ -177,7 +177,7 @@ namespace ScreenManager {
       int getCurrentWindow();
       list<string> log();
       void validate(int position);
-      void backNode();
+      void back();
       list<Node *> getMenu ();
       list<Node *> getParents ();
       string getTitle ();

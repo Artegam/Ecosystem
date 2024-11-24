@@ -120,7 +120,6 @@ list<string> ScreenViewModel::log() {
   return messages;
 }
 
-//TODO: Mettre le code dans la classe Node
 void ScreenViewModel::validate(int position) {
   list<Node *> lst = getMenu();
   list<Node *>::iterator it = lst.begin();
@@ -133,8 +132,7 @@ void ScreenViewModel::validate(int position) {
   }
 }
 
-//TODO: renommer back
-void ScreenViewModel::backNode() {
+void ScreenViewModel::back() {
   this->currentNode = parentNodes.front();
   parentNodes.pop_front();
 }

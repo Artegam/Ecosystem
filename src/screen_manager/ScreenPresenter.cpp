@@ -82,7 +82,7 @@ void ScreenPresenter::display () {
               break;
             case 3: // Back
               changeScreen(MAIN);
-              data->backNode();
+              data->back();
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
           }
@@ -108,7 +108,7 @@ void ScreenPresenter::display () {
               break;
             case 3: // Back
               changeScreen(OPTIONS);
-              data->backNode();
+              data->back();
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
           }
@@ -129,7 +129,7 @@ void ScreenPresenter::display () {
               break;
             case 3: // Back
               changeScreen(OPTIONS);
-              data->backNode();
+              data->back();
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
           }
