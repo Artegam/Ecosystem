@@ -121,16 +121,13 @@ list<string> ScreenViewModel::log() {
 }
 
 //TODO: Mettre le code dans la classe Node
-void ScreenViewModel::validateNode(int position) {
+void ScreenViewModel::validate(int position) {
   list<Node *> lst = getMenu();
   list<Node *>::iterator it = lst.begin();
   advance(it, position);
-  // TODO: Reflechir ici avec des groupItem par exemple
-  // Verifie si il s'agit d'un Item
-  Item * i = dynamic_cast<Item*> ((*it));
-  if( i != NULL) {
-    i->select();
-  } else {
+
+  if(!(*it)->validate()) {
+    // Go one step down into the menu hierarchy
     parentNodes.push_front(this->currentNode);
     this->currentNode = (*it);
   }

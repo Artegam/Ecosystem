@@ -60,9 +60,10 @@ Node * Node::getNode(string name) {
   return NULL;
 }
 
-void Node::validate () {
+bool Node::validate () {
   try {
     //fct();
+    return false;
   } catch (std::bad_function_call& e) {
     // TODO: Needs to put the logger here !!!
     //std::cout << "ERROR: Bad function call\n";

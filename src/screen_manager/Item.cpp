@@ -26,8 +26,9 @@ string Item::getName () {
   return Node::getName();
 }
 
-void Item::validate () {
+bool Item::validate () {
   fct(this);
+  return true;
 }
 
 void Item::clear () {

@@ -38,7 +38,7 @@ void ScreenPresenter::display () {
               break;
             case 1:
               changeScreen(OPTIONS);
-              data->validateNode(1);
+              data->validate(1);
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
             case 2:
@@ -72,12 +72,12 @@ void ScreenPresenter::display () {
           switch (keyb->getPosition()) {
             case 0:
               changeScreen(LANGUAGES); //TODO: attention au calcul de la largeur de la fenetre
-              data->validateNode(0);
+              data->validate(0);
               keyb->setPositionsCount((int)data->getMenu().size());
               break;
             case 1:
               changeScreen(VIDEO);
-              data->validateNode(1);
+              data->validate(1);
               keyb->setPositionsCount(4);
               break;
             case 3: // Back

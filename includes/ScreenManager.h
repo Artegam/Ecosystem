@@ -106,7 +106,7 @@ namespace ScreenManager {
       virtual string getName ();
       Node * getParent ();
       Node * getNode(string name);
-      virtual void validate ();
+      virtual bool validate ();
       virtual void clear ();
   };
 
@@ -121,7 +121,7 @@ namespace ScreenManager {
       void select ();
       bool isSelected ();
       string getName ();
-      void validate ();
+      bool validate ();
       void clear ();
   };
 
@@ -176,7 +176,7 @@ namespace ScreenManager {
       void setCurrentWindow(int window);
       int getCurrentWindow();
       list<string> log();
-      void validateNode(int position);
+      void validate(int position);
       void backNode();
       list<Node *> getMenu ();
       list<Node *> getParents ();
