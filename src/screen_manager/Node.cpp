@@ -65,7 +65,7 @@ bool Node::validate () {
     //fct();
     return false;
   } catch (std::bad_function_call& e) {
-    // TODO: Needs to put the logger here !!!
+    // Needs to put the logger here !!!
     //std::cout << "ERROR: Bad function call\n";
   }
 }

@@ -59,34 +59,22 @@ void ScreenPresenter::display () {
         break;
 
       case OPTIONS:
-        // On a une position ici ???
-        // TODO: Il faudrait reecrire ceci mieux que ca, avec la position du clavier, etc...
-        // reflechir au bon positionnement de ce code
-        // Ca devrait se trouver dans la fonction anonyme pour le Node en question
-        // on peux valider en fonction du nombre d'enfant et de la position du clavier
-        // on peux avoir une fonction display ou draw generique pour le bloc if
-        // le bloc else est specifique
-        // quelle classe a la responsabilite de changer d ecran ?
-        // Qui doit composer l arbre du menu ?
         if(keyb->isValid()) {
           switch (keyb->getPosition()) {
             case 0:
-              changeScreen(LANGUAGES); //TODO: attention au calcul de la largeur de la fenetre
+              changeScreen(LANGUAGES);
               data->validate(0);
-              keyb->setPositionsCount((int)data->getMenu().size());
               break;
             case 1:
               changeScreen(VIDEO);
               data->validate(1);
-              keyb->setPositionsCount(4);
               break;
             case 3: // Back
               changeScreen(MAIN);
               data->back();
-              keyb->setPositionsCount((int)data->getMenu().size());
               break;
           }
-          //keyb->setPositionsCount((int)data->getMenu().size());
+          keyb->setPositionsCount((int)data->getMenu().size());
         } else {
           this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
         }
