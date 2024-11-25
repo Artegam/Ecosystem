@@ -155,7 +155,8 @@ namespace ScreenManager {
       Sound * snd;
       list<string> languages;
       unsigned int language = 0;
-      map<string, string> dict;
+      map<string, map<string, string>> dictionaries;
+      map<string, string> dictionary;
 
     public:
       ScreenViewModel (WorldModel worldData);
@@ -181,7 +182,9 @@ namespace ScreenManager {
       list<Node *> getMenu ();
       list<Node *> getParents ();
       string getTitle ();
-      map<string, string> getDictionary();
+      void selectDictionary();
+      void loadDictionaries ();
+      string translate(string key);
       list<list<string>> getLanguages ();
       map<string, string> getTheme ();
       list<list<string>> getFile (string filename);

@@ -85,7 +85,8 @@ void ScreenViews::NCurses::redraw (WINDOW * win) {
   usleep(20000);
 }
 
-void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, map<string, string> dictionary, int keybPosition) {
+void ScreenViews::NCurses::display (WINDOW * win, ScreenViewModel * data, int keybPosition) {
+  list<Node *> menu = data->getMenu();
   list<Node *>::iterator it;
   int i = 0;
 
@@ -99,12 +100,12 @@ void ScreenViews::NCurses::display (WINDOW * win, list<Node *> menu, map<string,
     string prefix = "";
     if (Item* item = dynamic_cast<Item*>(*it)) {
       if(item->isSelected()) {
-        prefix = dictionary["selectedItem"];
+        prefix = data->translate("selectedItem");
       } else {
-        prefix = dictionary["unselectedItem"];
+        prefix = data->translate("unselectedItem");
       }
     }
-    mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), dictionary[(*it)->getName()].c_str());
+    mvwprintw(win, 1+i, 1, "%s%s", prefix.c_str(), data->translate((*it)->getName()).c_str());
     wattroff(win, A_REVERSE);
     i++;
   }
@@ -121,13 +122,12 @@ void ScreenViews::NCurses::logCursorPosition (int keybPosition) {
 }
 
 const unsigned int ScreenViews::NCurses::computeMaxWidth (list<Node *> menu) {
-  map<string, string> dict = data->getDictionary();
   list<Node *>::iterator it;
   unsigned int max = 0;
   unsigned int len = 0;
 
   for(it = menu.begin(); it != menu.end(); it++) {
-    len = dict[(*it)->getName()].size();
+    len = data->translate((*it)->getName()).size();
     if (dynamic_cast<Item*>(*it))
       len += 4;
     if (max < len)
@@ -159,7 +159,7 @@ void ScreenViews::NCurses::mainMenu (int keybPosition) {
   displayCursorPosition(keybPosition);
 
   // Affiche le menu principal
-  std::thread t_m(&NCurses::display, windows[MAIN], data->getMenu(), data->getDictionary(), keybPosition);
+  std::thread t_m(&NCurses::display, windows[MAIN], data, keybPosition);
   t_m.detach();
 
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -178,7 +178,7 @@ void ScreenViews::NCurses::options (int keybPosition) {
   }
 
   windows[OPTIONS] = createWindow(data->getMenu().size(), 15);
-  display(windows[OPTIONS], data->getMenu(), data->getDictionary(), keybPosition);
+  display(windows[OPTIONS], data, keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -197,7 +197,7 @@ void ScreenViews::NCurses::languages (int keybPosition) {
   }
 
   windows[LANGUAGES] = createWindow(data->getMenu().size(), 15);
-  display(windows[LANGUAGES], data->getMenu(), data->getDictionary(), keybPosition);
+  display(windows[LANGUAGES], data, keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -217,7 +217,7 @@ void ScreenViews::NCurses::video (int keybPosition) {
 
   //windows[VIDEO] = createWindow(data->getMenu().size(), 15);
   windows[VIDEO] = createWindow(4, 15);
-  display(windows[VIDEO], data->getMenu(), data->getDictionary(), keybPosition);
+  display(windows[VIDEO], data, keybPosition);
 
   displayCursorPosition(keybPosition);
   wmove(windows[ROOT], 0, 0); // repositione le curseur
@@ -330,7 +330,6 @@ void ScreenViews::NCurses::gameplay () {
   unsigned int const yOffset = 1;
   map<int, int> worldMap = data->getWorldData().getWorldMap();
   unsigned int size = worldMap.size();
-  map<string, string> dict = data->getDictionary();
 
   if (toClear) {
     clear();
@@ -347,11 +346,11 @@ void ScreenViews::NCurses::gameplay () {
     int y = yOffset + ((index - (x - xOffset)) / worldWidth);
 
     if(worldMap[index] == OCEAN) {
-      drawChar (windows[IN_GAME], x, y, dict["Water"].c_str()[0], WATER_PAIR);
+      drawChar (windows[IN_GAME], x, y, data->translate("Water").c_str()[0], WATER_PAIR);
     } else if (worldMap[index] == PLAIN) {
-      drawChar (windows[IN_GAME], x, y, dict["Plain"].c_str()[0], PLAIN_PAIR);
+      drawChar (windows[IN_GAME], x, y, data->translate("Plain").c_str()[0], PLAIN_PAIR);
     } else {
-      drawChar (windows[IN_GAME], x, y, dict["Empty"].c_str()[0], EMPTY_PAIR);
+      drawChar (windows[IN_GAME], x, y, data->translate("Empty").c_str()[0], EMPTY_PAIR);
     }
   }
 

@@ -9,7 +9,7 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   function<void(Node *)> fct = [] (Node * n) {
   };
 
-  this->dict = getDictionary();
+  loadDictionaries();
   loadMenu();
   this->currentNode = root;
 
@@ -162,9 +162,15 @@ string ScreenViewModel::getTitle () {
   return "Ecosystem V0.1";
 }
 
-map<string, string> ScreenViewModel::getDictionary() {
-  //TODO: essayer de nettoyer ce tas de merde, faire sortir la fonctionalite du dictionnaire
-  map<string, map<string, string>> dictionaries;
+void ScreenViewModel::selectDictionary() {
+  // Selection du dictionnaire et retour
+  list<string>::iterator itl = this->languages.begin();
+  advance(itl, this->language);
+
+  dictionary = dictionaries[(*itl)];
+}
+
+void ScreenViewModel::loadDictionaries () {
   map<string, string> theme = getTheme();
   dictionaries["Theme"] = theme;
 
@@ -181,6 +187,7 @@ map<string, string> ScreenViewModel::getDictionary() {
   header = (*it);
   for(it2 = ++line.begin(); it2 != line.end(); it2++) {
     map<string, string> dict;
+    dict.insert(theme.begin(), theme.end());
     dictionaries[(*it2)] = dict;
     this->languages.push_back((*it2));
   }
@@ -196,13 +203,11 @@ map<string, string> ScreenViewModel::getDictionary() {
       dictionaries[(*ith)][keyword] = (*++it2);
     }
   }
-  // Selection du dictionnaire et retour
-  list<string>::iterator itl = this->languages.begin();
-  advance(itl, this->language);
+  selectDictionary();
+}
 
-  string k = (*itl);
-  dictionaries[k].insert(theme.begin(), theme.end());
-  return dictionaries[k];
+string ScreenViewModel::translate(string key) {
+  return dictionary[key];
 }
 
 list<list<string>> ScreenViewModel::getLanguages () {
@@ -264,7 +269,7 @@ unsigned int ScreenViewModel::getLanguage () {
 
 void ScreenViewModel::setLanguage (unsigned int lang) {
   this->language = lang;
-  this->dict = getDictionary();
+  selectDictionary();
 }
 
 void ScreenViewModel::loadMenu () {
