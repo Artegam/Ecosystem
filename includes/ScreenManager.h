@@ -140,6 +140,28 @@ namespace ScreenManager {
       void selectItem (string name);
   };
 
+  class Dictionary {
+    private:
+      list<string> languages;
+      unsigned int language = 0;
+      map<string, map<string, string>> dictionaries;
+      map<string, string> dictionary;
+
+    public:
+      Dictionary ();
+
+      list<list<string>> getFile (string filename);
+      map<string, string> getTheme ();
+      list<string> getLanguages ();
+      unsigned int getLanguage ();
+
+      void setLanguage (unsigned int lang = 0);
+
+      void selectDictionary ();
+      void loadDictionaries ();
+      string translate (string key);
+  };
+
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
@@ -153,10 +175,7 @@ namespace ScreenManager {
       Node * root;
       Keyboard * keyboard;
       Sound * snd;
-      list<string> languages;
-      unsigned int language = 0;
-      map<string, map<string, string>> dictionaries;
-      map<string, string> dictionary;
+      Dictionary dictionary;
 
     public:
       ScreenViewModel (WorldModel worldData);
@@ -182,15 +201,9 @@ namespace ScreenManager {
       list<Node *> getMenu ();
       list<Node *> getParents ();
       string getTitle ();
-      void selectDictionary();
-      void loadDictionaries ();
-      string translate(string key);
-      list<list<string>> getLanguages ();
-      map<string, string> getTheme ();
-      list<list<string>> getFile (string filename);
-      unsigned int getLanguage ();
-      void setLanguage (unsigned int lang = 0);
       void loadMenu ();
+      void setLanguage (unsigned int lang = 0);
+      string translate (string key);
   };
 
   // interface
