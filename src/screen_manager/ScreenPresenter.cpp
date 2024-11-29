@@ -18,7 +18,7 @@ void ScreenPresenter::display () {
   list<string> lst_options;
   FilePresenter * fm = new FilePresenter();
 
-  // TODO: C'est ici que l'on gere l'affichage des menu et le comportement de l'affichage global
+  // C'est ici que l'on gere l'affichage des menu et le comportement de l'affichage global
   // Avoir l'ecran en cours d'affichage pour traiter les options possibles
   this->world->run();
   this->view->init(data);
@@ -28,7 +28,6 @@ void ScreenPresenter::display () {
     keyb->listen(this->view->getChar());
 
     //TODO: Essayer de supprimer la gestion de changement d ecran avec la variable screen
-    // voir comment on peux faire avec la liste des nodes
     switch (screen) {
       default: //MAIN menu
         if(keyb->isValid()) {
@@ -193,7 +192,6 @@ void ScreenPresenter::display () {
       case IN_GAME:
         this->view->infos(getInfos());
         this->view->gameplay();
-        //TODO: ICI gestion clavier pour la partie en cours ????
         this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
         keyb->resetValid();
         break;
