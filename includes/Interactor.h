@@ -22,57 +22,57 @@ namespace Interactor {
   // interface
   /// class Loggable - 
   class Loggable {
-  private:
-    // Operations
-  public:
-    virtual list<string> log ();
+    private:
+      // Operations
+    public:
+      virtual list<string> log ();
   };
 
   // interface
   /// class ClockSubscriber - 
   class ClockSubscriber {
-  private:
-    string id = "";
-  protected:
-    bool die = false;
-    // Operations
-  public:
-    void setId (const string ident);
-    const string getId ();
-    virtual void update ();
-    virtual GenericModel * getData ();
-    bool isDying ();
-    int getX ();
-    int getY ();
+    private:
+      string id = "";
+    protected:
+      bool die = false;
+      // Operations
+    public:
+      void setId (const string ident);
+      const string getId ();
+      virtual void update ();
+      virtual GenericModel * getData ();
+      bool isDying ();
+      int getX ();
+      int getY ();
   };
 
   /// class Clock - 
   class Clock {
     // Attributes
-  private:
-    static bool executing;
-    static bool running;
-    static thread t1;
-    static map<string, ClockSubscriber *>::iterator it;
-    static unsigned int turns;
-  public:
-    static bool t;
-    static unsigned int interval;
-    static map<string, ClockSubscriber *> subscribers;
-    // Operations
-  public:
-    Clock (unsigned int interv = 1000);
-    ~Clock ();
-    void run ();
-    void stop ();
-    static void tick ();
-    void subscribe (ClockSubscriber * s);
-    void unsubscribe (ClockSubscriber * s);
-    bool isRunning();
-    unsigned int subscribersCount ();
-    bool getT();
-    map<string, ClockSubscriber *> getSubscribers();
-    static unsigned int getTurns();
+    private:
+      static bool executing;
+      static bool running;
+      static thread t1;
+      static map<string, ClockSubscriber *>::iterator it;
+      static unsigned int turns;
+    public:
+      static bool t;
+      static unsigned int interval;
+      static map<string, ClockSubscriber *> subscribers;
+      // Operations
+    public:
+      Clock (unsigned int interv = 1000);
+      ~Clock ();
+      void run ();
+      void stop ();
+      static void tick ();
+      void subscribe (ClockSubscriber * s);
+      void unsubscribe (ClockSubscriber * s);
+      bool isRunning();
+      unsigned int subscribersCount ();
+      bool getT();
+      map<string, ClockSubscriber *> getSubscribers();
+      static unsigned int getTurns();
   };
 
   /// class WorldModel - 
@@ -108,25 +108,25 @@ namespace Interactor {
   // interface
   /// class Loggable - 
   class OutputDevice {
-  private:
-    // Operations
-  public:
-    virtual void display ();
+    private:
+      // Operations
+    public:
+      virtual void display ();
   };
 
   /// class World - 
   class World {
     // Attributes
-  private:
-    WorldModel data;
-    // Operations
-  public:
-    World (int height = 20, int width = 30);
-    WorldModel getData ();
-		void addWildlife(string wildlifeName, int number);
-    void run (void);
-		vector<vector<ClockSubscriber*>> getMap ();
-    vector<vector<ClockSubscriber*>> getMap (int minX, int maxX, int minY, int maxY);
+    private:
+      WorldModel data;
+      // Operations
+    public:
+      World (int height = 20, int width = 30);
+      WorldModel getData ();
+      void addWildlife(string wildlifeName, int number);
+      void run (void);
+      vector<vector<ClockSubscriber*>> getMap ();
+      vector<vector<ClockSubscriber*>> getMap (int minX, int maxX, int minY, int maxY);
   };
 
   class WildlifeModel : public Loggable, public GenericModel {
@@ -145,16 +145,16 @@ namespace Interactor {
       World * world;
       deque<pair<int, int>> path;
       int fieldOfView = 1;
-			map<int, list<ClockSubscriber *>> vision;
+      map<int, list<ClockSubscriber *>> vision;
       int movingTerrainType;
 
     public:
       // TODO: Mettre Terrain types dans une structure...
       // Terrain types
-			unsigned int const OCEAN = 0;
-			unsigned int const PLAIN = 1;
+      unsigned int const OCEAN = 0;
+      unsigned int const PLAIN = 1;
 
-    // Operations
+      // Operations
     public:
       WildlifeModel ();
       WildlifeModel (const WildlifeModel &wm);
@@ -167,11 +167,11 @@ namespace Interactor {
       int getViewField ();
       int getX ();
       int getY ();
-			int getFieldOfView();
+      int getFieldOfView();
       World * getWorld ();
       int getTurnsNumberBeforeStarving ();
       void getHungry ();
-			map<int, list<ClockSubscriber *>> getVision ();
+      map<int, list<ClockSubscriber *>> getVision ();
       int getMovingTerrainType ();
       void happyBirthday ();
       void setMaturityAge(unsigned int age);
@@ -183,17 +183,17 @@ namespace Interactor {
       void setWorld (World * w);
       void setDisplayChar (char c);
       void setDefaultTurnsNumberBeforeStarving (int turns);
-			void setFieldOfView(int distance);
-			void setVision (map<int, list<ClockSubscriber *>> v);
+      void setFieldOfView(int distance);
+      void setVision (map<int, list<ClockSubscriber *>> v);
       void setMovingTerrainType (int terrainType);
       int random(const int min, const int max);
       void savePosition();
       bool isKnownedPosition(int posX, int posY);
       map<int, list<ClockSubscriber *>> openYourEyes();
-			pair<int, int> calculateCoordinates (int index);
-			unsigned int calculateIndex (pair<int, int> position);
-			unsigned int calculateIndex (int x, int y);
-			list<string> log ();
+      pair<int, int> calculateCoordinates (int index);
+      unsigned int calculateIndex (pair<int, int> position);
+      unsigned int calculateIndex (int x, int y);
+      list<string> log ();
   };
 
   // interface
@@ -230,10 +230,10 @@ namespace Interactor {
       void addWildlife(string wildlifeName, int number);
       template <class T> bool cmp(pair<T, T>& x1, pair<T, T>& x2);
       GenericModel * getData ();
-		protected:
-			void happyBirthday ();
-			bool isStarving ();
-			bool isDead ();
+    protected:
+      void happyBirthday ();
+      bool isStarving ();
+      bool isDead ();
   };
 
   /// class Fish - 

@@ -15,13 +15,8 @@ void Explorer::compute (WildlifeModel * data) {
   data->setY(pos[1]); //y
 }
 
-//TODO : A ecrire mieux que ca...
 vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   vector<int> position;
-
-  // 1 2 3
-  // 4 . 5
-  // 6 7 8
 
   int x = data->getX();
   int y = data->getY();
@@ -29,39 +24,43 @@ vector<int> Explorer::getNewPosition(WildlifeModel * data) {
   map<int, int> worldMap = worldData.getWorldMap();
   int width = worldData.getWidth();
   int height = worldData.getHeight();
-	map<int, list<ClockSubscriber *>> myVision = data->getVision();
+  // sert a ponderer les cases pour le choix
+  //map<int, list<ClockSubscriber *>> myVision = data->getVision();
   int terrainType = data->getMovingTerrainType();
 
+  // 1 2 3
+  // 4 . 5
+  // 6 7 8
+
   vector<pair<int,int>> all_possibles = {
-    { (width + (x-1)) % width, (height + (y-1)) % height},
-    { x                      , (height + (y-1)) % height},
-    { (x+1) % width          , (height + (y-1)) % height},
-    { (width + (x-1)) % width, y},
-    { (x+1) % width          , y},
-    { (width + (x-1)) % width, (y+1) % height},
-    { x                      , (y+1) % height},
-    { (x+1) % width          , (y+1) % height},
+    { (x-1) % width, (y-1) % height},
+    { x            , (y-1) % height},
+    { (x+1) % width, (y-1) % height},
+    { (x-1) % width, y},
+    { (x+1) % width, y},
+    { (x-1) % width, (y+1) % height},
+    { x            , (y+1) % height},
+    { (x+1) % width, (y+1) % height},
   };
 
-	vector<pair<int,int>> possiblesUnknown;
-	vector<pair<int,int>> possiblesKnown;
-
+  vector<pair<int,int>> unexploredBoxes;
+  vector<pair<int,int>> boxesAlreadyCovered;
   vector<pair<int,int>>::iterator it;
+
   for(it = all_possibles.begin(); it != all_possibles.end(); it++) {
     unsigned int index = worldData.calculateIndex(it->first, it->second);
     if( worldMap[index] == terrainType ) {
       if(data->isKnownedPosition(it->first, it->second)) {
-        possiblesKnown.push_back(*it);
+        boxesAlreadyCovered.push_back(*it);
       } else {
-        possiblesUnknown.push_back(*it);
+        unexploredBoxes.push_back(*it);
       }
     }
   }
 
-	vector<pair<int,int>> possibles = possiblesUnknown;
-  if(possiblesUnknown.size() == 0) {
-    possibles = possiblesKnown;
-  }
+  vector<pair<int,int>> possibles = unexploredBoxes;
+  if(unexploredBoxes.size() == 0)
+    possibles = boxesAlreadyCovered;
 
   int index = data->random(0, possibles.size()-1);
   pair<int, int> newPos = possibles[index];

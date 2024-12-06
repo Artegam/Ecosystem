@@ -389,7 +389,6 @@ list<string> WildlifeModel::log () {
   deque<pair<int, int>>::iterator it;
   string line = "";
   for(it = path.begin(); it != path.end(); it++) {
-    //line += "->";
     messages.push_back("x: " + to_string(it->first) + ", y: " + to_string(it->second));
   }
 
