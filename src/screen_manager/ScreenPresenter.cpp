@@ -173,7 +173,7 @@ void ScreenPresenter::display () {
 
             switch (choice) {
               case 0:
-                // TODO: Select file to be loaded
+                // TODO: Select file to be overwrited
                 //changeScreen(IN_GAME);
                 break;
               case 2: // Back to main menu
