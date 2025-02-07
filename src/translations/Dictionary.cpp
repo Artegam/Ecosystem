@@ -1,7 +1,7 @@
-#include "ScreenManager.h"
+#include "Translations.h"
 
 using namespace std;
-using namespace ScreenManager;
+using namespace Translations;
 
 Dictionary::Dictionary () {
   loadDictionaries();

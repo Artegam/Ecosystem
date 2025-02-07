@@ -4,12 +4,18 @@
 #include "Interactor.h"
 #include "FileManager.h"
 #include "Sound.h"
-#include <functional>
+#include "Translations.h"
+#include "GraphicComponents.h"
+#include "Views.h"
 #include <list>
+#include <map>
 
 using namespace Interactor;
 using namespace FileManager;
 using namespace sound;
+using namespace Translations;
+using namespace GraphicComponents;
+using namespace Views;
 
 namespace ScreenManager {
   // Keyboard keys
@@ -20,27 +26,15 @@ namespace ScreenManager {
   const int KEYB_ESCAPE = 4;
 
   // Screens
-  const int ROOT       = 0;
-  const int MAIN       = 1;
-  const int OPTIONS    = 2;
-  const int LANGUAGES  = 3;
-  const int VIDEO      = 4;
-  const int SAVE       = 5;
-  const int LOAD       = 6;
-  const int IN_GAME    = 7;
-  const int GAME_OVER  = 8;
+  const int MAIN      = 0;
+  const int OPTIONS   = 1;
+  const int LANGUAGES = 2;
+  const int VIDEO     = 3;
+  const int SAVE      = 4;
+  const int LOAD      = 5;
+  const int IN_GAME   = 6;
+  const int GAME_OVER = 7;
 
-  // interface
-  /// class Menu - 
-  class Menu {
-    // Operations
-    public:
-      virtual void start ();
-      virtual void options ();
-      virtual void load ();
-      virtual void save ();
-      virtual void end ();
-  };
 
   class InputDevice {
   };
@@ -86,82 +80,6 @@ namespace ScreenManager {
       Sound();
   };
 
-  class Node {
-    private:
-      string name;
-      //TODO: ici mettre le pointeur sur fonction ?
-      //void (*fct)();
-      list<Node *> children;
-      Node * parent;
-
-    public:
-      Node (string name);
-      Node (Node * parent, string name);
-      void add (Node * node);
-      void add (string name);
-      void addItem (string name);
-      void addGroup (string name);
-      void erase (unsigned int position);
-      list<Node *> getChildren ();
-      virtual string getName ();
-      Node * getParent ();
-      Node * getNode(string name);
-      virtual bool validate ();
-      virtual void clear ();
-  };
-
-  class Item : public Node {
-    private:
-      bool selected = false;
-      std::function<void(Item *)> fct;
-
-    public:
-      Item (string name);
-      Item (Node * parent, string name);
-      void select ();
-      bool isSelected ();
-      string getName ();
-      bool validate ();
-      void clear ();
-  };
-
-  class GroupItem : public Node {
-    private:
-      string defaultItem;
-      string selectedItem;
-      list<Item *> grp;
-
-    public:
-      GroupItem (string name);
-      GroupItem (Node * parent, string name);
-      void setDefault (string name);
-      Item * getSelectedItem ();
-      void display ();
-      void selectItem (string name);
-  };
-
-  class Dictionary {
-    private:
-      list<string> languages;
-      unsigned int language = 0;
-      map<string, map<string, string>> dictionaries;
-      map<string, string> dictionary;
-
-    public:
-      Dictionary ();
-
-      list<list<string>> getFile (string filename);
-      map<string, string> getTheme ();
-      list<string> getLanguages ();
-      unsigned int getLanguage ();
-
-      void setLanguage (unsigned int lang = 0);
-
-      void selectDictionary ();
-      void loadDictionaries ();
-      string translate (string key);
-  };
-
   // DataStructure
   /// class ScreenViewModel - 
   class ScreenViewModel : public Loggable, public GenericModel {
@@ -176,8 +94,17 @@ namespace ScreenManager {
       Keyboard * keyboard;
       Sound * snd;
       Dictionary dictionary;
+      map<int, Screen *> screens;
+
+      /*
+         mode meanings:
+         1 - NCurses
+         2 - OpenGL
+       */
+      int mode = 1;
 
     public:
+      ScreenViewModel ();
       ScreenViewModel (WorldModel worldData);
       int getWorldHeight ();
       int getWorldWidth ();
@@ -190,7 +117,6 @@ namespace ScreenManager {
       unsigned int getTurns ();
       const unsigned int getAverageAge();
       const unsigned int getLifeExpectancy ();
-      string getRawData ();
       void save (void);
       void load (void);
       void setCurrentWindow(int window);
@@ -199,69 +125,49 @@ namespace ScreenManager {
       void validate(int position);
       void back();
       list<Node *> getMenu ();
+      list<string> getMenuText ();
+      list<string> getMenuText (Node * node);
+      string getRawData ();
       list<Node *> getParents ();
       string getTitle ();
       void loadMenu ();
       void setLanguage (unsigned int lang = 0);
       string translate (string key);
-  };
-
-  // interface
-  /// class ScreenView - 
-  class ScreenView {
-    private:
-      ScreenViewModel * model;
-
-    protected:
-      bool toClear = false;
-
-    // Operations
-    public:
-      ScreenView ();
-      virtual void init (ScreenViewModel * data);
-      virtual void mainMenu (int keybPosition = -1);
-      virtual void options (int keybPosition = -1);
-      virtual void languages (int keybPosition = -1);
-      virtual void video (int keybPosition = -1);
-      virtual void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
-      virtual void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
-      //virtual void save (string filename);
-      virtual void infos (list<string> infos);
-      virtual void gameplay ();
-      virtual void end ();
-      virtual int getChar ();
-      void clearScreen ();
-      void clearOptions (list<Node *> options);
-      //*****************************************//
-      virtual void keyboardListener(WorldModel worldData);
-      virtual void validateOption (int optionNumber);
+      void setMode (int m);
+      int getMode ();
+      list<pair<pair<int, int>, string>> getDataScreen (const int screenView);
+      list<pair<pair<int, int>, string>> getDataMenu ();
+      void createWindow (int position, int height, int width);
+      Screen getScreen(const int screen);
   };
 
   /// class ScreenPresenter - 
-  class ScreenPresenter : public OutputDevice {
+  class ScreenPresenter : public Presenter, public OutputDevice {
     // Attributes
     private:
-      ScreenView * view;
-      ScreenViewModel * data;
+      View * view; // TO BE FIXED: the current view is a data => Model
+      ScreenViewModel data;
       World * world;
       Keyboard * keyb;
 
       int screen = MAIN;
       // Operations
     public:
-      ScreenPresenter (World * world, ScreenViewModel * svm, Keyboard * kb, ScreenView * sv);
+      ScreenPresenter (World * world, ScreenViewModel svm);
+      void start ();
       void display ();
       void setStatus (const int newStatus);
       list<string> getInfos ();
-      void start ();
       void load ();
       void save ();
       void end ();
       void print (WorldModel data);
       int getScreen ();
       void changeScreen (const int nextScreen);
-      ScreenViewModel * getData ();
+      ScreenViewModel getData ();
+      const unsigned int computeMaxWidth (list<Node *> menu);
   };
+
 
 }
 

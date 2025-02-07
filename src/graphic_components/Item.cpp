@@ -1,6 +1,6 @@
-#include "ScreenManager.h"
+#include "GraphicComponents.h"
 
-using namespace ScreenManager;
+using namespace GraphicComponents;
 
 Item::Item (string name) : Node (name) {
   fct = [] (Item * i) {

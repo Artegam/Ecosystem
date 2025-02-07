@@ -1,13 +1,13 @@
 #include "ScreenManager.h"
 #include "Interactor.h"
-
+#include "Logs.h"
 #include "Keyboards.h"
-#include "ScreenViews.h"
 
 #include <thread>
 
 using namespace ScreenManager;
 using namespace Interactor;
+using namespace Logs;
 
 // Prototypes
 void display(World * w);
@@ -40,10 +40,7 @@ int main(int argc, char** argv) {
 
 void display(World * w) {
   ScreenViewModel * svm = new ScreenViewModel(w->getData());
-  Keyboards::NCurses * kb = new Keyboards::NCurses();
-  ScreenViews::NCurses * sv = new ScreenViews::NCurses(kb);
-
-  OutputDevice * oDevice = new ScreenPresenter(w, svm, kb, sv);
-  oDevice->display();
+  OutputDevice * oDevice = new ScreenPresenter(w, *svm);
+  oDevice->start();
 }
 

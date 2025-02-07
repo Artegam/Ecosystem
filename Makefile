@@ -1,7 +1,7 @@
 
 ## Repertoires par défaut dans lesquels make va chercher.
 ## L'ordre est important pour les recherches
-VPATH = o:o/model/:o/screen_views:o/file_views:o/interactor:o/screen_listeners:o/screen_manager:o/file_manager:o/keyboards:o/sound:o/tests:src:includes
+VPATH = o:o/model/:o/views:o/logs:o/file_views:o/interactor:o/screen_listeners:o/screen_manager:o/file_manager:o/keyboards:o/sound:o/tests:src:includes
 
 TESTS = tests/
 INC = includes/
@@ -14,39 +14,48 @@ TEST_DIR = $(TESTS)$(SRC)
 
 INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
 
-LIBS = -lncurses -lstdc++fs -lopenal -lalut
+LIBS = -lncurses -lGL -lglut -lGLU -lstdc++fs -lopenal -lalut
 #EXEC = Ecosystem
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
 
 
 MODEL = $(wildcard src/model/*.cpp)
-SCREEN_VIEWS = $(wildcard src/screen_views/*.cpp)
+VIEWS = $(wildcard src/views/*.cpp)
 FILE_VIEWS = $(wildcard src/file_views/*.cpp)
 INTERACTOR = $(wildcard src/interactor/*.cpp)
 SCREEN_MANAGER = $(wildcard src/screen_manager/*.cpp)
 FILE_MANAGER = $(wildcard src/file_manager/*.cpp)
 KEYBOARDS = $(wildcard src/keyboards/*.cpp)
 SOUND = $(wildcard src/sound/*.cpp)
+TRANSLATIONS = $(wildcard src/translations/*.cpp)
+LOGS = $(wildcard src/logs/*.cpp)
+GRAPHICCOMPONENTS = $(wildcard src/graphic_components/*.cpp)
 
 MODEL_O=$(subst $(SRC), $(OUT), $(MODEL:.cpp=.o))
-SCREEN_VIEWS_O=$(subst $(SRC), $(OUT), $(SCREEN_VIEWS:.cpp=.o))
+VIEWS_O=$(subst $(SRC), $(OUT), $(VIEWS:.cpp=.o))
 FILE_VIEWS_O=$(subst $(SRC), $(OUT), $(FILE_VIEWS:.cpp=.o))
 INTERACTOR_O=$(subst $(SRC), $(OUT), $(INTERACTOR:.cpp=.o))
 SCREEN_MANAGER_O=$(subst $(SRC), $(OUT), $(SCREEN_MANAGER:.cpp=.o))
 FILE_MANAGER_O=$(subst $(SRC), $(OUT), $(FILE_MANAGER:.cpp=.o))
 KEYBOARDS_O=$(subst $(SRC), $(OUT), $(KEYBOARDS:.cpp=.o))
 SOUND_O=$(subst $(SRC), $(OUT), $(SOUND:.cpp=.o))
+TRANSLATIONS_O=$(subst $(SRC), $(OUT), $(TRANSLATIONS:.cpp=.o))
+LOGS_O=$(subst $(SRC), $(OUT), $(LOGS:.cpp=.o))
+GRAPHICCOMPONENTS_O=$(subst $(SRC), $(OUT), $(GRAPHICCOMPONENTS:.cpp=.o))
 
 OBJ=$(OUT)main.o
 OBJ+=$(MODEL_O)
-OBJ+=$(SCREEN_VIEWS_O)
+OBJ+=$(VIEWS_O)
 OBJ+=$(FILE_VIEWS_O)
 OBJ+=$(INTERACTOR_O)
 OBJ+=$(SCREEN_MANAGER_O)
 OBJ+=$(FILE_MANAGER_O)
 OBJ+=$(KEYBOARDS_O)
 OBJ+=$(SOUND_O)
+OBJ+=$(TRANSLATIONS_O)
+OBJ+=$(LOGS_O)
+OBJ+=$(GRAPHICCOMPONENTS_O)
 
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
@@ -66,7 +75,7 @@ Ecosystem: $(OBJ)
 o/model/%.o: src/model/%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
-o/screen_views/%.o: src/screen_views/%.cpp
+o/views/%.o: src/views/%.cpp
 	g++ $(OPT) -c $(INCLUDES) $^ -o $@
 
 o/file_views/%.o: src/file_views/%.cpp
@@ -94,7 +103,7 @@ o/%.o: src/%.cpp
 directories:
 	if [ ! -d o/ ]; then mkdir o/; fi
 	if [ ! -d o/model ]; then mkdir o/model; fi
-	if [ ! -d o/screen_views ]; then mkdir o/screen_views; fi
+	if [ ! -d o/views ]; then mkdir o/views; fi
 	if [ ! -d o/file_views ]; then mkdir o/file_views; fi
 	if [ ! -d o/interactor ]; then mkdir o/interactor; fi
 	if [ ! -d o/screen_manager ]; then mkdir o/screen_manager; fi
@@ -103,6 +112,9 @@ directories:
 	if [ ! -d o/tests ]; then mkdir o/tests; fi
 	if [ ! -d o/keyboards ]; then mkdir o/keyboards; fi
 	if [ ! -d o/sound ]; then mkdir o/sound; fi
+	if [ ! -d o/translations ]; then mkdir o/translations; fi
+	if [ ! -d o/logs ]; then mkdir o/logs; fi
+	if [ ! -d o/graphic_components ]; then mkdir o/graphic_components; fi
 	if [ ! -d o/ ]; then mkdir o/; fi
 	if [ ! -d bin/ ]; then mkdir bin/; fi
 
@@ -119,8 +131,11 @@ install:
 install-tools: install-libs directories
 	sudo apt-get install g++ vim dia dia2code doxygen
 
+install-opengl: install-libs
+	sudo apt-get install libgl-dev freeglut3 freeglut3-dev
+
 install-libs:
-	sudo apt-get install libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get install libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev freeglut3 freeglut3-dev
 
 install-cyg-libs:
 	apt-cyg install ncurses libncurses-devel
@@ -129,11 +144,14 @@ uninstall:
 	sudo rm -f $(INSTALL_DIR)Ecosystem
 
 uninstall-libs:
-	sudo apt-get remove libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get remove libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev freeglut3 freeglut3-dev
 
 uninstall-tools: uninstall-libs
 	sudo apt-get remove g++ vim dia dia2code doxygen
 	rm -r o/
+
+uninstall-opengl: uninstall-libs
+	sudo apt-get remove libgl-dev freeglut3 freeglut3-dev
 
 test:
 	#TODO: Penser a un repertoire de test dedie aux tests

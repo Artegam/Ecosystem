@@ -2,6 +2,6 @@
 
 using namespace Interactor;
 
-void OutputDevice::display () {
+void OutputDevice::start () {
 }
 

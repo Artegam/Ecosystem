@@ -3,6 +3,9 @@
 using namespace std;
 using namespace ScreenManager;
 
+ScreenViewModel::ScreenViewModel () {
+}
+
 ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   this->worldData = worldData;
 
@@ -14,6 +17,37 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
 
   // Creation et lancement de la musique
   snd = new Sound();
+
+  Node * opts = this->root->getNode("Options");
+  Node * lang = opts->getNode("Languages");
+  Node * video = opts->getNode("Video");
+  Node * load = root->getNode("Load");
+  Node * save = root->getNode("Save");
+
+  screens[MAIN] = new Screen(MAIN, 0, 0);
+  screens[MAIN]->resize(50,50);
+  screens[MAIN]->add(new Text(MAIN, 93, 10, " Ecosystem v0.2 "));
+  screens[MAIN]->add(new Menu(MAIN, 98, 20, getMenuText()));
+
+  screens[OPTIONS] = new Screen(OPTIONS, 10, 10);
+  screens[OPTIONS]->add(new Text(OPTIONS, 1, 0, " Options "));
+  screens[OPTIONS]->add(new Menu(OPTIONS, 1, 1, opts->getChildren()));
+
+  screens[LANGUAGES] = new Screen(LANGUAGES, 10, 10);
+  screens[LANGUAGES]->add(new Text(LANGUAGES, 1, 0, " Languages "));
+  screens[LANGUAGES]->add(new Menu(LANGUAGES, 1, 1, lang->getChildren()));
+
+  screens[VIDEO] = new Screen(VIDEO, 10, 10);
+  screens[VIDEO]->add(new Text(VIDEO, 1, 0, " Video "));
+  screens[VIDEO]->add(new Menu(VIDEO, 1, 1, video->getChildren()));
+
+  screens[SAVE] = new Screen(SAVE, 10, 10);
+  screens[SAVE]->add(new Text(SAVE, 1, 0, " Save "));
+  screens[SAVE]->add(new Menu(SAVE, 1, 1, save->getChildren()));
+
+  screens[LOAD] = new Screen(LOAD, 10, 10);
+  screens[LOAD]->add(new Text(LOAD, 1, 0, " Load "));
+  screens[LOAD]->add(new Menu(LOAD, 1, 1, load->getChildren()));
 }
 
 int ScreenViewModel::getWorldHeight () {
@@ -54,7 +88,6 @@ list<Wildlife *> ScreenViewModel::getWildlife() {
 
   return lst;
 }
-
 
 bool ScreenViewModel::isWildlife(const ClockSubscriber * ptr) {
   return dynamic_cast<const ClockSubscriber *>(ptr) != nullptr;
@@ -108,12 +141,6 @@ const unsigned int ScreenViewModel::getLifeExpectancy () {
   return lifeExpectancy;
 }
 
-
-string ScreenViewModel::getRawData () {
-  //TODO: remplir ici (a reflechir)
-  return "ScreenViewModel: to be implemented";
-}
-
 list<string> ScreenViewModel::log() {
   messages.push_back("appel a ScreenViewModel::log()");
   return messages;
@@ -151,6 +178,49 @@ list<Node *> ScreenViewModel::getMenu () {
   }
 
   return menu;
+}
+
+list<string> ScreenViewModel::getMenuText () {
+  list<Node *>::iterator it, it2;
+  list<Node *> opts = currentNode->getChildren();
+  list<string> menu;
+
+  for(it = opts.begin(); it != opts.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      for(it2 = menugroup.begin(); it2 != menugroup.end(); it2++) {
+        menu.push_back((*it2)->getName());
+      }
+    } else {
+      menu.insert(menu.end(), (*it)->getName());
+    }
+  }
+
+  return menu;
+}
+
+list<string> ScreenViewModel::getMenuText (Node * node) {
+  list<Node *>::iterator it, it2;
+  list<Node *> opts = node->getChildren();
+  list<string> menu;
+
+  for(it = opts.begin(); it != opts.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      for(it2 = menugroup.begin(); it2 != menugroup.end(); it2++) {
+        menu.push_back((*it2)->getName());
+      }
+    } else {
+      menu.insert(menu.end(), (*it)->getName());
+    }
+  }
+
+  return menu;
+}
+
+string ScreenViewModel::getRawData () {
+  //TODO: A reflechir...
+  return "";
 }
 
 list<Node *> ScreenViewModel::getParents () {
@@ -191,7 +261,16 @@ void ScreenViewModel::loadMenu () {
   video->add("Back");
   videogroup->setDefault("NCurses");
   this->root->add("Save");
+  Node * save = root->getNode("Save");
+  save->add("no data yet");
+  save->add("");
+  save->add("Back");
   this->root->add("Load");
+  Node * load = root->getNode("Load");
+  load->add("no data yet");
+  load->add("");
+  load->add("Back");
+
   this->root->add("Quit");
 }
 
@@ -201,4 +280,96 @@ string ScreenViewModel::translate(string key) {
 
 void ScreenViewModel::setLanguage (unsigned int lang) {
   dictionary.setLanguage(lang);
+}
+
+void ScreenViewModel::setMode (int m) {
+  mode = m;
+}
+
+int ScreenViewModel::getMode () {
+  return mode;
+}
+
+//TODO: a nettoyer !!
+// CA ca sert a faire un menu a partir d'une liste mais pas de faire un ecran complet
+// par exemple il faut data->getTitle() pour afficher le nom de l'application
+// Il va falloir faire une fonction pour chaque ecran dans le modele
+// et probablement remettre cette fonction dans le modele
+list<pair<pair<int, int>, string>> ScreenViewModel::getDataScreen (const int screenView) {
+  list<Node *>::iterator it, it2;
+  list<Node *> opts = getMenu();
+  list<pair<pair<int, int>, string>> screen;
+  pair<pair<int, int>, string> foo;
+  //int y = 0;
+
+  pair<int, int> position;
+  pair<pair<int, int>, string> elt;
+/*
+  switch(screenView) {
+    case ROOT:
+      //computeMaxWidth(
+      position = make_pair(0, 2);
+      elt = make_pair(position, " " + getTitle() + " ");
+      screen.push_back(elt);
+      break;
+
+    case MAIN:
+      list<pair<pair<int, int>, string>> menu = getDataMenu();
+      screen.insert(screen.end(), menu.begin(), menu.end());
+      break;
+  }
+*/
+  return screen;
+}
+
+list<pair<pair<int, int>, string>> ScreenViewModel::getDataMenu () {
+  list<Node *>::iterator it, it2;
+  list<Node *> opts = getMenu();
+  list<pair<pair<int, int>, string>> menu;
+  pair<pair<int, int>, string> foo;
+  int y = 0;
+
+  for(it = opts.begin(); it != opts.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      for(it2 = menugroup.begin(); it2 != menugroup.end(); it2++) {
+        foo.first.first = y;  // y
+        foo.first.second = 1; // x
+        foo.second = (*it2)->getName();
+        menu.push_back(foo);
+      }
+    } else {
+      foo.first.first = y + 1; //y
+      foo.first.second = 1;    // x
+      foo.second = (*it)->getName();
+      menu.push_back(foo);
+    }
+    y++;
+  }
+
+  return menu;
+}
+
+void ScreenViewModel::createWindow (int position, int height, int width) {
+/*
+  const int edges = 2;
+  const int yOffset = (this->windowHeight / 2) - 5;
+  const int xOffset = ((this->windowWidth - width) / 2);
+
+  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
+  log->log("create window() size: " + to_string(height) + " width: " + to_string(width));
+ 
+  if(windows.size() < (unsigned long)(position + 1)) 
+    windows.resize(position+1);
+  windows[position] = subwin(stdscr, height + edges, width, yOffset, xOffset);
+  initScreen();
+  refresh();
+  if (position == 0)
+    s = new Screen(position);
+*/
+}
+
+
+Screen ScreenViewModel::getScreen(const int screen) {
+  return (*screens[screen]);
 }

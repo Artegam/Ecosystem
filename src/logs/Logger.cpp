@@ -1,7 +1,7 @@
-#include "Interactor.h"
+#include "Logs.h"
 
 using namespace std;
-using namespace Interactor;
+using namespace Logs;
 
 
 Logger::Logger (string filename) {

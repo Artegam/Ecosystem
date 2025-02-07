@@ -2,6 +2,7 @@
 #define INTERACTOR_H
 
 #include "Model.h"
+#include "Logs.h"
 
 #include <map>
 #include <thread>
@@ -17,17 +18,9 @@
 
 using namespace std;
 using namespace Model;
+using namespace Logs;
 
 namespace Interactor {
-  // interface
-  /// class Loggable - 
-  class Loggable {
-    private:
-      // Operations
-    public:
-      virtual list<string> log ();
-  };
-
   // interface
   /// class ClockSubscriber - 
   class ClockSubscriber {
@@ -111,7 +104,7 @@ namespace Interactor {
     private:
       // Operations
     public:
-      virtual void display ();
+      virtual void start ();
   };
 
   /// class World - 
@@ -292,19 +285,6 @@ namespace Interactor {
       Explorer ();
       void compute (WildlifeModel * data);
       vector<int> getNewPosition(WildlifeModel * data);
-  };
-
-
-
-  /// class Logger - 
-  class Logger {
-    private:
-      string filename;
-      // Operations
-    public:
-      Logger (const string filename);
-      void log (Loggable * l);
-      void log (string message);
   };
 
 };

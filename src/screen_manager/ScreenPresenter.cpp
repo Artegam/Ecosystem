@@ -2,11 +2,21 @@
 
 using namespace ScreenManager;
 
-ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel * svm, Keyboard * kb, ScreenView * sv) {
+ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel svm) {
   this->world = world;
   this->data = svm;
-  this->keyb = kb;
-  this->view = sv;
+  this->view = new NCurses(this);
+  //this->view = new OpenGL((*this)); //ERROR: La boucle infinie de opengl neutralise le presenter
+  this->view->createWindow(MAIN, 0, 0, 50, 50);
+
+  this->view->init(data.getWorldHeight(), data.getWorldWidth());
+  this->view->display(data.getScreen(MAIN));
+}
+
+void ScreenPresenter::start () {
+  this->view->display(data.getScreen(MAIN));
+  this->view->setMaxKeyboardx((int)data.getMenu().size());
+  this->view->display();
 }
 
 void ScreenPresenter::setStatus (const int newStatus) {
@@ -14,223 +24,213 @@ void ScreenPresenter::setStatus (const int newStatus) {
 }
 
 void ScreenPresenter::display () {
-  const unsigned int menuSize = 5;
   list<string> lst_options;
-  FilePresenter * fm = new FilePresenter();
+  //FilePresenter * fm = new FilePresenter();
+  Screen s = data.getScreen(MAIN);
 
   // C'est ici que l'on gere l'affichage des menu et le comportement de l'affichage global
   // Avoir l'ecran en cours d'affichage pour traiter les options possibles
   this->world->run();
-  this->view->init(data);
-  while(1) {
-
-    //Keyboard management here...
-    keyb->listen(this->view->getChar());
-
-    //TODO: Essayer de supprimer la gestion de changement d ecran avec la variable screen
-    switch (screen) {
-      default: //MAIN menu
-        if(keyb->isValid()) {
-          switch (keyb->getPosition()) {
-            case 0:
-              changeScreen(IN_GAME);
-              break;
-            case 1:
-              changeScreen(OPTIONS);
-              data->validate(1);
-              keyb->setPositionsCount((int)data->getMenu().size());
-              break;
-            case 2:
-              changeScreen(SAVE);
-              break;
-            case 3:
-              changeScreen(LOAD);
-              break;
-            case 4:
-              changeScreen(GAME_OVER);
-              break;
-          }
-        } else {
-          keyb->setPositionsCount((int)menuSize);
-          this->view->mainMenu(keyb->getPosition());
+  //TODO: Essayer de supprimer la gestion de changement d ecran avec la variable screen
+  switch (screen) {
+    default: //MAIN menu
+      if(view->isValid()) {
+        switch (view->getKeyboardx()) {
+          case 0:
+            changeScreen(IN_GAME);
+            break;
+          case 1:
+            data.validate(1);
+            view->createWindow(OPTIONS, 98, 20, 6, 11);
+            changeScreen(OPTIONS);
+            break;
+          case 2:
+            data.validate(2);
+            this->view->createWindow(SAVE, 98, 20, 6, 13);
+            changeScreen(SAVE);
+            s = data.getScreen(SAVE);
+            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenu()));
+            break;
+          case 3:
+            data.validate(3);
+            this->view->createWindow(LOAD, 98, 20, 6, 13);
+            changeScreen(LOAD);
+            s = data.getScreen(LOAD);
+            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenu()));
+            break;
+          case 4:
+            changeScreen(GAME_OVER);
+            break;
         }
-        keyb->resetValid();
-        break;
+      } else {
+        this->view->display(data.getScreen(MAIN));
+      }
+      break;
 
-      case OPTIONS:
-        if(keyb->isValid()) {
-          switch (keyb->getPosition()) {
+    case OPTIONS:
+      if(this->view->isValid()) {
+        switch (this->view->getKeyboardx()) {
+          case 0:
+            this->view->createWindow(LANGUAGES, 99, 21, 6, 13);
+            changeScreen(LANGUAGES);
+            data.validate(0);
+            break;
+          case 1:
+            this->view->createWindow(VIDEO, 99, 21, 6, 13);
+            changeScreen(VIDEO);
+            data.validate(1);
+            break;
+          case 3: // Back
+            changeScreen(MAIN);
+            data.back();
+            break;
+        }
+      } else {
+        this->view->display(data.getScreen(OPTIONS));
+      }
+      break;
+
+    case LANGUAGES:
+      if(this->view->isValid()) {
+        switch (this->view->getKeyboardx()) {
+          case 0:
+            data.setLanguage(0);
+            this->view->validateOption(0);
+            this->view->clearScreen();
+            break;
+          case 1:
+            data.setLanguage(1);
+            this->view->validateOption(1);
+            this->view->clearScreen();
+            break;
+          case 3: // Back
+            changeScreen(OPTIONS);
+            data.back();
+            break;
+        }
+      } else {
+        this->view->display(data.getScreen(LANGUAGES));
+      }
+      break;
+
+    case VIDEO:
+      if(this->view->isValid()) {
+        switch (this->view->getKeyboardx()) {
+          case 0:
+            this->view->validateOption(0);
+            this->data.setMode(1);
+            break;
+          case 1:
+            this->view->validateOption(1);
+            this->data.setMode(2);
+            break;
+          case 3: // Back
+            changeScreen(OPTIONS);
+            data.back();
+            break;
+        }
+      } else {
+        this->view->display(data.getScreen(VIDEO));
+      }
+      break;
+
+    case LOAD:
+      {
+        // TODO: Recuperer la liste des fichiers ici et la passer a load
+/*
+        list<string> files = fm->getSavedFiles();
+        unsigned int size = 2;
+        if(files.size() > 0)
+          size = files.size() + 1;
+*/
+        if(this->view->isValid()) {
+          switch (this->view->getKeyboardx()) {
             case 0:
-              changeScreen(LANGUAGES);
-              data->validate(0);
+              // TODO: Select file to be loaded
+              //changeScreen(IN_GAME);
               break;
-            case 1:
-              changeScreen(VIDEO);
-              data->validate(1);
-              break;
-            case 3: // Back
+            case 2: // Back to main menu
               changeScreen(MAIN);
-              data->back();
+              data.back();
               break;
           }
-          keyb->setPositionsCount((int)data->getMenu().size());
         } else {
-          this->view->options(keyb->getPosition()); // Affiche l ecran options grace a la vue
+          this->view->display(data.getScreen(LOAD));
         }
-        keyb->resetValid();
-        break;
+      }
+      break;
 
-      case LANGUAGES:
-        if(keyb->isValid()) {
-          switch (keyb->getPosition()) {
+    case SAVE:
+      {
+        // TODO: Recuperer la liste des fichiers ici et la passer a load
+/*
+        list<string> files = fm->getSavedFiles();
+        unsigned int size = 2;
+        if(files.size() > 0)
+          size = files.size() + 1;
+ */
+        if(this->view->isValid()) {
+          //TODO: if ((unsigned int)keyb->getPosition() == (size - 1))
+          switch (this->view->getKeyboardx()) {
             case 0:
-              data->setLanguage(0);
-              this->view->validateOption(0);
-              this->view->clearScreen();
+              // TODO: Select file to be overwrited
+              //changeScreen(IN_GAME);
               break;
-            case 1:
-              data->setLanguage(1);
-              this->view->validateOption(1);
-              this->view->clearScreen();
-              break;
-            case 3: // Back
-              changeScreen(OPTIONS);
-              data->back();
-              keyb->setPositionsCount((int)data->getMenu().size());
+            case 2: // Back to main menu
+              changeScreen(MAIN);
+              data.back();
               break;
           }
+          //keyb->resetValid();
         } else {
-          this->view->languages(keyb->getPosition()); // Affiche l ecran languages grace a la vue
+          this->view->display(data.getScreen(SAVE));
         }
-        keyb->resetValid();
-        break;
+      }
+      break;
 
-      case VIDEO:
-        if(keyb->isValid()) {
-          switch (keyb->getPosition()) {
-            case 0:
-              this->view->validateOption(0);
-              break;
-            case 1:
-              this->view->validateOption(1);
-              break;
-            case 3: // Back
-              changeScreen(OPTIONS);
-              data->back();
-              keyb->setPositionsCount((int)data->getMenu().size());
-              break;
-          }
-        } else {
-          this->view->video(keyb->getPosition()); // Affiche l ecran video grace a la vue
-        }
+    case IN_GAME:
+      //TODO: a remplacer par display(rawData);
+      //this->view->infos(getInfos());
+      this->view->gameplay(IN_GAME, data.getWorldData().getWorldMap());
+      //TODO: revoir la gestion du clavier, c'est un input pas un output
+      //this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
+      //keyb->resetValid();
+      break;
 
-        keyb->resetValid();
-        break;
-
-      case LOAD:
-        {
-          // TODO: Recuperer la liste des fichiers ici et la passer a load
-          list<string> files = fm->getSavedFiles();
-          unsigned int size = 2;
-          if(files.size() > 0)
-            size = files.size() + 1;
-
-          if(keyb->isValid()) {
-            unsigned int choice = 0;
-            if ((unsigned int)keyb->getPosition() == (size - 1))
-              choice = 2;
-
-            switch (choice) {
-              case 0:
-                // TODO: Select file to be loaded
-                //changeScreen(IN_GAME);
-                break;
-              case 2: // Back to main menu
-                changeScreen(MAIN);
-                break;
-            }
-            keyb->resetValid();
-          } else {
-            keyb->setPositionsCount((int)size);
-            this->view->load(files, size, keyb->getPosition());
-            keyb->resetValid();
-          }
-        }
-        break;
-
-      case SAVE:
-        {
-          // TODO: Recuperer la liste des fichiers ici et la passer a load
-          list<string> files = fm->getSavedFiles();
-          unsigned int size = 2;
-          if(files.size() > 0)
-            size = files.size() + 1;
-
-          if(keyb->isValid()) {
-            unsigned int choice = 0;
-            if ((unsigned int)keyb->getPosition() == (size - 1))
-              choice = 2;
-
-            switch (choice) {
-              case 0:
-                // TODO: Select file to be overwrited
-                //changeScreen(IN_GAME);
-                break;
-              case 2: // Back to main menu
-                changeScreen(MAIN);
-                break;
-            }
-            keyb->resetValid();
-          } else {
-            keyb->setPositionsCount((int)size);
-            this->view->save(files, size, keyb->getPosition());
-            keyb->resetValid();
-          }
-        }
-        break;
-
-      case IN_GAME:
-        this->view->infos(getInfos());
-        this->view->gameplay();
-        this->view->keyboardListener(world->getData()); //TODO: A mettre a jour avec keyboard::NCurses
-        keyb->resetValid();
-        break;
-
-      case GAME_OVER:
-        if(keyb->isValid()) {
-          keyb->resetValid();
-          exit(0);
-        } else {
-          this->view->end();
-        }
-        break;
-    }
+    case GAME_OVER:
+      if(this->view->isValid()) {
+        exit(0);
+      } else {
+        this->view->end();
+      }
+      break;
   }
 }
 
 list<string> ScreenPresenter::getInfos () {
   list<string> lst;
-  if(data->getTic()) {
+  if(data.getTic()) {
     lst.push_back("tic");
   } else {
     lst.push_back("tac");
   }
-  lst.push_back("Living beings number:" + to_string(data->getWildlifeCount()));
-  if(data->isRunning()) {
+  lst.push_back("Living beings number:" + to_string(data.getWildlifeCount()));
+  if(data.isRunning()) {
     lst.push_back("execution: running...");
   } else {
     lst.push_back("execution: paused");
   }
-  lst.push_back("turns: " + to_string(data->getTurns()));
-  lst.push_back("age average: " + to_string(data->getAverageAge()));
-  lst.push_back("life expectancy: " + to_string(data->getLifeExpectancy()));
+  lst.push_back("turns: " + to_string(data.getTurns()));
+  lst.push_back("age average: " + to_string(data.getAverageAge()));
+  lst.push_back("life expectancy: " + to_string(data.getLifeExpectancy()));
   return lst;
 }
 
 // Ici ce n est que pour les ecrans
+/*
 void ScreenPresenter::start () {
 }
-
+*/
 void ScreenPresenter::load () {
 }
 
@@ -240,7 +240,7 @@ void ScreenPresenter::save () {
 void ScreenPresenter::end () {
 }
 
-ScreenViewModel * ScreenPresenter::getData () {
+ScreenViewModel ScreenPresenter::getData () {
   return this->data;
 }
 
@@ -252,8 +252,27 @@ int ScreenPresenter::getScreen () {
 }
 
 void ScreenPresenter::changeScreen (const int nextScreen) {
-  keyb->defaultPosition();
+  //keyb->defaultPosition();
   screen = nextScreen;
+  this->view->resetKeyboard();
   this->view->clearScreen();
 }
+
+const unsigned int ScreenPresenter::computeMaxWidth (list<Node *> menu) {
+  list<Node *>::iterator it;
+  unsigned int max = 0;
+  unsigned int len = 0;
+
+  for(it = menu.begin(); it != menu.end(); it++) {
+    len = data.translate((*it)->getName()).size();
+    if (dynamic_cast<Item*>(*it))
+      len += 4;
+    if (max < len)
+      max = len;
+  }
+
+  return max;
+}
+
+
 

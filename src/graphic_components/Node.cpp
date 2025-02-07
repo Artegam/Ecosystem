@@ -1,6 +1,6 @@
-#include "ScreenManager.h"
+#include "GraphicComponents.h"
 
-using namespace ScreenManager;
+using namespace GraphicComponents;
 
 
 Node::Node (string name) {

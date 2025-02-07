@@ -1,9 +1,9 @@
-#include "Interactor.h"
+#include "Logs.h"
 
 #include <ctime>
 
 using namespace std;
-using namespace Interactor;
+using namespace Logs;
 
 
 list<string> Loggable::log() {
