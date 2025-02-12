@@ -245,13 +245,14 @@ void ScreenViewModel::loadMenu () {
   languages->addGroup("languagesgroup");
   GroupItem * languagesgroup = (GroupItem *)languages->getNode("languagesgroup");
 
+  Dictionary dictionary;
   list<string> lst_languages = dictionary.getLanguages();
   list<string>::iterator it;
   for(it = lst_languages.begin(); it != lst_languages.end(); it++)
     languagesgroup->addItem((*it));
   languages->add("");
   languages->add("Back");
-  languagesgroup->setDefault("English");
+  languagesgroup->setDefault(0); // "English"
   Node * video = options->getNode("Video");
   video->addGroup("videogroup");
   GroupItem * videogroup = (GroupItem *)video->getNode("videogroup");
@@ -259,7 +260,7 @@ void ScreenViewModel::loadMenu () {
   videogroup->addItem("OpenGL");
   video->add("");
   video->add("Back");
-  videogroup->setDefault("NCurses");
+  videogroup->setDefault(0); // "NCurses"
   this->root->add("Save");
   Node * save = root->getNode("Save");
   save->add("no data yet");
@@ -272,14 +273,6 @@ void ScreenViewModel::loadMenu () {
   load->add("Back");
 
   this->root->add("Quit");
-}
-
-string ScreenViewModel::translate(string key) {
-  return dictionary.translate(key);
-}
-
-void ScreenViewModel::setLanguage (unsigned int lang) {
-  dictionary.setLanguage(lang);
 }
 
 void ScreenViewModel::setMode (int m) {

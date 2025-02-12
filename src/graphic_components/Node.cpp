@@ -3,14 +3,16 @@
 using namespace GraphicComponents;
 
 
-Node::Node (string name) {
-  this->name = name;
-  this->parent = this;
+Node::Node (string key) {
+  _key = key;
+  _name = key;
+  _parent = this;
 }
 
-Node::Node (Node * parent, string name) {
-  this->name = name;
-  this->parent = parent;
+Node::Node (Node * parent, string key) {
+  _key = key;
+  _name = key;
+  _parent = parent;
 }
 
 void Node::add (Node * node) {
@@ -43,11 +45,11 @@ list<Node *> Node::getChildren () {
 }
 
 string Node::getName () {
-  return this->name;
+  return _name;
 }
 
 Node * Node::getParent () {
-  return this->parent;
+  return _parent;
 }
 
 Node * Node::getNode(string name) {
@@ -71,6 +73,10 @@ bool Node::validate () {
 }
 
 void Node::clear () {
+}
+
+void Node::translate(Dictionary dict) {
+  _name = dict.translate(_key);
 }
 
 

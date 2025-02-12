@@ -56,4 +56,29 @@ const int GraphicComponent::y() {
   return _y;
 }
 
+list<string> GraphicComponent::nodesToString (list<Node *> items) {
+  list<Node *>::iterator it;
+  list<string> lst;
 
+  for(it = items.begin(); it != items.end(); it++) {
+    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
+      list<Node *> menugroup = grp->getChildren();
+      list<string> lst_children = nodesToString(menugroup);
+      lst.insert(lst.end(), lst_children.begin(), lst_children.end());
+    } else {
+      //TODO: Group Item est il un GraphicComponent ?
+      string prefix = "";
+      if (Item* item = dynamic_cast<Item*>(*it)) {
+        if(item->isSelected()) {
+          //prefix = dict->translate("selectedItem");
+          prefix = "selectedItem ";
+        } else {
+          //prefix = data->translate("unselectedItem");
+          prefix = "[ ] ";
+        }
+      }
+      lst.push_back(prefix + (*it)->getName());
+    }
+  }
+  return lst;
+}

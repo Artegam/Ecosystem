@@ -6,22 +6,26 @@
 #include <list>
 #include <functional>
 
+#include "Translations.h"
+
 using namespace std;
+using namespace Translations;
 
 namespace GraphicComponents {
 
   class Node {
     private:
-      string name;
+      string _key;
+      string _name;
       //TODO: ici mettre le pointeur sur fonction ?
       //void (*fct)();
-      Node * parent;
+      Node * _parent;
 
     protected:
       list<Node *> children;
     public:
-      Node (string name);
-      Node (Node * parent, string name);
+      Node (string key);
+      Node (Node * parent, string key);
       void add (Node * node);
       void add (string name);
       void addItem (string name);
@@ -33,6 +37,7 @@ namespace GraphicComponents {
       Node * getNode(string name);
       virtual bool validate ();
       virtual void clear ();
+      void translate(Dictionary dict);
   };
 
   class Item : public Node {
@@ -52,16 +57,15 @@ namespace GraphicComponents {
 
   class GroupItem : public Node {
     private:
-      string defaultItem;
-      string selectedItem;
+      unsigned int defaultItem;
+      unsigned int selectedItem;
 
     public:
       GroupItem (string name);
       GroupItem (Node * parent, string name);
-      void setDefault (string name);
+      void setDefault (const int index);
       Item * getSelectedItem ();
       void display ();
-      void selectItem (string name);
       void selectItem (const int index);
       const int size();
   };
@@ -94,6 +98,7 @@ namespace GraphicComponents {
       const int window();
       const int x();
       const int y();
+      list<string> nodesToString (list<Node *> items);
   };
 
   class Leaf : public GraphicComponent {
@@ -130,8 +135,7 @@ namespace GraphicComponents {
     public:
       Menu (const int window, const int x, const int y, list<string> items);
       Menu (const int window, const int x, const int y, list<Node *> items);
-      list<Node *> items();
-      list<string> textItems();
+      list<string> items();
       void select(const int index);
   };
 

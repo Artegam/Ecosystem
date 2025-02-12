@@ -27,19 +27,8 @@ Menu::Menu (const int window, const int x, const int y, list<Node *> items) : Co
   }
 }
 
-list<Node *> Menu::items() {
-  return _items;
-}
-
-list<string> Menu::textItems() {
-  list<Node *>::iterator it;
-  list<string> lst;
-
-  for(it = _items.begin(); it != _items.end(); it++) {
-    lst.push_back((*it)->getName());
-  }
-
-  return lst;
+list<string> Menu::items() {
+  return nodesToString(_items);
 }
 
 void Menu::select (const int index) {

@@ -93,7 +93,6 @@ namespace ScreenManager {
       Node * root;
       Keyboard * keyboard;
       Sound * snd;
-      Dictionary dictionary;
       map<int, Screen *> screens;
 
       /*
@@ -131,8 +130,7 @@ namespace ScreenManager {
       list<Node *> getParents ();
       string getTitle ();
       void loadMenu ();
-      void setLanguage (unsigned int lang = 0);
-      string translate (string key);
+      void setLanguage (const int lang);
       void setMode (int m);
       int getMode ();
       list<pair<pair<int, int>, string>> getDataScreen (const int screenView);
@@ -165,7 +163,7 @@ namespace ScreenManager {
       int getScreen ();
       void changeScreen (const int nextScreen);
       ScreenViewModel getData ();
-      const unsigned int computeMaxWidth (list<Node *> menu);
+      const unsigned int computeMaxWidth (list<string> menu);
   };
 
 

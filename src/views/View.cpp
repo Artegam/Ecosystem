@@ -85,3 +85,7 @@ bool View::isValid () {
   _valid = false;
   return ret;
 }
+
+void View::setLanguage(const unsigned int lang) {
+  dict.setLanguage(lang);
+}

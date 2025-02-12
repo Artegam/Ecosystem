@@ -16,23 +16,24 @@ namespace Translations {
   class Dictionary {
     private:
       list<string> languages;
-      unsigned int language = 0;
+      string language;
       map<string, map<string, string>> dictionaries;
       map<string, string> dictionary;
 
     public:
       Dictionary ();
+      void selectDictionary ();
+      void loadDictionaries ();
+      string translate (string sentence);
 
       list<list<string>> getFile (string filename);
       map<string, string> getTheme ();
       list<string> getLanguages ();
-      unsigned int getLanguage ();
+      string getLanguage ();
 
-      void setLanguage (unsigned int lang = 0);
+      void setLanguage (string lang);
+      void setLanguage (const int index);
 
-      void selectDictionary ();
-      void loadDictionaries ();
-      string translate (string key);
   };
 
 }

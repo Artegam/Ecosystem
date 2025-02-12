@@ -49,14 +49,14 @@ void ScreenPresenter::display () {
             this->view->createWindow(SAVE, 98, 20, 6, 13);
             changeScreen(SAVE);
             s = data.getScreen(SAVE);
-            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenu()));
+            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenuText()));
             break;
           case 3:
             data.validate(3);
             this->view->createWindow(LOAD, 98, 20, 6, 13);
             changeScreen(LOAD);
             s = data.getScreen(LOAD);
-            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenu()));
+            s.resize(data.getMenu().size(), computeMaxWidth(data.getMenuText()));
             break;
           case 4:
             changeScreen(GAME_OVER);
@@ -94,14 +94,14 @@ void ScreenPresenter::display () {
       if(this->view->isValid()) {
         switch (this->view->getKeyboardx()) {
           case 0:
-            data.setLanguage(0);
-            this->view->validateOption(0);
-            this->view->clearScreen();
+            view->setLanguage(0);
+            view->validateOption(0);
+            view->clearScreen();
             break;
           case 1:
-            data.setLanguage(1);
-            this->view->validateOption(1);
-            this->view->clearScreen();
+            view->setLanguage(1);
+            view->validateOption(1);
+            view->clearScreen();
             break;
           case 3: // Back
             changeScreen(OPTIONS);
@@ -119,10 +119,12 @@ void ScreenPresenter::display () {
           case 0:
             this->view->validateOption(0);
             this->data.setMode(1);
+            this->view = new NCurses(this);
             break;
           case 1:
             this->view->validateOption(1);
             this->data.setMode(2);
+            this->view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
             break;
           case 3: // Back
             changeScreen(OPTIONS);
@@ -254,19 +256,17 @@ int ScreenPresenter::getScreen () {
 void ScreenPresenter::changeScreen (const int nextScreen) {
   //keyb->defaultPosition();
   screen = nextScreen;
-  this->view->resetKeyboard();
-  this->view->clearScreen();
+  view->resetKeyboard();
+  view->clearScreen();
 }
 
-const unsigned int ScreenPresenter::computeMaxWidth (list<Node *> menu) {
-  list<Node *>::iterator it;
+const unsigned int ScreenPresenter::computeMaxWidth (list<string> menu) {
+  list<string>::iterator it;
   unsigned int max = 0;
   unsigned int len = 0;
 
   for(it = menu.begin(); it != menu.end(); it++) {
-    len = data.translate((*it)->getName()).size();
-    if (dynamic_cast<Item*>(*it))
-      len += 4;
+    len = (*it).size();
     if (max < len)
       max = len;
   }

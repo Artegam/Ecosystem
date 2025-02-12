@@ -8,14 +8,10 @@ GroupItem::GroupItem (string name) : Node (name) {
 GroupItem::GroupItem (Node * parent, string name) : Node (parent, name) {
 }
 
-void GroupItem::setDefault (string name) {
-  defaultItem = name;
-  selectedItem = name;
+void GroupItem::setDefault (const int index) {
+  defaultItem = index;
+  selectedItem = index;
   this->display();
-}
-
-void GroupItem::selectItem (string name) {
-  selectedItem = name;
 }
 
 void GroupItem::selectItem (const int index) {
@@ -25,17 +21,20 @@ void GroupItem::selectItem (const int index) {
   }
   it = children.begin();
   advance(it, index);
-  selectedItem = (*it)->getName();
+  selectedItem = index;
   Item * item = dynamic_cast<Item*>(*it);
   item->validate();
 }
 
 Item * GroupItem::getSelectedItem () {
-  return (Item *)this->getNode(selectedItem);
+  list<Node *>::iterator it = children.begin();
+  advance(it, selectedItem);
+
+  return dynamic_cast<Item*>(*it);
 }
 
 void GroupItem::display () {
-  Item * item = (Item *)this->getNode(selectedItem);
+  Item * item = getSelectedItem();
   item->select();
 }
 

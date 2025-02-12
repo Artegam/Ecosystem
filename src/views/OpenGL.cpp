@@ -310,7 +310,7 @@ list<string> Views::OpenGL::nodesToString (list<Node *> items) {
           prefix = "[ ] ";
         }
       }
-      lst.push_back(prefix + (*it)->getName());
+      //lst.push_back(prefix + (*it)->getName());
     }
   }
   return lst;

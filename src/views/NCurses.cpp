@@ -434,17 +434,16 @@ void Views::NCurses::display (Screen screen) {
   View::display(scr);
 }
 
-
 void Views::NCurses::display (Menu menu) {
   list<string>::iterator it;
-  list<string> items = nodesToString(menu.items());
+  list<string> items = menu.items();
   int y = menu.y();
   const int x = menu.x(); 
   int cursorPosition = 0;
 
   it = items.begin();
   advance(it, _keyboardx);
-  mvwprintw(stdscr, 2, 1, "label: %s", (*it).c_str());
+  mvwprintw(stdscr, 2, 1, "label: %s", dict.translate((*it)).c_str());
   mvwprintw(stdscr, 5, 1, "_maxKeyboardx: %d", _maxKeyboardx);
 
   //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
@@ -455,7 +454,7 @@ void Views::NCurses::display (Menu menu) {
     if(cursorPosition == _keyboardx)
       wattron(windows[menu.window()], A_REVERSE);
 
-    mvwprintw(windows[menu.window()], y, menu.x(), "%s", (*it).c_str());
+    mvwprintw(windows[menu.window()], y, menu.x(), "%s", dict.translate((*it)).c_str());
 
     if(cursorPosition == _keyboardx)
       wattroff(windows[menu.window()], A_REVERSE);
@@ -463,39 +462,10 @@ void Views::NCurses::display (Menu menu) {
     y++;
     cursorPosition++;
   }
-
-}
-
-list<string> Views::NCurses::nodesToString (list<Node *> items) {
-  list<Node *>::iterator it;
-  list<string> lst;
-
-  for(it = items.begin(); it != items.end(); it++) {
-    if (GroupItem* grp = dynamic_cast<GroupItem*>(*it); grp != nullptr) {
-      list<Node *> menugroup = grp->getChildren();
-      list<string> lst_children = nodesToString(menugroup);
-      lst.insert(lst.end(), lst_children.begin(), lst_children.end());
-    } else {
-
-      //TODO: Group Item est il un GraphicComponent ?
-      string prefix = "";
-      if (Item* item = dynamic_cast<Item*>(*it)) {
-        if(item->isSelected()) {
-          //prefix = dict->translate("selectedItem");
-          prefix = "[*] ";
-        } else {
-          //prefix = data->translate("unselectedItem");
-          prefix = "[ ] ";
-        }
-      }
-      lst.push_back(prefix + (*it)->getName());
-    }
-  }
-  return lst;
 }
 
 void Views::NCurses::display (Text text) {
-  mvwprintw(windows[text.window()], text.y(), text.x(), "%s", text.label().c_str());
+  mvwprintw(windows[text.window()], text.y(), text.x(), "%s", dict.translate(text.label()).c_str());
 }
 
 void Views::NCurses::keyboard () {

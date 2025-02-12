@@ -2,6 +2,7 @@
 #define VIEWS_H
 
 #include "GraphicComponents.h"
+#include "Translations.h"
 
 #include <ncurses.h>
 #include <unistd.h>
@@ -13,6 +14,7 @@
 
 using namespace std;
 using namespace GraphicComponents;
+using namespace Translations;
 
 namespace Views {
   // Keyboard keys
@@ -46,6 +48,7 @@ namespace Views {
       int _maxKeyboardy = 0;
       bool _valid = false;
       Screen scr;
+      Dictionary dict;
 
     // Operations
     public:
@@ -73,6 +76,7 @@ namespace Views {
       void setMaxKeyboardy(const int max = 0);
       void resetKeyboard();
       bool isValid ();
+      void setLanguage(const unsigned int lang);
   };
 
 
@@ -122,7 +126,6 @@ namespace Views {
       void display (Screen screen);
       void display (Menu menu);
       void display (Text text);
-      list<string> nodesToString (list<Node *> items);
       void keyboard ();
   };
 
