@@ -5,12 +5,12 @@ using namespace ScreenManager;
 ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel svm) {
   this->world = world;
   this->data = svm;
-  this->view = new NCurses(this);
-  //this->view = new OpenGL((*this)); //ERROR: La boucle infinie de opengl neutralise le presenter
-  this->view->createWindow(MAIN, 0, 0, 50, 50);
+  //view = new NCurses(this);
+  view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
+  view->createWindow(MAIN, 0, 0, 50, 50);
 
-  this->view->init(data.getWorldHeight(), data.getWorldWidth());
-  this->view->display(data.getScreen(MAIN));
+  view->init(data.getWorldHeight(), data.getWorldWidth());
+  view->display(data.getScreen(MAIN));
 }
 
 void ScreenPresenter::start () {
@@ -117,14 +117,16 @@ void ScreenPresenter::display () {
       if(this->view->isValid()) {
         switch (this->view->getKeyboardx()) {
           case 0:
-            this->view->validateOption(0);
-            this->data.setMode(1);
-            this->view = new NCurses(this);
+            view->validateOption(0);
+            view->clearScreen();
+            data.setMode(1);
+            view = new NCurses(this);
             break;
           case 1:
-            this->view->validateOption(1);
-            this->data.setMode(2);
-            this->view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
+            view->validateOption(1);
+            view->clearScreen();
+            data.setMode(2);
+            view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
             break;
           case 3: // Back
             changeScreen(OPTIONS);

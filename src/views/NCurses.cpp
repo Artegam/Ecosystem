@@ -76,43 +76,6 @@ void Views::NCurses::redraw (WINDOW * win) {
   usleep(20000);
 }
 
-/*
-void Views::NCurses::display (int position, list<pair<pair<int, int>, string>> rawData, int keybPosition) {
-  list<pair<pair<int, int>, string>>::iterator it;
-  int cursorPosition = 0;
-
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("1-Nb raw data: " + to_string(rawData.size()));
-  logCursorPosition(keybPosition);
-
-  //box(windows[position], ACS_VLINE, ACS_HLINE);
-  for(it = rawData.begin(); it != rawData.end(); it++) {
-    if(cursorPosition == keybPosition)
-      wattron(windows[position], A_REVERSE);
-// Le code suivant doit etre deplace
-
-    string prefix = "";
-    if (Item* item = dynamic_cast<Item*>(*it)) {
-      if(item->isSelected()) {
-        prefix = data->translate("selectedItem");
-      } else {
-        prefix = data->translate("unselectedItem");
-      }
-    }
-    // ici doit etre imprime juste la chaine de caracteres calculee pour le presenter
-
-    mvwprintw(windows[position], it->first.first, it->first.second, "%s", it->second.c_str());
-    wattroff(windows[position], A_REVERSE);
-    cursorPosition++;
-  }
-
-  wmove(windows[0], 1, 1); // repositione le curseur
-  //wrefresh(windows[0]);
-  wrefresh(windows[position]);
-  usleep(20000);
-  display((*s));
-}
-*/
 
 void Views::NCurses::displayCursorPosition (int keybPosition) {
   mvprintw(25, 0, "POSITION: %d", keybPosition);
@@ -124,113 +87,7 @@ void Views::NCurses::logCursorPosition (int keybPosition) {
   log->log("Cursor position: " + to_string(keybPosition));
 }
 
-// Le code suivant doit etre deplace
-/* 
-const unsigned int Views::NCurses::computeMaxWidth (list<string> menu) {
-  list<Node *>::iterator it;
-  unsigned int max = 0;
-  unsigned int len = 0;
-
-  for(it = menu.begin(); it != menu.end(); it++) {
-    len = data->translate((*it)->getName()).size();
-    if (dynamic_cast<Item*>(*it))
-      len += 4;
-    if (max < len)
-      max = len;
-  }
-
-  return max;
-}
-*/
-/*
-void Views::NCurses::mainMenu (int keybPosition) {
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("appel de mainMenu()");
-
-  list<Node *> menu = data->getMenu();
-  const unsigned int menuMaxWidth = computeMaxWidth(menu);
-  const unsigned int edges = 2;
-  windows[MAIN] = subwin(stdscr, menu.size()+edges, menuMaxWidth+edges, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
-  initScreen();
-  box(windows[MAIN], ACS_VLINE, ACS_HLINE);
-  int x = (this->windowWidth - data->getTitle().length()) / 2;
-  int y = this->windowHeight / 4;
-
-  mvwprintw(windows[ROOT], y, x, "%s", data->getTitle().c_str());
-  refresh();
-
-  displayCursorPosition(keybPosition);
-
-  // Affiche le menu principal
-  std::thread t_m(&NCurses::display, windows[MAIN], data, keybPosition);
-  t_m.detach();
-
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[MAIN]);
-  usleep(20000);
-}
-
-void Views::NCurses::options (int keybPosition) {
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("appel de options()");
-
-  initScreen();
-
-  windows[OPTIONS] = createWindow(data->getMenu().size(), 15);
-  display(windows[OPTIONS], data, keybPosition);
-
-  displayCursorPosition(keybPosition);
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[OPTIONS]);
-  usleep(20000);
-}
-
-void Views::NCurses::languages (int keybPosition) {
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("appel de languages()");
-
-  initScreen();
-
-  windows[LANGUAGES] = createWindow(data->getMenu().size(), 15);
-  display(windows[LANGUAGES], data, keybPosition);
-
-  displayCursorPosition(keybPosition);
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[LANGUAGES]);
-  usleep(20000);
-}
-
-void Views::NCurses::video (int keybPosition) {
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
-  log->log("appel de video()");
-
-  initScreen();
-
-  //windows[VIDEO] = createWindow(data->getMenu().size(), 15);
-  windows[VIDEO] = createWindow(4, 15);
-  display(windows[VIDEO], data, keybPosition);
-
-  displayCursorPosition(keybPosition);
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[VIDEO]);
-  usleep(20000);
-}
-*/
-
 void Views::NCurses::validateOption (int optionNumber) {
-/*
-  list<Node *>::iterator it;
-  list<Node *> menu = data->getMenu();
-
-  it = menu.begin();
-  advance(it, optionNumber);
-  clearOptions(menu);
-  (*it)->validate();
-*/
   scr.select(optionNumber);
 }
 
@@ -245,85 +102,6 @@ void Views::NCurses::initScreen() {
     toClear = false;
   }
 }
-
-/*
-void Views::NCurses::save (list<string> files, const unsigned int menuSize, int keybPosition) {
-  string choices[menuSize];
-
-  windows[SAVE] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
-  initScreen();
-  box(windows[SAVE], ACS_VLINE, ACS_HLINE);
-  refresh();
-
-  unsigned int idx = 0;
-  list<string>::iterator it;
-  for(it = files.begin(); it != files.end(); it++)
-    choices[idx++] = it->c_str();
-
-  if(files.size() == 0)
-    choices[0] = "No saves";
-  choices[menuSize-1] = "Back";
-
-  int i;
-  for (i = 0; i < (int)menuSize; i++) {
-    if(i == keybPosition)
-      wattron(windows[SAVE], A_REVERSE);
-    mvwprintw(windows[SAVE], 1+i, 1, "%s", choices[i].c_str());
-    wattroff(windows[SAVE], A_REVERSE);
-  }
-
-  // Ecoute le clavier
-  displayCursorPosition(keybPosition);
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[SAVE]);
-  usleep(20000);
-}
-
-void Views::NCurses::load (list<string> files, const unsigned int menuSize, int keybPosition) {
-  string choices[menuSize];
-
-  windows[LOAD] = subwin(stdscr, menuSize+2, 10, (this->windowHeight / 2) - 5, (this->windowWidth / 2) - 5);
-  initScreen();
-  box(windows[LOAD], ACS_VLINE, ACS_HLINE);
-  refresh();
-
-  unsigned int idx = 0;
-  list<string>::iterator it;
-  for(it = files.begin(); it != files.end(); it++)
-    choices[idx++] = it->c_str();
-
-  if(files.size() == 0)
-    choices[0] = "No saves";
-  choices[menuSize-1] = "Back";
-
-  int i;
-  for (i = 0; i < (int)menuSize; i++) {
-    if(i == keybPosition)
-      wattron(windows[LOAD], A_REVERSE);
-    mvwprintw(windows[LOAD], 1+i, 1, "%s", choices[i].c_str());
-    wattroff(windows[LOAD], A_REVERSE);
-  }
-
-  // Ecoute le clavier
-  displayCursorPosition(keybPosition);
-  wmove(windows[ROOT], 0, 0); // repositione le curseur
-  wrefresh(windows[ROOT]);
-  wrefresh(windows[LOAD]);
-  usleep(20000);
-}
-
-void Views::NCurses::infos (list<string> infos) {
-  initScreen();
-  wprintw(windows[ROOT], "This is the virtual world");
-  int ligne = 1;
-  list<string>::iterator info;
-  for(info = infos.begin(); info != infos.end(); info++) {
-    mvwprintw(windows[ROOT], ligne, 50, "%s", info->c_str());
-    ligne++;
-  }
-}
-*/
 
 void Views::NCurses::gameplay (int position, map<int, int> worldMap) {
 
@@ -483,7 +261,7 @@ void Views::NCurses::keyboard () {
         _keyboardx--;
       break;
     case KEYB_DOWN:
-      if(_keyboardx < _maxKeyboardx - 1)
+      if(_keyboardx < _maxKeyboardx)
         _keyboardx++;
       break;
     case KEYB_SPACE:

@@ -105,21 +105,11 @@ namespace Views {
       void createWindow (int screen, int x, int y, int height = 2, int width = 10);
       void displayCursorPosition (int keybPosition);
       static void logCursorPosition (int keybPosition);
-/*
-      void mainMenu (int keybPosition = -1);
-      void options (int keybPosition = -1);
-      void languages (int keybPosition = -1);
-      void video (int keybPosition = -1);
-*/
-      //void save (list<string> files, const unsigned int menuSize, int keybPosition = -1);
-      //void load (list<string> files, const unsigned int menuSize, int keybPosition = -1);
-      //void infos (list<string> infos);
       void gameplay (int position, map<int, int> worldMap);
       void end ();
       int getChar ();
       void hello (); // Pour tester l'affichage en cas de soucis
       void validateOption (int optionNumber);
-      //const unsigned int computeMaxWidth (list<string> menu);
       void clearScreen();
       void initScreen();
       void display ();
@@ -142,7 +132,12 @@ namespace Views {
       static vector<WINDOW*> windows;
       static Screen scr;
       static int _keyboardx;
+      static int _maxKeyboardx;
       static Presenter _presenter;
+      static Dictionary dict;
+
+    protected:
+      static int _maxKeybx;
 
       WINDOW * createWindow (int height = 2, int width = 10);
       void redraw (WINDOW * mainMenu);
@@ -157,9 +152,10 @@ namespace Views {
       static void selectColor (int color);
       static void selectFont (int newfont);
       void display (Screen screen);
-      void display (Menu menu);
-      void display (Text text);
-      list<string> nodesToString (list<Node *> items);
+      static void disp (Menu menu);
+      static void disp (Text text);
+      //list<string> nodesToString (list<Node *> items);
+      static void box (pair<float, float> pointA, pair<float, float> pointB);
 
       // Operations
     public:

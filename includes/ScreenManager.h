@@ -166,7 +166,6 @@ namespace ScreenManager {
       const unsigned int computeMaxWidth (list<string> menu);
   };
 
-
 }
 
 #endif

@@ -16,7 +16,7 @@ void View::display () {
 }
 
 void View::display (Screen screen) {
-  _maxKeyboardx = screen.getSelectSize();
+  _maxKeyboardx = screen.getSelectSize() - 1;
 }
 
 void View::display (Menu menu) {

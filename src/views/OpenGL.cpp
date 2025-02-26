@@ -26,7 +26,9 @@ static void *fonts[] =
 
 Screen Views::OpenGL::scr;
 int Views::OpenGL::_keyboardx;
+int Views::OpenGL::_maxKeyboardx;
 Presenter Views::OpenGL::_presenter;
+Dictionary Views::OpenGL::dict;
 vector<WINDOW*> Views::OpenGL::windows;
 
 Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
@@ -44,10 +46,11 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
   char * argv[1] = {(char*)"Ecosystem vX.Xyyyy - OpenGL"};
   glutInit(&argc, argv);
   
-  font = GLUT_BITMAP_TIMES_ROMAN_24;
+  font = GLUT_BITMAP_9_BY_15;
   glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-  glutInitWindowSize(1000, 300);
-  glutCreateWindow("GLUT bitmap font example");
+  glutInitWindowSize(1920, 1080); // Affichage de mon pc de developpement
+  int window = glutCreateWindow("Ecosystem");
+  glutPositionWindow(0, 0);
   glClearColor(0.0, 0.0, 0.0, 1.0);
   glutDisplayFunc(displayRoutine);
   glutReshapeFunc(reshape);
@@ -68,6 +71,7 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
   glutAddSubMenu("Messages", msg_submenu);
   glutAddSubMenu("Color", color_submenu);
   glutAttachMenu(GLUT_RIGHT_BUTTON);
+
 
 /*
   glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
@@ -151,34 +155,30 @@ void Views::OpenGL::output (int x, int y, const char *string) {
 void Views::OpenGL::displayRoutine (void) {
   glClear(GL_COLOR_BUFFER_BIT);
   //output(0, 24, (char *)"This is written in a GLUT bitmap font.");
-  output(100, 100, (char *)"GLUT means OpenGL.");
-  output(50, 145, (char *)"(positioned in pixels with upper-left origin)");
+  //output(100, 100, (char *)"GLUT means OpenGL.");
+  //output(50, 145, (char *)"(positioned in pixels with upper-left origin)");
 
 //******************************************************************************************
   //wclear(windows[screen.window()]);
-
   //box(windows[screen.window()], ACS_VLINE, ACS_HLINE);
 
   map<int, GraphicComponent *> components = scr.components();
   _keyboardx = scr.selected();
 
   output(0, 24, ("selectedIndex: " + to_string(_keyboardx)).c_str());
-  //mvwprintw(windows[0], 1, 1, "_selectedIndex: %d", _selectedIndex);
   for(long unsigned int i = 0; i < components.size(); i++) {
 
     GraphicComponent * a = components[i];
 
-      if (Text * text = dynamic_cast<Text*>(a); text != nullptr) {
-        //display((*text));
-      } else if (Menu * menu = dynamic_cast<Menu*>(a); menu != nullptr) {
-        //display((*menu));
-      }
+    if (Text * text = dynamic_cast<Text*>(a); text != nullptr) {
+      disp(*text);
+    } else if (Menu * menu = dynamic_cast<Menu*>(a); menu != nullptr) {
+      disp(*menu);
+    }
   }
 
   usleep(100000);
-
 //******************************************************************************************
-
 
   glutSwapBuffers();
 }
@@ -189,9 +189,11 @@ void Views::OpenGL::keyboard (unsigned char key, int x, int y) {
 void Views::OpenGL::special (int key, int x, int y) {
   _keyboardx = scr.selected();
   if(key == GLUT_KEY_UP) {
-    _keyboardx--;
+    if(_keyboardx > 0)
+      _keyboardx--;
   } else if (key == GLUT_KEY_DOWN) {
-    _keyboardx++;
+    if(_keyboardx < _maxKeyboardx)
+      _keyboardx++;
   }
   scr.select(_keyboardx);
 }
@@ -250,10 +252,11 @@ WINDOW * Views::OpenGL::createWindow (int height, int width) {
   Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/OpenGL.log");
   log->log("create window() size: " + to_string(height) + " width: " + to_string(width));
 
-  WINDOW * window = subwin(stdscr, height + edges, width, yOffset, xOffset);
-  box(window, ACS_VLINE, ACS_HLINE);
+  //WINDOW * window = subwin(stdscr, height + edges, width, yOffset, xOffset);
+  //box(window, ACS_VLINE, ACS_HLINE);
   refresh();
-  return window;
+  //return window;
+  return 0;
 }
 
 void Views::OpenGL::drawChar (WINDOW * win, int x, int y, char c, char color) {
@@ -277,17 +280,67 @@ void Views::OpenGL::displayCursorPosition (int keybPosition) {
 
 void Views::OpenGL::display (Screen screen) {
   Views::OpenGL::scr = screen;
+  Views::OpenGL::_maxKeyboardx = screen.getSelectSize() - 1;
   glutMainLoop();
 }
 
-void Views::OpenGL::display (Menu menu) {
+void Views::OpenGL::disp (Menu menu) {
+  list<string>::iterator it;
+  list<string> items = menu.items();
+  int y = menu.y();
+  const int x = menu.x(); 
+  int cursorPosition = 0;
+
+  it = items.begin();
+  if(_keyboardx < items.size())
+    advance(it, _keyboardx);
+  Dictionary d;
+  output(0, 15, (char *)("label: " + d.translate(*it)).c_str());
+  string m = "cursorPosition: " + cursorPosition;
+  output(0, 45, m.c_str());
+  m = "_maxKeyboardx: " + _maxKeyboardx;
+  output(0, 60, m.c_str());
+
+  //mvwprintw(stdscr, 2, 1, "label: %s", dict.translate((*it)).c_str());
+  //mvwprintw(stdscr, 5, 1, "_maxKeyboardx: %d", _maxKeyboardx);
+
+  //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
+  //WINDOW * sub = subwin(windows[menu.window()], items.size() + 2, 10,  y - 1, x - 1);
+  //box(sub, ACS_VLINE, ACS_HLINE);
+
+  pair<int, int> fontSize = make_pair(9, 15);
+  //15 et 9 sont les tailles de font
+  box(make_pair(x, y), make_pair(x + 10, y + items.size() + 1));
+
+  for(it = items.begin(); it != items.end(); it++) {
+    if(cursorPosition == _keyboardx)
+      glColor3f(0.0, 1.0, 0.0);
+// le 15 est la hauteur de la font => à stocker dans un tableau ou est-ce qu elle est accessible ?
+    output((x + 1) * fontSize.first, (y + 1) * fontSize.second, d.translate(*it).c_str());
+
+    if(cursorPosition == _keyboardx)
+      glColor3f(1.0, 1.0, 1.0);
+
+    y++;
+    cursorPosition++;
+  }
 
 }
 
-void Views::OpenGL::display (Text text) {
+void Views::OpenGL::disp (Text text) {
+  // Compute to font size
+  pair<int, int> fontSize = make_pair(9, 15);
+ 
+  int x = text.x() * fontSize.first; // lie a la font
+  int y = text.y() * fontSize.second;
 
+  output(0, 900, ("x: " + to_string(x)).c_str());
+  output(0, 915, ("y: " + to_string(y)).c_str());
+
+  output(x, y, dict.translate(text.label()).c_str());
 }
 
+/*
 list<string> Views::OpenGL::nodesToString (list<Node *> items) {
   list<Node *>::iterator it;
   list<string> lst;
@@ -314,6 +367,27 @@ list<string> Views::OpenGL::nodesToString (list<Node *> items) {
     }
   }
   return lst;
+}
+*/
+
+void Views::OpenGL::box (pair<float, float> pointA, pair<float, float> pointB) {
+  float width = 1.;
+/*
+  output(0, 900, ("x: " + to_string(pointA.first)).c_str());
+  output(0, 915, ("y: " + to_string(pointA.second)).c_str());
+*/
+
+  // Compute to font size
+  pair<float, float> fontSize = make_pair(9., 15.);
+  pointA.first = pointA.first * fontSize.first;
+  pointA.second = pointA.second * fontSize.second;
+  pointB.first = pointB.first * fontSize.first;
+  pointB.second = pointB.second * fontSize.second;
+
+  glColor3f(0.0, 0.0, 0.75);
+  glRectf(pointA.first, pointA.second, pointB.first, pointB.second);
+  glColor3f(0.0, 0.0, 0.0);
+  glRectf(pointA.first + width, pointA.second + width, pointB.first - width, pointB.second - width);
+  glColor3f(1.0, 1.0, 1.0);
 
 }
-

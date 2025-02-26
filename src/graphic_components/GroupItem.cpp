@@ -19,11 +19,14 @@ void GroupItem::selectItem (const int index) {
   for(it = children.begin(); it != children.end(); it++) {
     (*it)->clear();
   }
-  it = children.begin();
-  advance(it, index);
-  selectedItem = index;
-  Item * item = dynamic_cast<Item*>(*it);
-  item->validate();
+
+  if((long unsigned int)index < children.size()) {
+    it = children.begin();
+    advance(it, index);
+    selectedItem = index;
+    Item * item = dynamic_cast<Item*>(*it);
+    item->validate();
+  }
 }
 
 Item * GroupItem::getSelectedItem () {
