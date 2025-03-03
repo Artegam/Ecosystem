@@ -5,6 +5,9 @@
 #include "Translations.h"
 
 #include <ncurses.h>
+#include <SDL2/SDL.h>
+#include <GLES3/gl3.h>
+#include <GL/gl.h>
 #include <unistd.h>
 #include <map>
 #include <list>
@@ -21,6 +24,7 @@ namespace Views {
   const int KEYB_DOWN   = 2;
   const int KEYB_UP     = 3;
   const int KEYB_ENTER  = 10;
+  const int KEYB_CR     = 13;
   const int KEYB_SPACE  = 32;
   const int KEYB_ESCAPE = 27;
 
@@ -28,7 +32,7 @@ namespace Views {
   // interface
   /// class Presenter - 
   class Presenter {
-    private:
+    protected:
       void * fct;
     public:
       virtual void display ();
@@ -42,8 +46,8 @@ namespace Views {
     protected:
       bool toClear = false;
       Presenter * _presenter;
-      int _keyboardx = 0;
-      int _keyboardy = 0;
+      unsigned int _keyboardx = 0;
+      unsigned int _keyboardy = 0;
       int _maxKeyboardx = 0;
       int _maxKeyboardy = 0;
       bool _valid = false;
@@ -131,10 +135,15 @@ namespace Views {
       int windowWidth = 0;
       static vector<WINDOW*> windows;
       static Screen scr;
-      static int _keyboardx;
       static int _maxKeyboardx;
-      static Presenter _presenter;
+      static bool _valid;
+      static Presenter _pres;
       static Dictionary dict;
+      //SDL_Window * win;
+      //SDL_GLContext context;
+SDL_Window * win;
+unsigned int shaderProgram;
+  GLuint VAO; // Vertex Array Objects
 
     protected:
       static int _maxKeybx;
@@ -142,26 +151,27 @@ namespace Views {
       WINDOW * createWindow (int height = 2, int width = 10);
       void redraw (WINDOW * mainMenu);
       void drawChar (WINDOW * win, int x, int y, char c, char color);
-      static void displayRoutine (void);
-      static void keyboard (unsigned char key, int x, int y);
-      static void special (int key, int x, int y);
-      static void reshape (int width, int height);
-      static void tick (void);
-      static void output (int x, int y, const char *string);
-      static void selectMessage (int msg);
-      static void selectColor (int color);
-      static void selectFont (int newfont);
+      void displayRoutine (void);
+      void keyboard (unsigned char key, int x, int y);
+      void special (int key, int x, int y);
+      void reshape (int width, int height);
+      void tick (void);
+      void output (int x, int y, const char *string);
+      void selectMessage (int msg);
+      void selectColor (int color);
+      void selectFont (int newfont);
       void display (Screen screen);
-      static void disp (Menu menu);
-      static void disp (Text text);
+      void disp (Menu menu);
+      void disp (Text text);
       //list<string> nodesToString (list<Node *> items);
-      static void box (pair<float, float> pointA, pair<float, float> pointB);
+      void box (pair<float, float> pointA, pair<float, float> pointB);
+      void openglend ();
 
       // Operations
     public:
       OpenGL (Presenter * presenter);
       ~OpenGL ();
-      void init (int height, int width);
+      void init ();
       void displayCursorPosition (int keybPosition);
   };
 

@@ -11,6 +11,7 @@ ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel svm) {
 
   view->init(data.getWorldHeight(), data.getWorldWidth());
   view->display(data.getScreen(MAIN));
+  //fct = (void *) display();
 }
 
 void ScreenPresenter::start () {

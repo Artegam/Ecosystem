@@ -14,7 +14,7 @@ TEST_DIR = $(TESTS)$(SRC)
 
 INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
 
-LIBS = -lncurses -lGL -lglut -lGLU -lstdc++fs -lopenal -lalut
+LIBS = -lncurses -lGL -lSDL2 -lstdc++fs -lopenal -lalut
 #EXEC = Ecosystem
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
@@ -131,11 +131,14 @@ install:
 install-tools: install-libs directories
 	sudo apt-get install g++ vim dia dia2code doxygen
 
-install-opengl: install-libs
-	sudo apt-get install libgl-dev freeglut3 freeglut3-dev
+install-ncurses:
+	sudo apt-get install libncurses-dev ncurses-doc
 
-install-libs:
-	sudo apt-get install libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev freeglut3 freeglut3-dev
+install-opengl:
+	sudo apt-get install libgl-dev libsdl2-dev libsdl2-ttf-dev
+
+install-libs: install-ncurses install-opengl
+	sudo apt-get install libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 install-cyg-libs:
 	apt-cyg install ncurses libncurses-devel
@@ -143,18 +146,21 @@ install-cyg-libs:
 uninstall:
 	sudo rm -f $(INSTALL_DIR)Ecosystem
 
-uninstall-libs:
-	sudo apt-get remove libncurses-dev ncurses-doc libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev freeglut3 freeglut3-dev
-
 uninstall-tools: uninstall-libs
 	sudo apt-get remove g++ vim dia dia2code doxygen
 	rm -r o/
 
-uninstall-opengl: uninstall-libs
-	sudo apt-get remove libgl-dev freeglut3 freeglut3-dev
+uninstall-ncurses:
+	sudo apt-get remove libncurses-dev ncurses-doc
+
+uninstall-opengl:
+	sudo apt-get remove libgl-dev libsdl2-dev libsdl2-ttf-dev
+
+uninstall-libs: uninstall-ncurses uninstall-opengl
+	sudo apt-get remove libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
 
 test:
 	#TODO: Penser a un repertoire de test dedie aux tests
-    #cli commands here for test predicate
+#cli commands here for test predicate
 	# compile tests classes
 	# run test classes
