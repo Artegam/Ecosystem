@@ -64,10 +64,11 @@ void Views::OpenGL::init () {
     "}\0";
 
   //Fragment shader orange
+    //"  FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
   const char * fragmentShaderSource = "#version 460 core\n"
     "out vec4 FragColor;\n"
     "void main () {\n"
-    "  FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+    "  FragColor = vec4(1.f, 1.f, 1.f, 1.f);\n"
     "}\n\0";
 
   unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -113,7 +114,8 @@ void Views::OpenGL::init () {
   float vertices[] = {
     0.5f, 0.5f, 0.0f,  // top right
     0.5f, -0.5f, 0.0f, // bottom right
-    -0.5f, -0.5f, 0.0f // bottom left 
+    -0.5f, -0.5f, 0.0f, // bottom left 
+    -0.5f, 0.5f, 0.f // TEST 
   };
 
   GLuint VBO; // Vertex Buffer Objects
@@ -126,7 +128,7 @@ void Views::OpenGL::init () {
   glBindVertexArray(VAO); // attention ici bizarre lire la doc
   glBindBuffer(GL_ARRAY_BUFFER, VBO); //Bizarre ici aussi moi pas compris
   // 3 = nombre de points
-  glBufferData(GL_ARRAY_BUFFER, 3 * sizeof(float), vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, 4 * 3 * sizeof(float), vertices, GL_STATIC_DRAW);
   //set vertex attribute pointers
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
@@ -296,7 +298,7 @@ void Views::OpenGL::display (Screen screen) {
           // handle event...
       }
     }
-    float greyLevel = 0.3f;
+    float greyLevel = 0.1f;
     glClearColor(greyLevel, greyLevel, greyLevel, 0.f);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 /*
@@ -310,8 +312,8 @@ glEnd();
     //draw objects
     glUseProgram(shaderProgram);
     glBindVertexArray(VAO);
-    glDrawArrays(GL_LINES, 0, 4);
-    //glDrawArrays(GL_TRIANGLES, 0, 3); //Pourquoi les triangles ne fonctionnent pas ???? je sais pas encore....
+    //glDrawArrays(GL_POINTS, 0, 3);
+    glDrawArrays(GL_LINE_LOOP, 0, 4); //Pourquoi les triangles ne fonctionnent pas ???? je sais pas encore....
 
     SDL_GL_SwapWindow(win);
   }
