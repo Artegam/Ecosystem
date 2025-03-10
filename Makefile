@@ -12,9 +12,9 @@ BIN = bin/
 INSTALL_DIR = /usr/bin/
 TEST_DIR = $(TESTS)$(SRC)
 
-INCLUDES = -I $(INC) # -I $(INC_RENDER) -I $(TESTS)
+INCLUDES = -I $(INC) -I/usr/include/freetype2 -I/usr/include/libpng16 # -I $(INC_RENDER) -I $(TESTS)
 
-LIBS = -lncurses -lGL -lSDL2 -lstdc++fs -lopenal -lalut
+LIBS = -lncurses -lGL -lSDL2 -lSDL2_image -lSDL2_ttf -lstdc++fs -lopenal -lalut -L/usr/lib64 -lfreetype -lglfw -lGLESv2 -lm
 #EXEC = Ecosystem
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
@@ -138,7 +138,7 @@ install-opengl:
 	sudo apt-get install libgl-dev libsdl2-dev libsdl2-ttf-dev
 
 install-libs: install-ncurses install-opengl
-	sudo apt-get install libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get install libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev libfreetype6-dev freetype2-doc libglm-dev libglm-doc
 
 install-cyg-libs:
 	apt-cyg install ncurses libncurses-devel
@@ -157,7 +157,7 @@ uninstall-opengl:
 	sudo apt-get remove libgl-dev libsdl2-dev libsdl2-ttf-dev
 
 uninstall-libs: uninstall-ncurses uninstall-opengl
-	sudo apt-get remove libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev
+	sudo apt-get remove libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev libfreetype6-dev freetype2-doc libglm-dev libglm-doc
 
 test:
 	#TODO: Penser a un repertoire de test dedie aux tests
