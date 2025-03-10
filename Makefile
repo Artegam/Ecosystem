@@ -135,7 +135,7 @@ install-ncurses:
 	sudo apt-get install libncurses-dev ncurses-doc
 
 install-opengl:
-	sudo apt-get install libgl-dev libsdl2-dev libsdl2-ttf-dev
+	sudo apt-get install libgl-dev libsdl2-dev libsdl2-ttf-dev libglfw3-dev libglfw3-doc libglfw3 libsdl2-image-2.0-0 libsdl2-image-dev
 
 install-libs: install-ncurses install-opengl
 	sudo apt-get install libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev libfreetype6-dev freetype2-doc libglm-dev libglm-doc
@@ -154,7 +154,7 @@ uninstall-ncurses:
 	sudo apt-get remove libncurses-dev ncurses-doc
 
 uninstall-opengl:
-	sudo apt-get remove libgl-dev libsdl2-dev libsdl2-ttf-dev
+	sudo apt-get remove libgl-dev libsdl2-dev libsdl2-ttf-dev libglfw3-dev libglfw3-doc libglfw3 libsdl2-image-2.0-0 libsdl2-image-dev
 
 uninstall-libs: uninstall-ncurses uninstall-opengl
 	sudo apt-get remove libopenal-dev libopenal-data libopenal1 libalut-dev libaudio-dev libfreetype6-dev freetype2-doc libglm-dev libglm-doc
