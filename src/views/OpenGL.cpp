@@ -16,6 +16,7 @@ using namespace Translations;
 
 Screen Views::OpenGL::scr;
 int Views::OpenGL::_maxKeyboardx;
+unsigned int Views::OpenGL::_keyboardx;
 bool Views::OpenGL::_valid;
 Presenter Views::OpenGL::_pres;
 Dictionary Views::OpenGL::dict;
@@ -91,9 +92,9 @@ void Views::OpenGL::displayRoutine (void) {
     GraphicComponent * a = components[i];
 
     if (Text * text = dynamic_cast<Text*>(a); text != nullptr) {
-      disp(*text);
+      //display(*text);
     } else if (Menu * menu = dynamic_cast<Menu*>(a); menu != nullptr) {
-      disp(*menu);
+      //display(*menu);
     }
   }
 
@@ -174,81 +175,12 @@ void Views::OpenGL::displayCursorPosition (int keybPosition) {
 }
 
 void Views::OpenGL::display (Screen screen) {
+  scr = screen;
   win->setRenderFunc(&test);
   win->display();
-
-/*
-  Texture gTextTexture;
-  //Initialize SDL_ttf
-  if (TTF_Init () == -1)
-   cout << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError () << endl;
-
-  SDL_Window * w = SDL_CreateWindow("Ecosystem vX.Xyyyy - SDL/OpenGL", 0, 0, 800, 600, SDL_WINDOW_SHOWN|SDL_WINDOW_RESIZABLE);
-  SDL_Renderer * gRenderer = SDL_CreateRenderer (w, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-  if (gRenderer == NULL)
-    cout << "Renderer could not be created! SDL Error: " << SDL_GetError () << endl;
-
-  TTF_Font * gFont = TTF_OpenFont ("lazy.ttf", 28);
-  if (gFont == NULL) {
-    cout << "Failed to load lazy font! SDL_ttf Error: " << TTF_GetError() << endl;
-    exit(0);
-  }
-  SDL_Color textColor = { 0, 0, 0 };
-
-
-
-  init();
-  SDL_Event event;
-
-  while (1) {
-    glViewport(0, 0, 800, 600);
-    while(SDL_PollEvent(&event)) {
-      cout << "event type: " << event.type << " (" << SDL_QUIT << ")" << endl;
-      switch(event.type){
-        case SDL_QUIT:
-          cout << "Je dois quitter !!!" << endl;
-          SDL_DestroyWindow(win);
-          SDL_Quit();
-          exit(0);
-        default:
-          cout << event.type << ": I don't know what this event is!" << endl;
-          // handle event...
-      }
-    }
-    float greyLevel = 0.3f;
-    glClearColor(greyLevel, greyLevel, greyLevel, 0.f);
-    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-
-    // ### MATRIX #####
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    glOrtho(-400.f, 400.f, -300.f, 300.f, 0.f, 50.f);
-
-    // hardwire view !!
-    glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-    //draw objects
-    myTriangles->use();
-    //testView->use();
-
-    //############## RENDER ##############
-    //TODO: Il y a un pb quelque part ici....
-    // Deja comment dessinner un QUAD avec des coordonnees qui sortent de l'ensemble [0, 1] ???
-    //Shader fontShader(fontVertexShader, fontFragmentShader);
-    //fontShader->use();
-
-
-    //Render text
-
-    gTextTexture.loadFromRenderedText ("The quick brown fox jumps over the lazy dog", gRenderer, gFont, textColor);
-
-    //################################
-
-    SDL_GL_SwapWindow(win);
-  }
-*/
 }
 
-void Views::OpenGL::disp (Menu menu) {
+void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   list<string>::iterator it;
   list<string> items = menu.items();
   int y = menu.y();
@@ -264,20 +196,25 @@ void Views::OpenGL::disp (Menu menu) {
 
   //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
   //15 et 9 sont les tailles de font
-  box(make_pair(x, y), make_pair(x + 10, y + items.size() + 1));
+  //box(make_pair(x, y), make_pair(x + 10, y + items.size() + 1));
+if(win->isValidate())
+cout << "une ligne a été validée" << endl;
 
+  glm::vec3 color;
+  win->setYCursorLimits(0, items.size()-1);
   for(it = items.begin(); it != items.end(); it++) {
-    if(cursorPosition == _keyboardx)
-      glColor3f(0.0, 1.0, 0.0);
+    color = glm::vec3(0.5, 0.8f, 0.2f);
+    if(cursorPosition == (const int)win->getYCursorPosition())
+      color = glm::vec3(1.0, 1.0, 1.0);
+
+    win->renderText(*shader, dict.translate((*it)).c_str(), 175.f + menu.x(), 900 - (y * 30.0f), 1.0f, color);
     // le 15 est la hauteur de la font => à stocker dans un tableau ou est-ce qu elle est accessible ?
-    if(cursorPosition == _keyboardx)
-      glColor3f(1.0, 1.0, 1.0);
     y++;
     cursorPosition++;
   }
 }
 
-void Views::OpenGL::disp (Text text) {
+void Views::OpenGL::display (Text text) {
 }
 
 void Views::OpenGL::box (pair<float, float> pointA, pair<float, float> pointB) {
@@ -301,8 +238,19 @@ void Views::OpenGL::openglend () {
 } 
 
 void Views::OpenGL::test (Window * win, Shader * shader) {
+
+  map<int, GraphicComponent *> lst = scr.components();
+//cout << "la taille est : " << lst.size() << endl;
+  for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
+    if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
+      win->renderText(*shader, text->label().c_str(), text->x() * 25.0f, text->y() * 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+    } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
+      display(win, shader, (*menu));
+    }
+  }
+
   win->renderText(*shader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
-  win->renderText(*shader, "(C) LearnOpenGL.com", 0.f, 450.f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
-  win->renderText(*shader, "Test", 250.f, 250.f, 0.5f, glm::vec3(0.9, 0.7f, 0.3f));
+//  win->renderText(*shader, "(C) LearnOpenGL.com", 0.f, 450.f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
+//  win->renderText(*shader, "Test", 250.f, 250.f, 0.5f, glm::vec3(0.9, 0.7f, 0.3f));
 }
 

@@ -79,8 +79,8 @@ namespace Views {
       virtual void init (int height, int width);
       virtual void display ();
       virtual void display (Screen screen);
-      virtual void display (Menu menu);
-      virtual void display (Text text);
+      void display (Menu menu);
+      void display (Text text);
       virtual void mainMenu (int keybPosition = -1);
       virtual void options (int keybPosition = -1);
       virtual void languages (int keybPosition = -1);
@@ -202,11 +202,24 @@ namespace Views {
       unsigned int uiVAO, uiVBO;
       map<GLchar, Character>  Characters;
       Shader * shader;
+      int xcursor = 0;
+      int ycursor = 0;
+      bool xLimitsDefined = false;
+      bool yLimitsDefined = false;
+      bool isValidated = false;
+      int xmin = 0;
+      int xmax = 0;
+      int ymin = 0;
+      int ymax = 0;
+      int keyPressed = 0;
+      int XValidated = 0;
+      int YValidated = 0;
 
       void framebuffer_size_callback (GLFWwindow * window, int width, int height);
       void processInput (GLFWwindow * window);
       int createWindow (const unsigned int width, const unsigned int height);
       static void resizeCallback (GLFWwindow* window, int width, int height);
+      void calculate(); // calculate x and y cursor with limits if they are sets
 
     public:
       Window (const unsigned int width, const unsigned int height);
@@ -219,6 +232,13 @@ namespace Views {
       void renderText (Shader &shader, string text, float x, float y, float scale, glm::vec3 color);
       void arraysConfig ();
       void useShader(Shader * vshader);
+      int getXCursorPosition ();
+      int getYCursorPosition ();
+      void setYCursorLimits(int min, int max);
+      void setXCursorLimits(int min, int max);
+      void disableXLimits();
+      void disableYLimits();
+      bool isValidate();
   };
 
   /// class OpenGLView -
@@ -234,6 +254,7 @@ namespace Views {
       static vector<WINDOW*> windows;
       static Screen scr;
       static int _maxKeyboardx;
+      static unsigned int _keyboardx;
       static bool _valid;
       static Presenter _pres;
       static Dictionary dict;
@@ -245,13 +266,12 @@ namespace Views {
       Shader * fontShader;
       SDL_Renderer * renderer = NULL;
 
-
       unsigned int fontVAO, fontVBO;
       struct Character {
         unsigned int textureID;  // ID handle of the glyph texture
         glm::ivec2   Size;       // Size of glyph
         glm::ivec2   Bearing;    // Offset from baseline to left/top of glyph
-        long int advance;    // Offset to advance to next glyph
+        long int advance;        // Offset to advance to next glyph
       };
 
       std::map<char, Character> Characters;
@@ -275,8 +295,8 @@ namespace Views {
       void selectColor (int color);
       void selectFont (int newfont);
       void display (Screen screen);
-      void disp (Menu menu);
-      void disp (Text text);
+      static void display (Window * win, Shader * shader, Menu menu);
+      static void display (Text text);
       //list<string> nodesToString (list<Node *> items);
       void box (pair<float, float> pointA, pair<float, float> pointB);
       void openglend ();

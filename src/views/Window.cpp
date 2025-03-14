@@ -22,6 +22,8 @@ Views::Window::Window(const unsigned int width, const unsigned int height) {
   glEnable(GL_CULL_FACE);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glfwSetInputMode(window, GLFW_STICKY_KEYS, GLFW_TRUE);
 }
 
 Views::Window::~Window() {
@@ -47,6 +49,37 @@ void Views::Window::processInput (GLFWwindow *window)
 {
   if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
+  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+    keyPressed = GLFW_KEY_DOWN;
+  else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+    keyPressed = GLFW_KEY_UP;
+  else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+    keyPressed = GLFW_KEY_LEFT;
+  else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+    keyPressed = GLFW_KEY_RIGHT;
+  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE && keyPressed == GLFW_KEY_DOWN) {
+    keyPressed = 0;
+    ycursor++;
+    calculate();
+  }
+  else if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_RELEASE && keyPressed == GLFW_KEY_UP) {
+    keyPressed = 0;
+    ycursor--;
+    calculate();
+  }
+  else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE && keyPressed == GLFW_KEY_LEFT) {
+    keyPressed = 0;
+    xcursor--;
+    calculate();
+  }
+  else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE && keyPressed == GLFW_KEY_RIGHT) {
+    keyPressed = 0;
+    xcursor++;
+    calculate();
+  }
+  else if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+    isValidated = true;
+
 }
 
 void Views::Window::display () {
@@ -148,4 +181,58 @@ void Views::Window::useShader (Shader * vshader) {
   glUniformMatrix4fv(glGetUniformLocation(shader->ID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 }
 
+int Views::Window::getXCursorPosition () {
+  return xcursor;
+}
 
+int Views::Window::getYCursorPosition () {
+  return ycursor;
+}
+
+void Views::Window::setYCursorLimits(int min, int max) {
+  ymin = min;
+  ymax = max;
+  yLimitsDefined = true;
+}
+
+void Views::Window::setXCursorLimits(int min, int max) {
+  xmin = min;
+  xmax = max;
+  xLimitsDefined = true;
+}
+
+void Views::Window::disableXLimits() {
+  xmin = 0;
+  xmax = 0;
+  xLimitsDefined = false;
+}
+
+void Views::Window::disableYLimits() {
+  ymin = 0;
+  ymax = 0;
+  yLimitsDefined = false;
+}
+
+void Views::Window::calculate() {
+  if(xLimitsDefined) {
+    if(xcursor < xmin)
+      xcursor = xmin;
+    if(xcursor > xmax)
+      xcursor = xmax;
+  }
+  if(yLimitsDefined) {
+    if(ycursor < ymin)
+      ycursor = ymin;
+    if(ycursor > ymax)
+      ycursor = ymax;
+  }
+}
+
+bool Views::Window::isValidate() {
+  if(isValidated) {
+    isValidated = false;
+    return true;
+  } else {
+    return false;
+  }
+}
