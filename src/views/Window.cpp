@@ -57,6 +57,8 @@ void Views::Window::processInput (GLFWwindow *window)
     keyPressed = GLFW_KEY_LEFT;
   else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
     keyPressed = GLFW_KEY_RIGHT;
+  else if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+    keyPressed = GLFW_KEY_ENTER;
   else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_RELEASE && keyPressed == GLFW_KEY_DOWN) {
     keyPressed = 0;
     ycursor++;
@@ -77,9 +79,10 @@ void Views::Window::processInput (GLFWwindow *window)
     xcursor++;
     calculate();
   }
-  else if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+  else if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE && keyPressed == GLFW_KEY_ENTER) {
+    keyPressed = 0;
     isValidated = true;
-
+  }
 }
 
 void Views::Window::display () {
@@ -229,10 +232,10 @@ void Views::Window::calculate() {
 }
 
 bool Views::Window::isValidate() {
+  bool res = false;
   if(isValidated) {
+    res = true;
     isValidated = false;
-    return true;
-  } else {
-    return false;
   }
+  return res;
 }

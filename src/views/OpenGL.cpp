@@ -197,8 +197,8 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
   //15 et 9 sont les tailles de font
   //box(make_pair(x, y), make_pair(x + 10, y + items.size() + 1));
-if(win->isValidate())
-cout << "une ligne a été validée" << endl;
+  if(win->isValidate())
+    cout << "une ligne a été validée" << endl;
 
   glm::vec3 color;
   win->setYCursorLimits(0, items.size()-1);
