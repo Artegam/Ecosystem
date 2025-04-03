@@ -5,11 +5,21 @@ using namespace std;
 using namespace Views;
 
 View::View (Presenter * presenter) {
-  //TODO: ajouter KEYB_LEFT et KAYB_RIGHT
   _presenter = presenter;
 }
 
 void View::init (int height, int width) {
+}
+
+void View::end () {
+  tobeClosed = true;
+}
+
+bool View::shouldClose () {
+  return tobeClosed;
+}
+
+void View::close () {
 }
 
 void View::display () {
@@ -38,9 +48,6 @@ void View::video (int keybPosition) {
 }
 
 void View::gameplay (int position, map<int, int> worldMap) {
-}
-
-void View::end () {
 }
 
 int View::getChar () {

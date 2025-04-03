@@ -85,22 +85,25 @@ void Views::Window::processInput (GLFWwindow *window)
   }
 }
 
-void Views::Window::display () {
-  while (!glfwWindowShouldClose(window))
-  {
-    processInput (window);
+bool Views::Window::shouldClose () {
+  return glfwWindowShouldClose(window);
+}
 
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    if((*render) != NULL)
-      render(this, shader);
-
-    glfwSwapBuffers(window);
-    glfwPollEvents();
-  }
-
+void Views::Window::close () {
   glfwTerminate();
+}
+
+void Views::Window::display () {
+  processInput (window);
+
+  glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+  glClear(GL_COLOR_BUFFER_BIT);
+
+  if((*render) != NULL)
+    render(this, shader);
+
+  glfwSwapBuffers(window);
+  glfwPollEvents();
 }
 
 void Views::Window::arraysConfig () {
@@ -174,7 +177,6 @@ void Views::Window::renderText (Shader &shader, string text, float x, float y, f
   }
   glBindVertexArray(0);
   glBindTexture(GL_TEXTURE_2D, 0);
-
 }
 
 void Views::Window::useShader (Shader * vshader) {

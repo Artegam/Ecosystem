@@ -16,9 +16,8 @@ using namespace Translations;
 
 Screen Views::OpenGL::scr;
 int Views::OpenGL::_maxKeyboardx;
-unsigned int Views::OpenGL::_keyboardx;
-bool Views::OpenGL::_valid;
-Presenter Views::OpenGL::_pres;
+unsigned int Views::OpenGL::_keybx;
+//Presenter Views::OpenGL::_pres;
 Dictionary Views::OpenGL::dict;
 vector<WINDOW*> Views::OpenGL::windows;
 
@@ -26,7 +25,8 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
   // OpenGL initialization
   // Pour un écran Widescreen ratio d'aspect = 16:9
 
-  Views::OpenGL::_pres = *presenter;
+  //Views::OpenGL::_pres = *presenter;
+  _pres = presenter;
 // TEXTE ICI
   Views::OpenGL::win = new Window(640, 480);
   shader = new Shader("text.vs", "text.fs");
@@ -83,6 +83,7 @@ void Views::OpenGL::output (int x, int y, const char *string) {
 }
 
 void Views::OpenGL::displayRoutine (void) {
+/*
   map<int, GraphicComponent *> components = scr.components();
   _keyboardx = scr.selected();
 
@@ -100,15 +101,19 @@ void Views::OpenGL::displayRoutine (void) {
 
   if(_valid)
     openglend();
-  _pres.display();
+  _pres->display();
   usleep(100000);
+*/
 }
 
 void Views::OpenGL::keyboard (unsigned char key, int x, int y) {
+/*
+  cout << "coucou c'est nous !!" << endl;
   if(key == KEYB_CR) {
     _valid = true;
     openglend();
   }
+*/
 }
 
 void Views::OpenGL::special (int key, int x, int y) {
@@ -124,7 +129,7 @@ void Views::OpenGL::reshape (int width, int height) {
 }
 
 void Views::OpenGL::tick(void) {
-  _pres.display();
+  _pres->display();
 }
 
 void Views::OpenGL::selectMessage (int msg) {
@@ -174,8 +179,21 @@ void Views::OpenGL::displayCursorPosition (int keybPosition) {
   refresh();
 }
 
+bool Views::OpenGL::shouldClose () {
+  return win->shouldClose();
+}
+
+void Views::OpenGL::close () {
+  win->close();
+}
+
 void Views::OpenGL::display (Screen screen) {
   scr = screen;
+
+  //keyboard
+  _valid = win->isValidate();
+  _keyboardx = (const int)win->getYCursorPosition();
+
   win->setRenderFunc(&test);
   win->display();
 }
@@ -188,8 +206,8 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   unsigned int cursorPosition = 0;
 
   it = items.begin();
-  if(_keyboardx < items.size())
-    advance(it, _keyboardx);
+  if(_keybx < items.size())
+    advance(it, _keybx);
   Dictionary d;
   string m = "cursorPosition: " + cursorPosition;
   m = "_maxKeyboardx: " + _maxKeyboardx;
@@ -197,8 +215,6 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
   //15 et 9 sont les tailles de font
   //box(make_pair(x, y), make_pair(x + 10, y + items.size() + 1));
-  if(win->isValidate())
-    cout << "une ligne a été validée" << endl;
 
   glm::vec3 color;
   win->setYCursorLimits(0, items.size()-1);
@@ -235,6 +251,7 @@ void Views::OpenGL::box (pair<float, float> pointA, pair<float, float> pointB) {
 }
 
 void Views::OpenGL::openglend () {
+  win->renderText(*shader, "Valid", 0.f, 450.f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
 } 
 
 void Views::OpenGL::test (Window * win, Shader * shader) {

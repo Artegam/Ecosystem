@@ -80,7 +80,7 @@ namespace GraphicComponents {
       int _height;
       int _width;
       int _id;
-      bool selected = false;
+      bool _validated = false;
       bool selectable = false;
       int _window;
       int _selectedIndex = 0;
@@ -91,6 +91,8 @@ namespace GraphicComponents {
       GraphicComponent();
       GraphicComponent(const int window, const int x, const int y);
       virtual void select(const int idComponent);
+      virtual const int selected ();
+      const bool isValidated ();
       void setSelectSize(const int size);
       const int getSelectSize();
       virtual void resize(const int height, const int width);
@@ -117,7 +119,6 @@ namespace GraphicComponents {
       map<int, GraphicComponent *> components();
       void select(const int index);
       void resize(const int height, const int width);
-      const int selected ();
   };
 
   class Screen : public Composite {

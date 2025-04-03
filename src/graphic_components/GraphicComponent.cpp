@@ -40,6 +40,14 @@ void GraphicComponent::select (const int index) {
     _selectedIndex = index;
 }
 
+const int GraphicComponent::selected () {
+  return _selectedIndex;
+}
+
+const bool GraphicComponent::isValidated () {
+  return _validated;
+}
+
 const int GraphicComponent::id() {
   return _id;
 }

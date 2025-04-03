@@ -53,7 +53,7 @@ namespace Views {
     protected:
       void * fct;
     public:
-      virtual void display ();
+      void display ();
   };
 
   // interface
@@ -71,12 +71,16 @@ namespace Views {
       bool _valid = false;
       Screen scr;
       Dictionary dict;
+      bool tobeClosed = false;
 
     // Operations
     public:
 
       View (Presenter * presenter);
       virtual void init (int height, int width);
+      void end ();
+      bool shouldClose ();
+      void close ();
       virtual void display ();
       virtual void display (Screen screen);
       void display (Menu menu);
@@ -86,7 +90,6 @@ namespace Views {
       virtual void languages (int keybPosition = -1);
       virtual void video (int keybPosition = -1);
       virtual void gameplay (int position, map<int, int> worldMap);
-      virtual void end ();
       virtual int getChar ();
       virtual void clearScreen ();
       virtual void validateOption (int optionNumber);
@@ -226,6 +229,8 @@ namespace Views {
       ~Window ();
       const unsigned int width ();
       const unsigned int height ();
+      bool shouldClose ();
+      void close ();
       void display ();
       void setCharacters (std::map<GLchar, Character> lst);
       void setRenderFunc (void (*fct)(Window * win, Shader * shader));
@@ -254,11 +259,9 @@ namespace Views {
       static vector<WINDOW*> windows;
       static Screen scr;
       static int _maxKeyboardx;
-      static unsigned int _keyboardx;
-      static bool _valid;
-      static Presenter _pres;
+      static unsigned int _keybx;
+      Presenter * _pres;
       static Dictionary dict;
-      //SDL_Window * win;
       unsigned int shaderProgram;
       GLuint VAO; // Vertex Array Objects
       Shader * myTriangles;
@@ -294,6 +297,8 @@ namespace Views {
       void selectMessage (int msg);
       void selectColor (int color);
       void selectFont (int newfont);
+      bool shouldClose ();
+      void close ();
       void display (Screen screen);
       static void display (Window * win, Shader * shader, Menu menu);
       static void display (Text text);

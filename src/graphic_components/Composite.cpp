@@ -26,6 +26,3 @@ void Composite::resize(const int height, const int width) {
   GraphicComponent::resize(height, width);
 }
 
-const int Composite::selected () {
-  return _selectedIndex;
-}

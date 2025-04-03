@@ -184,7 +184,6 @@ void Views::NCurses::hello () {
 void Views::NCurses::display () {
   map<int, GraphicComponent *> lst;
 
-  while(1) {
     wclear(windows[scr.window()]);
     keyboard();
     box(windows[scr.window()], ACS_VLINE, ACS_HLINE);
@@ -202,9 +201,7 @@ void Views::NCurses::display () {
     }
 
     wrefresh(windows[scr.window()]);
-    _presenter->display();
     usleep(100000);
-  }
 }
 
 void Views::NCurses::display (Screen screen) {
