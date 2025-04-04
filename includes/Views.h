@@ -91,6 +91,7 @@ namespace Views {
       virtual void video (int keybPosition = -1);
       virtual void gameplay (int position, map<int, int> worldMap);
       virtual int getChar ();
+      virtual void initScreen();
       virtual void clearScreen ();
       virtual void validateOption (int optionNumber);
       virtual void createWindow (int position, int x, int y, int height, int width);
@@ -288,13 +289,9 @@ namespace Views {
       WINDOW * createWindow (int height = 2, int width = 10);
       void redraw (WINDOW * mainMenu);
       void drawChar (WINDOW * win, int x, int y, char c, char color);
-      void displayRoutine (void);
-      void keyboard (unsigned char key, int x, int y);
       void special (int key, int x, int y);
       void reshape (int width, int height);
-      void tick (void);
       void output (int x, int y, const char *string);
-      void selectMessage (int msg);
       void selectColor (int color);
       void selectFont (int newfont);
       bool shouldClose ();
@@ -305,13 +302,11 @@ namespace Views {
       //list<string> nodesToString (list<Node *> items);
       void box (pair<float, float> pointA, pair<float, float> pointB);
       void openglend ();
-      void renderText();
 
       // Operations
     public:
       OpenGL (Presenter * presenter);
       ~OpenGL ();
-      void init ();
       void displayCursorPosition (int keybPosition);
   };
 

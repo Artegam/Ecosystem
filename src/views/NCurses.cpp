@@ -98,7 +98,10 @@ void Views::NCurses::clearScreen() {
 
 void Views::NCurses::initScreen() {
   if (toClear) {
-    clear();
+    //clear();
+    wclear(stdscr);
+    wclear(windows[scr.window()]);
+
     toClear = false;
   }
 }
@@ -184,24 +187,24 @@ void Views::NCurses::hello () {
 void Views::NCurses::display () {
   map<int, GraphicComponent *> lst;
 
-    wclear(windows[scr.window()]);
-    keyboard();
-    box(windows[scr.window()], ACS_VLINE, ACS_HLINE);
+  wclear(windows[scr.window()]);
+  keyboard();
+  box(windows[scr.window()], ACS_VLINE, ACS_HLINE);
 
-    lst = scr.components();
+  lst = scr.components();
 
-    mvwprintw(stdscr, 1, 1, "_keyboardx: %d", _keyboardx);
+  mvwprintw(stdscr, 1, 1, "_keyboardx: %d", _keyboardx);
 
-    for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
-      if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
-        display((*text));
-      } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
-        display((*menu));
-      }
+  for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
+    if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
+      display((*text));
+    } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
+      display((*menu));
     }
+  }
 
-    wrefresh(windows[scr.window()]);
-    usleep(100000);
+  wrefresh(windows[scr.window()]);
+  usleep(100000);
 }
 
 void Views::NCurses::display (Screen screen) {

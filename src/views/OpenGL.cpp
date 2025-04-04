@@ -17,7 +17,6 @@ using namespace Translations;
 Screen Views::OpenGL::scr;
 int Views::OpenGL::_maxKeyboardx;
 unsigned int Views::OpenGL::_keybx;
-//Presenter Views::OpenGL::_pres;
 Dictionary Views::OpenGL::dict;
 vector<WINDOW*> Views::OpenGL::windows;
 
@@ -25,9 +24,8 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
   // OpenGL initialization
   // Pour un écran Widescreen ratio d'aspect = 16:9
 
-  //Views::OpenGL::_pres = *presenter;
   _pres = presenter;
-// TEXTE ICI
+
   Views::OpenGL::win = new Window(640, 480);
   shader = new Shader("text.vs", "text.fs");
   win->useShader(shader);
@@ -37,83 +35,13 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
 
   win->setCharacters(font.getTable());
   win->arraysConfig();
-
 }
 
 Views::OpenGL::~OpenGL () {
   endwin();
 }
 
-void Views::OpenGL::init () {
-/*
-//#################### TEST dessin d'un carre ##########
-  //Vertex shader
-  const char * vertexShaderSource = "#version 460 core\n"
-    "layout(location = 0) in vec3 aPos;\n"
-    "void main () {\n"
-    "  gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
-
-  //Fragment shader orange
-  const char * fragmentShaderSource = "#version 460 core\n"
-    "out vec4 FragColor;\n"
-    "void main () {\n"
-    "  FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
-
-  myTriangles = new Shader(vertexShaderSource, fragmentShaderSource);
-  float vertices[] = {
-    0.5f, 0.5f, 0.0f,  // top right
-    0.5f, -0.5f, 0.0f, // bottom right
-    -0.5f, -0.5f, 0.0f, // bottom left 
-    -0.5f, 0.5f, 0.f // TEST 
-  };
-
-  myTriangles->generateObjects(vertices, sizeof(vertices) / sizeof(float));
-// ### fin initialisation et calcul pour un carre triangle
-*/
-}
-
-void Views::OpenGL::renderText()
-{
-
-}
-
 void Views::OpenGL::output (int x, int y, const char *string) {
-}
-
-void Views::OpenGL::displayRoutine (void) {
-/*
-  map<int, GraphicComponent *> components = scr.components();
-  _keyboardx = scr.selected();
-
-  glClear(GL_COLOR_BUFFER_BIT);
-
-  for(long unsigned int i = 0; i < components.size(); i++) {
-    GraphicComponent * a = components[i];
-
-    if (Text * text = dynamic_cast<Text*>(a); text != nullptr) {
-      //display(*text);
-    } else if (Menu * menu = dynamic_cast<Menu*>(a); menu != nullptr) {
-      //display(*menu);
-    }
-  }
-
-  if(_valid)
-    openglend();
-  _pres->display();
-  usleep(100000);
-*/
-}
-
-void Views::OpenGL::keyboard (unsigned char key, int x, int y) {
-/*
-  cout << "coucou c'est nous !!" << endl;
-  if(key == KEYB_CR) {
-    _valid = true;
-    openglend();
-  }
-*/
 }
 
 void Views::OpenGL::special (int key, int x, int y) {
@@ -126,13 +54,6 @@ void Views::OpenGL::reshape (int width, int height) {
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   glMatrixMode(GL_MODELVIEW);
-}
-
-void Views::OpenGL::tick(void) {
-  _pres->display();
-}
-
-void Views::OpenGL::selectMessage (int msg) {
 }
 
 void Views::OpenGL::selectColor (int color) {
@@ -209,8 +130,8 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   if(_keybx < items.size())
     advance(it, _keybx);
   Dictionary d;
-  string m = "cursorPosition: " + cursorPosition;
-  m = "_maxKeyboardx: " + _maxKeyboardx;
+  //string m = "cursorPosition: " + cursorPosition;
+  //m = "_maxKeyboardx: " + _maxKeyboardx;
 
   //TODO: le 10 c'est la largeur, donc le calcul de la plus longue chaine de caracteres
   //15 et 9 sont les tailles de font
@@ -257,16 +178,16 @@ void Views::OpenGL::openglend () {
 void Views::OpenGL::test (Window * win, Shader * shader) {
 
   map<int, GraphicComponent *> lst = scr.components();
-//cout << "la taille est : " << lst.size() << endl;
+
   for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
     if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
-      win->renderText(*shader, text->label().c_str(), text->x() * 25.0f, text->y() * 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+      win->renderText(*shader, text->label().c_str(), 125.f + text->x(), (1. + text->y()) * 30.f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
     } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
       display(win, shader, (*menu));
     }
   }
 
-  win->renderText(*shader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+//  win->renderText(*shader, "This is sample text", 25.0f, 25.0f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
 //  win->renderText(*shader, "(C) LearnOpenGL.com", 0.f, 450.f, 0.5f, glm::vec3(0.3, 0.7f, 0.9f));
 //  win->renderText(*shader, "Test", 250.f, 250.f, 0.5f, glm::vec3(0.9, 0.7f, 0.3f));
 }

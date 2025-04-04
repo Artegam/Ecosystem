@@ -54,6 +54,9 @@ int View::getChar () {
   return 0;
 }
 
+void View::initScreen () {
+}
+
 void View::clearScreen () {
 }
 
