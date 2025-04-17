@@ -66,8 +66,8 @@ namespace Views {
       Presenter * _presenter;
       unsigned int _keyboardx = 0;
       unsigned int _keyboardy = 0;
-      int _maxKeyboardx = 0;
-      int _maxKeyboardy = 0;
+      unsigned int _maxKeyboardx = 0;
+      unsigned int _maxKeyboardy = 0;
       bool _valid = false;
       Screen scr;
       Dictionary dict;

@@ -15,6 +15,7 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   loadMenu();
   this->currentNode = root;
 
+  //La taille de l ecran fait 254 * 30 (ou 51 ?) characteres avec la console
   // Creation et lancement de la musique
   snd = new Sound();
 

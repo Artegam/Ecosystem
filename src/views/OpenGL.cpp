@@ -26,6 +26,10 @@ Views::OpenGL::OpenGL (Presenter * presenter) : View (presenter) {
 
   _pres = presenter;
 
+  //254 * 50 charactères
+  // 640 * 480 px
+  // 640/254 = 2.52 pix pour largeur d'un charactere
+  // 480/50 = 9.6 pour la hauteur d'un charactère
   Views::OpenGL::win = new Window(640, 480);
   shader = new Shader("text.vs", "text.fs");
   win->useShader(shader);
@@ -123,7 +127,6 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
   list<string>::iterator it;
   list<string> items = menu.items();
   int y = menu.y();
-  const int x = menu.x(); 
   unsigned int cursorPosition = 0;
 
   it = items.begin();
@@ -139,12 +142,14 @@ void Views::OpenGL::display (Window * win, Shader * shader, Menu menu) {
 
   glm::vec3 color;
   win->setYCursorLimits(0, items.size()-1);
+  float scale = .5f;
   for(it = items.begin(); it != items.end(); it++) {
     color = glm::vec3(0.5, 0.8f, 0.2f);
-    if(cursorPosition == (const int)win->getYCursorPosition())
+    if(cursorPosition == (const unsigned int)win->getYCursorPosition())
       color = glm::vec3(1.0, 1.0, 1.0);
 
-    win->renderText(*shader, dict.translate((*it)).c_str(), 175.f + menu.x(), 900 - (y * 30.0f), 1.0f, color);
+    //win->renderText(*shader, dict.translate((*it)).c_str(), 175.f + menu.x(), (480 * 2) - (y * 30.0f), scale, color);
+    win->renderText(*shader, dict.translate((*it)).c_str(), menu.x(), y, scale, color);
     // le 15 est la hauteur de la font => à stocker dans un tableau ou est-ce qu elle est accessible ?
     y++;
     cursorPosition++;
@@ -181,7 +186,7 @@ void Views::OpenGL::test (Window * win, Shader * shader) {
 
   for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
     if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
-      win->renderText(*shader, text->label().c_str(), 125.f + text->x(), (1. + text->y()) * 30.f, 1.0f, glm::vec3(0.5, 0.8f, 0.2f));
+      win->renderText(*shader, text->label().c_str(), text->x(), text->y(), .5f, glm::vec3(0.5, 0.8f, 0.2f));
     } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
       display(win, shader, (*menu));
     }

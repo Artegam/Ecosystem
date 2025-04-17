@@ -58,7 +58,6 @@ void Views::NCurses::createWindow (int screen, int x, int y, int height, int wid
     windows.resize(screen+1);
   windows[screen] = subwin(stdscr, height, width, y, x);
 
-  //initScreen();
   refresh();
 }
 
@@ -98,10 +97,8 @@ void Views::NCurses::clearScreen() {
 
 void Views::NCurses::initScreen() {
   if (toClear) {
-    //clear();
     wclear(stdscr);
     wclear(windows[scr.window()]);
-
     toClear = false;
   }
 }
@@ -217,7 +214,7 @@ void Views::NCurses::display (Menu menu) {
   list<string> items = menu.items();
   int y = menu.y();
   const int x = menu.x(); 
-  int cursorPosition = 0;
+  unsigned int cursorPosition = 0;
 
   it = items.begin();
   advance(it, _keyboardx);

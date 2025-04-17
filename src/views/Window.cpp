@@ -142,6 +142,12 @@ void Views::Window::renderText (Shader &shader, string text, float x, float y, f
   glActiveTexture(GL_TEXTURE0);
   glBindVertexArray(uiVAO);
 
+  // y recalcule en fonction de l ecran et de la hauteur des characteres
+  // 30 px = hauteur du charactere
+  float consoleHeight = 30.;
+  float consoleWidth = 254.;
+  x = (uiWidth / consoleWidth) * x;
+  y = uiHeight - ((uiHeight / consoleHeight) * y);
   // iterate through all characters
   string::const_iterator c;
   for (c = text.begin(); c != text.end(); c++) 
