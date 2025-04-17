@@ -139,14 +139,15 @@ string Dictionary::translate(string sentence) {
   }
 
   // si il n'y a pas d'espace on a un mot
-  if(positions.size() == 0)
+  if(positions.size() == 0) {
     if(dictionary[sentence] != "")
       return dictionary[sentence];
     else
       return sentence;
+  }
 
   // calculer le nombre de mots
-  unsigned int wordsNumber = positions.size() + 1;
+  //unsigned int wordsNumber = positions.size() + 1;
 
   // calculer la longueur de chaque mots
   list<pair<unsigned int, unsigned int>> words; // pair<premier charactere, longueur>

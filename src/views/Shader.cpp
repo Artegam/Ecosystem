@@ -59,7 +59,7 @@ Views::Shader::Shader (const char* vertexPath, const char* fragmentPath, const c
   if(geometryPath != nullptr)
   {
     const char * gShaderCode = geometryCode.c_str();
-    //geometry = glCreateShader(GL_GEOMETRY_SHADER);
+    geometry = glCreateShader(GL_GEOMETRY_SHADER);
     glShaderSource(geometry, 1, &gShaderCode, NULL);
     glCompileShader(geometry);
     checkCompileErrors(geometry, "GEOMETRY");
