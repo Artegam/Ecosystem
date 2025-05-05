@@ -105,6 +105,11 @@ namespace Views {
       void setLanguage(const unsigned int lang);
   };
 
+  struct bubble_data {
+    unsigned int index = 0;
+    unsigned int y = rand()%25 + 25;
+    unsigned int x = rand()%254;
+  };
 
   /// class NCursesView -
   class NCurses : public View {
@@ -118,6 +123,7 @@ namespace Views {
       int windowWidth = 0;
       void redraw (WINDOW * mainMenu);
       void drawChar (WINDOW * win, int x, int y, char c, char color);
+      bubble_data data[15];
 
     protected:
       bool toClear = true;
@@ -142,6 +148,8 @@ namespace Views {
       void display (Screen screen);
       void display (Menu menu);
       void display (Text text);
+      bubble_data bubble (bubble_data data);
+      void bubbles ();
       void keyboard ();
   };
 

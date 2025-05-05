@@ -8,8 +8,8 @@ ScreenPresenter::ScreenPresenter (World * world, ScreenViewModel svm) {
 }
 
 void ScreenPresenter::start () {
-  //view = new NCurses(this);
-  view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
+  view = new NCurses(this);
+  //view = new OpenGL(this); //ERROR: La boucle infinie de opengl neutralise le presenter
   view->createWindow(MAIN, 0, 0, 50, 50);
 
   view->init(data.getWorldHeight(), data.getWorldWidth());

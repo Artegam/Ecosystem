@@ -200,6 +200,7 @@ void Views::NCurses::display () {
     }
   }
 
+  bubbles();
   wrefresh(windows[scr.window()]);
   usleep(100000);
 }
@@ -268,6 +269,41 @@ void Views::NCurses::keyboard () {
       break;
     case KEYB_ESCAPE:
       break;
+  }
+}
+
+bubble_data Views::NCurses::bubble (bubble_data data) {
+  char lst[4] = {0x2E, 0x6F, 0x4F, 0x20}; // '.', 'o', 'O', ' '
+
+  wattron(stdscr, COLOR_PAIR(WATER_PAIR));
+  mvwprintw(stdscr, data.y, data.x, "%c", lst[data.index]);
+
+  if (rand()%2) { //sign
+    data.x += rand()%2;
+  } else {
+    data.x -= rand()%2;
+  }
+
+  if (data.index < 3) {
+    data.index++;
+  } else if (data.y > 0) {
+    data.y--;
+    data.index = 2;
+    mvwprintw(stdscr, data.y, data.x, "%c", lst[data.index]);
+  } else {
+    data.y = rand()%25 + 25;
+    data.x = rand()%254;
+    data.index = 0;
+  }
+  wattroff(stdscr, COLOR_PAIR(WATER_PAIR));
+  return data;
+}
+
+
+void Views::NCurses::bubbles () {
+  unsigned int nb = 15;
+  for (unsigned int i = 0; i < nb; i++) {
+    data[i] = bubble(data[i]);
   }
 }
 
