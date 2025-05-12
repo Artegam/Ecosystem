@@ -301,9 +301,17 @@ bubble_data Views::NCurses::bubble (bubble_data data) {
 
 
 void Views::NCurses::bubbles () {
-  unsigned int nb = 15;
+  list<bubble_data>::iterator it;
+  for (it = bub_data.begin(); it != bub_data.end(); it++) {
+    *it = bubble(*it);
+  }
+
+  //Add random number of bubbles inferior to max
+  unsigned int nb = rand() % (bub_max - bub_data.size());
+
   for (unsigned int i = 0; i < nb; i++) {
-    data[i] = bubble(data[i]);
+    bubble_data oneBubble;
+    bub_data.push_back(oneBubble);
   }
 }
 

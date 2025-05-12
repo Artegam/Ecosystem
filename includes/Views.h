@@ -123,7 +123,9 @@ namespace Views {
       int windowWidth = 0;
       void redraw (WINDOW * mainMenu);
       void drawChar (WINDOW * win, int x, int y, char c, char color);
-      bubble_data data[15];
+      const unsigned int bub_max = 15;
+      unsigned int bub_nb = 15;
+      list<bubble_data> bub_data;
 
     protected:
       bool toClear = true;
