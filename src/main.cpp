@@ -14,7 +14,7 @@ void display(World * w);
 
 int main(int argc, char** argv) {
   // Let's play the music ....
-  Music m;
+  Music m(argc, argv);
   std::thread t_m(&Music::play);
   t_m.detach();
 

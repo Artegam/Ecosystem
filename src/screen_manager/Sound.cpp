@@ -5,7 +5,7 @@ using namespace sound;
 
 
 Sound::Sound () {
-  Music m;
+  //Music m;
 }
 
 

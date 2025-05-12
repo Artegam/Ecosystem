@@ -22,12 +22,12 @@
 #define BACKEND "alut"
 #endif
 
-#define TEST_ERROR(_msg)		\
-	error = alGetError();		\
-	if (error != AL_NO_ERROR) {	\
-		fprintf(stderr, _msg "\n");	\
-		return;		\
-	}
+#define TEST_ERROR(_msg)        \
+  error = alGetError();         \
+  if (error != AL_NO_ERROR) {   \
+    fprintf(stderr, _msg "\n"); \
+    return;                     \
+  }
 
 using namespace std;
 
@@ -41,9 +41,10 @@ namespace sound {
 
     public:
       static ALuint source;
+      static ALuint buffer;
       static ALuint streaming_source[1];
 
-     Music ();
+     Music (int argc, char** argv);
       ~Music ();
 
       static void play ();
