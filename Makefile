@@ -15,7 +15,6 @@ TEST_DIR = $(TESTS)$(SRC)
 INCLUDES = -I $(INC) -I/usr/include/freetype2 -I/usr/include/libpng16 # -I $(INC_RENDER) -I $(TESTS)
 
 LIBS = -lncurses -lGL -lSDL2 -lSDL2_image -lSDL2_ttf -lstdc++fs -lopenal -lalut -L/usr/lib64 -lfreetype -lglfw -lGLESv2 -lm
-#EXEC = Ecosystem
 OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
 
@@ -63,38 +62,37 @@ OBJ+=$(GRAPHICCOMPONENTS_O)
 ## Pour declarer des targets qui ne sont pas des fichiers
 .PHONY: directories clean install install-libs install-cyg-libs uninstall uninstall-libs test
 
-#all:$(EXEC)
-all:Ecosystem test
+all: Ecosystem test
 
 Ecosystem: $(OBJ)
-	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) $(OBJ) -o $(BIN)$@ $(LIBS)
+	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) $^ -o $(BIN)$@ $(LIBS)
 
 #$(TESTS_U): $(O_TESTS_U)
 #	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
 
 o/model/%.o: src/model/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(INCLUDES) $? -o $@
 
 o/views/%.o: src/views/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(INCLUDES) $? -o $@
 
 o/file_views/%.o: src/file_views/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(INCLUDES) $? -o $@
 
 o/interactor/%.o: src/interactor/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(INCLUDES) $? -o $@
 
 o/screen_manager/%.o: src/screen_manager/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@ -lstdc++fs
+	g++ $(OPT) -c $(INCLUDES) $? -o $@ -lstdc++fs
 
 o/file_manager/%.o: src/file_manager/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@ -lstdc++fs
+	g++ $(OPT) -c $(INCLUDES) $? -o $@ -lstdc++fs
 
 o/tests/%.o: src/tests/%.cpp
-	g++ $(OPT) -c $(TESTS)$(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(TESTS)$(INCLUDES) $? -o $@
 
 o/%.o: src/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $^ -o $@
+	g++ $(OPT) -c $(INCLUDES) $? -o $@
 
 # A supprimer ?
 #%.o: $(SRC_TU)%.cpp
