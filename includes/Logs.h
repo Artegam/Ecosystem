@@ -6,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -26,6 +27,7 @@ namespace Logs {
       // Operations
     public:
       Logger (const string filename);
+      string timestamp ();
       void log (Loggable * l);
       void log (string message);
   };
