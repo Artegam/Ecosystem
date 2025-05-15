@@ -3,6 +3,7 @@
 ## L'ordre est important pour les recherches
 VPATH = o:o/model/:o/views:o/logs:o/file_views:o/interactor:o/screen_listeners:o/screen_manager:o/file_manager:o/keyboards:o/sound:o/tests:src:includes
 
+CXX := g++
 TESTS = tests/
 INC = includes/
 #INC_TU = $(SRC_TU)$(INC)
@@ -19,42 +20,9 @@ OPT = -Wall -g
 OPT_THREAD = -std=c++0x -pthread
 
 
-MODEL = $(wildcard src/model/*.cpp)
-VIEWS = $(wildcard src/views/*.cpp)
-FILE_VIEWS = $(wildcard src/file_views/*.cpp)
-INTERACTOR = $(wildcard src/interactor/*.cpp)
-SCREEN_MANAGER = $(wildcard src/screen_manager/*.cpp)
-FILE_MANAGER = $(wildcard src/file_manager/*.cpp)
-KEYBOARDS = $(wildcard src/keyboards/*.cpp)
-SOUND = $(wildcard src/sound/*.cpp)
-TRANSLATIONS = $(wildcard src/translations/*.cpp)
-LOGS = $(wildcard src/logs/*.cpp)
-GRAPHICCOMPONENTS = $(wildcard src/graphic_components/*.cpp)
-
-MODEL_O=$(subst $(SRC), $(OUT), $(MODEL:.cpp=.o))
-VIEWS_O=$(subst $(SRC), $(OUT), $(VIEWS:.cpp=.o))
-FILE_VIEWS_O=$(subst $(SRC), $(OUT), $(FILE_VIEWS:.cpp=.o))
-INTERACTOR_O=$(subst $(SRC), $(OUT), $(INTERACTOR:.cpp=.o))
-SCREEN_MANAGER_O=$(subst $(SRC), $(OUT), $(SCREEN_MANAGER:.cpp=.o))
-FILE_MANAGER_O=$(subst $(SRC), $(OUT), $(FILE_MANAGER:.cpp=.o))
-KEYBOARDS_O=$(subst $(SRC), $(OUT), $(KEYBOARDS:.cpp=.o))
-SOUND_O=$(subst $(SRC), $(OUT), $(SOUND:.cpp=.o))
-TRANSLATIONS_O=$(subst $(SRC), $(OUT), $(TRANSLATIONS:.cpp=.o))
-LOGS_O=$(subst $(SRC), $(OUT), $(LOGS:.cpp=.o))
-GRAPHICCOMPONENTS_O=$(subst $(SRC), $(OUT), $(GRAPHICCOMPONENTS:.cpp=.o))
-
-OBJ=$(OUT)main.o
-OBJ+=$(MODEL_O)
-OBJ+=$(VIEWS_O)
-OBJ+=$(FILE_VIEWS_O)
-OBJ+=$(INTERACTOR_O)
-OBJ+=$(SCREEN_MANAGER_O)
-OBJ+=$(FILE_MANAGER_O)
-OBJ+=$(KEYBOARDS_O)
-OBJ+=$(SOUND_O)
-OBJ+=$(TRANSLATIONS_O)
-OBJ+=$(LOGS_O)
-OBJ+=$(GRAPHICCOMPONENTS_O)
+SRC_FILES = $(shell find src/ -type f -name '*.cpp')
+OBJ_FILES = $(patsubst src/%.cpp, o/%.o, $(SRC_FILES))
+#DEP_FILES = $(patsubst src/%.cpp, d/%.d, $(SRC_FILES))
 
 #TESTS_U = test_unitaires
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
@@ -64,60 +32,27 @@ OBJ+=$(GRAPHICCOMPONENTS_O)
 
 all: Ecosystem test
 
-Ecosystem: $(OBJ)
+Ecosystem: $(OBJ_FILES)
 	g++ $(OPT) $(INCLUDES) $(OPT_THREAD) $^ -o $(BIN)$@ $(LIBS)
 
 #$(TESTS_U): $(O_TESTS_U)
 #	g++ $(OPT) $(INCLUDES) -o $(BIN)$@ o/*.o $(LIBS)
 
-o/model/%.o: src/model/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@
-
-o/views/%.o: src/views/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@
-
-o/file_views/%.o: src/file_views/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@
-
-o/interactor/%.o: src/interactor/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@
-
-o/screen_manager/%.o: src/screen_manager/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@ -lstdc++fs
-
-o/file_manager/%.o: src/file_manager/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@ -lstdc++fs
-
-o/tests/%.o: src/tests/%.cpp
-	g++ $(OPT) -c $(TESTS)$(INCLUDES) $? -o $@
-
+# ASC - 15/05/2025 - pour le calcul des dépendances
+#d/%.d: src/%.cpp
+#	@mkdir -p "$(@D)"
+#	$(CXX) $(INCLUDES) -M -MMD $< -o $@
+#
 o/%.o: src/%.cpp
-	g++ $(OPT) -c $(INCLUDES) $? -o $@
+	@mkdir -p "$(@D)"
+	$(CXX) $(OPT) -c $(INCLUDES) $? -o $@
 
 # A supprimer ?
 #%.o: $(SRC_TU)%.cpp
 #	g++ $(OPT) -c $(INCLUDES) $^ -o o/$@
 
-directories:
-	if [ ! -d o/ ]; then mkdir o/; fi
-	if [ ! -d o/model ]; then mkdir o/model; fi
-	if [ ! -d o/views ]; then mkdir o/views; fi
-	if [ ! -d o/file_views ]; then mkdir o/file_views; fi
-	if [ ! -d o/interactor ]; then mkdir o/interactor; fi
-	if [ ! -d o/screen_manager ]; then mkdir o/screen_manager; fi
-	if [ ! -d o/file_manager ]; then mkdir o/file_manager; fi
-	if [ ! -d o/screen_listeners ]; then mkdir o/screen_listeners; fi
-	if [ ! -d o/tests ]; then mkdir o/tests; fi
-	if [ ! -d o/keyboards ]; then mkdir o/keyboards; fi
-	if [ ! -d o/sound ]; then mkdir o/sound; fi
-	if [ ! -d o/translations ]; then mkdir o/translations; fi
-	if [ ! -d o/logs ]; then mkdir o/logs; fi
-	if [ ! -d o/graphic_components ]; then mkdir o/graphic_components; fi
-	if [ ! -d o/ ]; then mkdir o/; fi
-	if [ ! -d bin/ ]; then mkdir bin/; fi
-
 clean:
-	find o/ -name *.o | xargs rm;find . -name "*~" | xargs rm -f
+	rm -r o/;find . -name "*~" | xargs rm -f
 
 install:
 	sudo cp $(BIN)Ecosystem $(INSTALL_DIR)
@@ -126,7 +61,7 @@ install:
 	chmod 755 ~/.ecosystem/
 	if [ ! -d /var/log/ecosystem/ ]; then sudo mkdir /var/log/ecosystem/; fi
 
-install-tools: install-libs directories
+install-tools: install-libs
 	sudo apt-get install g++ vim dia dia2code doxygen
 
 install-ncurses:
@@ -162,3 +97,5 @@ test:
 #cli commands here for test predicate
 	# compile tests classes
 	# run test classes
+
+include $(DEP_FILES)
