@@ -17,6 +17,7 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
 
   //La taille de l ecran fait 254 * 30 (ou 51 ?) characteres avec la console
   // Creation et lancement de la musique
+  // stockage de la position x et y en pourcentage
   snd = new Sound();
 
   Node * opts = this->root->getNode("Options");
@@ -27,8 +28,8 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
 
   screens[MAIN] = new Screen(MAIN, 0, 0);
   screens[MAIN]->resize(50,50);
-  screens[MAIN]->add(new Text(MAIN, 93, 10, " Ecosystem v0.2 "));
-  screens[MAIN]->add(new Menu(MAIN, 98, 20, getMenuText()));
+  screens[MAIN]->add(new Text(MAIN, 45, 20, " Ecosystem v0.2 "));
+  screens[MAIN]->add(new Menu(MAIN, 47, 30, getMenuText()));
 
   screens[OPTIONS] = new Screen(OPTIONS, 10, 10);
   screens[OPTIONS]->add(new Text(OPTIONS, 1, 0, " Options "));

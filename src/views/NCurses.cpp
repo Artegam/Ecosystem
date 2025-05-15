@@ -1,11 +1,6 @@
 #include "Views.h"
-#include "Logs.h"
-#include "Translations.h"
-#include <cstring>
 
 using namespace Views;
-using namespace Logs;
-using namespace Translations;
 
 #define EMPTY_PAIR     1
 #define WATER_PAIR     2
@@ -18,7 +13,7 @@ Views::NCurses::NCurses (Presenter * presenter) : View (presenter) {
   initscr();
   noecho();
   nodelay(stdscr, TRUE); // For the keyboard
-  getmaxyx(stdscr, this->windowHeight, this->windowWidth);
+  getmaxyx(stdscr, screenSize.height, screenSize.width);
 }
 
 Views::NCurses::~NCurses () {
@@ -30,7 +25,8 @@ void Views::NCurses::init (int height, int width) {
   this->worldWidth = width;
 
   // Creation of the windows
-  windows[0] = subwin(stdscr, LINES, COLS, 0, 0);
+  windows[0] = subwin(stdscr, screenSize.height, screenSize.width, 0, 0);
+  log->log("Current console size : width: " + to_string(screenSize.width) + " height: " + to_string(screenSize.height));
 
   // Enable keyboard for first standart screen
   keypad(stdscr, true);
@@ -51,7 +47,6 @@ void Views::NCurses::init (int height, int width) {
 }
 
 void Views::NCurses::createWindow (int screen, int x, int y, int height, int width) {
-  Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
   log->log("create window() x: " + to_string(x) + " y: " + to_string(y) + " height: " + to_string(height) + " width: " + to_string(width));
 
   if(windows.size() < (unsigned long)(screen + 1)) 
@@ -213,8 +208,9 @@ void Views::NCurses::display (Screen screen) {
 void Views::NCurses::display (Menu menu) {
   list<string>::iterator it;
   list<string> items = menu.items();
-  int y = menu.y();
-  const int x = menu.x(); 
+  unsigned int y = (menu.y() * screenSize.height) / 100;
+  unsigned int x = (menu.x() * screenSize.width) / 100;
+
   unsigned int cursorPosition = 0;
 
   it = items.begin();
@@ -230,7 +226,7 @@ void Views::NCurses::display (Menu menu) {
     if(cursorPosition == _keyboardx)
       wattron(windows[menu.window()], A_REVERSE);
 
-    mvwprintw(windows[menu.window()], y, menu.x(), "%s", dict.translate((*it)).c_str());
+    mvwprintw(windows[menu.window()], y, x, "%s", dict.translate((*it)).c_str());
 
     if(cursorPosition == _keyboardx)
       wattroff(windows[menu.window()], A_REVERSE);
@@ -241,7 +237,9 @@ void Views::NCurses::display (Menu menu) {
 }
 
 void Views::NCurses::display (Text text) {
-  mvwprintw(windows[text.window()], text.y(), text.x(), "%s", dict.translate(text.label()).c_str());
+  unsigned int y = (text.y() * screenSize.height) / 100;
+  unsigned int x = (text.x() * screenSize.width) / 100;
+  mvwprintw(windows[text.window()], y, x, "%s", dict.translate(text.label()).c_str());
 }
 
 void Views::NCurses::keyboard () {

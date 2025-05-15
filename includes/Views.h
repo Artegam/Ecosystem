@@ -3,6 +3,7 @@
 
 #include "GraphicComponents.h"
 #include "Translations.h"
+#include "Logs.h"
 
 #include <ncurses.h>
 
@@ -14,6 +15,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <thread>
 
 #include <GLES3/gl3.h>
@@ -24,9 +26,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-
 #include <ft2build.h>
 #include FT_FREETYPE_H
+
 
 #include <fstream>
 #include <sstream>
@@ -36,6 +38,7 @@
 using namespace std;
 using namespace GraphicComponents;
 using namespace Translations;
+using namespace Logs;
 
 namespace Views {
   // Keyboard keys
@@ -46,6 +49,10 @@ namespace Views {
   const int KEYB_SPACE  = 32;
   const int KEYB_ESCAPE = 27;
 
+  struct size_win {
+    unsigned int height;
+    unsigned int width;
+  };
 
   // interface
   /// class Presenter - 
@@ -72,10 +79,10 @@ namespace Views {
       Screen scr;
       Dictionary dict;
       bool tobeClosed = false;
+      size_win screenSize;
 
     // Operations
     public:
-
       View (Presenter * presenter);
       virtual void init (int height, int width);
       void end ();
@@ -98,11 +105,12 @@ namespace Views {
       void keyboard ();
       const int getKeyboardx ();
       const int getKeyboardy ();
-      void setMaxKeyboardx(const int max = 0);
-      void setMaxKeyboardy(const int max = 0);
-      void resetKeyboard();
+      void setMaxKeyboardx (const int max = 0);
+      void setMaxKeyboardy (const int max = 0);
+      void resetKeyboard ();
       bool isValid ();
-      void setLanguage(const unsigned int lang);
+      void setLanguage (const unsigned int lang);
+      size_win getScreenSize ();
   };
 
   struct bubble_data {
@@ -115,12 +123,11 @@ namespace Views {
   class NCurses : public View {
     private:
       // Attributes
+      Logger * log = new Logger("/home/tonio/labo/Ecosystem/bin/NCurses.log");
       int worldHeight = 1;
       int worldWidth = 1;
       int choice;
       int highlight = 0;
-      int windowHeight = 0;
-      int windowWidth = 0;
       void redraw (WINDOW * mainMenu);
       void drawChar (WINDOW * win, int x, int y, char c, char color);
       const unsigned int bub_max = 15;

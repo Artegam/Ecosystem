@@ -77,15 +77,15 @@ const int View::getKeyboardy () {
   return _keyboardy;
 }
 
-void View::setMaxKeyboardx(const int max) {
+void View::setMaxKeyboardx (const int max) {
   _maxKeyboardx = max;
 }
 
-void View::setMaxKeyboardy(const int max) {
+void View::setMaxKeyboardy (const int max) {
   _maxKeyboardy = max;
 }
 
-void View::resetKeyboard() {
+void View::resetKeyboard () {
   _keyboardx = 0;
   _keyboardy = 0;
 }
@@ -96,6 +96,10 @@ bool View::isValid () {
   return ret;
 }
 
-void View::setLanguage(const unsigned int lang) {
+void View::setLanguage (const unsigned int lang) {
   dict.setLanguage(lang);
+}
+
+size_win View::getScreenSize () {
+  return screenSize;
 }
