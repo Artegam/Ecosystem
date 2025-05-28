@@ -92,6 +92,7 @@ namespace Views {
       virtual void display (Screen screen);
       void display (Menu menu);
       void display (Text text);
+      void display (Cell c);
       virtual void mainMenu (int keybPosition = -1);
       virtual void options (int keybPosition = -1);
       virtual void languages (int keybPosition = -1);
@@ -157,9 +158,16 @@ namespace Views {
       void display (Screen screen);
       void display (Menu menu);
       void display (Text text);
+      void display (Selector selector);
+      void display (Calendar calendar);
+      void display (Table tab);
+      void display (Cell c);
       bubble_data bubble (bubble_data data);
       void bubbles ();
       void keyboard ();
+      void rect(basic b);
+      //void tab(Table tab);
+      void tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, unsigned int mode = 0);
   };
 
   //Texture wrapper class

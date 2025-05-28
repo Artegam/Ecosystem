@@ -13,6 +13,27 @@ using namespace Translations;
 
 namespace GraphicComponents {
 
+  struct basic {
+    unsigned int x;
+    unsigned int y;
+    unsigned int width;
+    unsigned int height;
+  };
+
+  struct tab {
+    unsigned int rows;
+    unsigned int cols;
+    unsigned int colmaxsize = 0;
+    unsigned int rowmaxsize = 0;
+    list<unsigned int> colssizes;
+    list<unsigned int> rowssizes;
+  };
+
+  class Utils {
+    public:
+      const unsigned int occurences(const string str, char c);
+  };
+
   class Node {
     private:
       string _key;
@@ -100,6 +121,9 @@ namespace GraphicComponents {
       const int window();
       const int x();
       const int y();
+      const unsigned int height ();
+      const unsigned int width ();
+      const basic getBasic();
       list<string> nodesToString (list<Node *> items);
   };
 
@@ -148,12 +172,64 @@ namespace GraphicComponents {
       const string label();
   };
 
+  class Selector : public Text {
+    public:
+      Selector (const int window, const int x, const int y, const string label);
+  };
+
   class Button : public Leaf {
     private:
   };
 
   class Image : public Leaf {
     private:
+  };
+
+  class Cell : public Leaf {
+    private:
+      string _value;
+      bool _select = false;
+    public:
+      Cell (const int window, const int x, const int y, const string value);
+      void setWidth(const unsigned int w);
+      void setHeight(const unsigned int h);
+      const string value();
+      void setValue(const string value);
+      void select();
+      bool isSelected();
+  };
+
+  class Table : public Leaf {
+    private:
+      tab _t;
+      list<Cell*> cells;
+    public:
+      Table (const int window, const int x, const int y, const unsigned int rows, const unsigned int cols, string defaultval = "-");
+      list<Cell*> getCells ();
+      list<Cell*> getRow (unsigned int n);
+      Cell getCell (const unsigned int pos);
+      Cell * getCell(unsigned int row, unsigned int col);
+      const tab getTab();
+      void setValue(unsigned int row, unsigned int col, string value);
+      void setValue(unsigned int row, unsigned int col, const char * value);
+      void updateLengths ();
+      void select(unsigned int row, unsigned int col);
+  };
+
+  class ScrollBar : public Leaf {
+
+  };
+
+  class Calendar : public Leaf {
+    private:
+      Table * _daily;
+      Selector * _month;
+      Selector * _year;
+    public:
+      Calendar (const int window, const int x, const int y);
+      Selector getMonth ();
+      Selector getYear ();
+      Table getDaily ();
   };
 
 };

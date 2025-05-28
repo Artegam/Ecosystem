@@ -64,6 +64,23 @@ const int GraphicComponent::y() {
   return _y;
 }
 
+const unsigned int GraphicComponent::width() {
+  return _width;
+}
+
+const unsigned int GraphicComponent::height() {
+  return _height;
+}
+
+const basic GraphicComponent::getBasic() {
+  basic b;
+  b.x = _x;
+  b.y = _y;
+  b.width = _width;
+  b.height = _height;
+  return b;
+}
+
 list<string> GraphicComponent::nodesToString (list<Node *> items) {
   list<Node *>::iterator it;
   list<string> lst;

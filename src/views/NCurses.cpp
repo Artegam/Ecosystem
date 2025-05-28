@@ -188,10 +188,18 @@ void Views::NCurses::display () {
   mvwprintw(stdscr, 1, 1, "_keyboardx: %d", _keyboardx);
 
   for(map<int, GraphicComponent *>::iterator it = lst.begin(); it != lst.cend(); it++) {
-    if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
+    if (Selector * sel = dynamic_cast<Selector*>(it->second); sel != nullptr) {
+      display((*sel));
+    } else if (Text * text = dynamic_cast<Text*>(it->second); text != nullptr) {
       display((*text));
     } else if (Menu * menu = dynamic_cast<Menu*>(it->second); menu != nullptr) {
       display((*menu));
+    } else if (Calendar * cal = dynamic_cast<Calendar*>(it->second); cal != nullptr) {
+      display((*cal));
+    } else if (Table * tab = dynamic_cast<Table*>(it->second); tab != nullptr) {
+      display((*tab));
+    } else if (Cell * cell = dynamic_cast<Cell*>(it->second); cell != nullptr) {
+      display((*cell));
     }
   }
 
@@ -242,6 +250,177 @@ void Views::NCurses::display (Text text) {
   mvwprintw(windows[text.window()], y, x, "%s", dict.translate(text.label()).c_str());
 }
 
+void Views::NCurses::display (Selector selector) {
+  WINDOW * win = windows[selector.window()];
+  unsigned int y = (selector.y() * screenSize.height) / 100;
+  unsigned int x = (selector.x() * screenSize.width) / 100;
+
+  mvwprintw(stdscr, y, x, "< %s >", dict.translate(selector.label()).c_str());
+}
+
+void Views::NCurses::display (Table table) {
+  basic b = table.getBasic();
+  tab t = table.getTab();
+  wmove(stdscr, 0, 0);
+
+  WINDOW * win = stdscr;
+  unsigned int x = (b.x * screenSize.width) / 100;
+  unsigned int y = (b.y * screenSize.height) / 100;
+  const unsigned int width = b.width;
+  const unsigned int cols = t.cols;
+  unsigned int maxcolsize = 0;
+  unsigned int maxrowsize = 1;
+
+  if (width > 1) {
+    unsigned int cpt = 0;
+    list<unsigned int>::iterator rowit;
+    list<unsigned int>::iterator colit;
+    unsigned int col;
+
+    for(rowit = t.rowssizes.begin(); rowit != t.rowssizes.end(); rowit++) {
+      x = (b.x * screenSize.width) / 100;
+      if(cpt>0)
+        y = y+maxrowsize+1;
+      if(cpt==0)
+        tablerow (table.getRow(0), t.colssizes, x, y, cols);
+      else
+        tablerow (table.getRow(cpt), t.colssizes, x, y, cols, 1);
+      cpt++;
+    }
+  }
+}
+
+void Views::NCurses::display (Calendar calendar) {
+  Selector s = calendar.getMonth();
+  display(s);
+  Selector y = calendar.getYear();
+  display(y);
+  Table t = calendar.getDaily();
+  display(t);
+}
+
+//Mode : type of row
+// 0 - A simple row
+// 1 - Last row of a table
+void Views::NCurses::tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, unsigned int mode) {
+  WINDOW * win = stdscr; //ATTENTION ICI !!! On ne respecte pas la fenetre selectionnee dans les donnees
+  unsigned int maxcolsize = 0;
+  unsigned int maxrowsize = 1;
+  unsigned int cpt = 0;
+  list<unsigned int>::iterator rowit;
+  list<unsigned int>::iterator colit;
+  unsigned int col;
+
+  list<Cell*>::iterator it = lst.begin();
+
+  //begin header
+  wmove(win, y, x);
+  if(mode==0)
+    hline(ACS_ULCORNER, 1);
+  else
+    hline(ACS_LTEE, 1);
+  // begin body
+  wmove(win, y+maxrowsize, x);
+  hline(ACS_VLINE, 1);
+  // begin foot
+  wmove(win, y+maxrowsize+1, x);
+  hline(ACS_LLCORNER, 1);
+
+  for(colit = colssizes.begin(); colit != colssizes.end(); colit++) {
+    maxcolsize = *colit;
+    col = cpt%cols;
+
+    // length of header and junction tee
+    wmove(win, y, x+col+1);
+    hline(ACS_HLINE, maxcolsize);
+    wmove(win, y, x+maxcolsize+col+1);
+    if(mode==0)
+      hline(ACS_TTEE, 1);
+    else
+      hline(ACS_PLUS, 1);
+
+    // body
+    wmove(win, y+maxrowsize, x+maxcolsize+col+1);
+    hline(ACS_VLINE, 1);
+    // Value
+    Cell c = **it;
+
+    if(c.isSelected())
+      wattron(stdscr, COLOR_PAIR(WATER_PAIR));
+
+    mvwprintw(win, y+maxrowsize, x+col+1, "%s", dict.translate(c.value()).c_str());
+    if(c.isSelected())
+      wattroff(stdscr, COLOR_PAIR(WATER_PAIR));
+
+    // length of foot and junction tee
+    wmove(win, y+maxrowsize+1, x+col+1);
+    hline(ACS_HLINE, maxcolsize);
+    wmove(win, y+maxrowsize+1, x+maxcolsize+col+1);
+    hline(ACS_BTEE, 1);
+
+    cpt++;
+    it++;
+    if(cpt<cols)
+      x+=maxcolsize;
+  }
+  //End of header
+  wmove(win, y, x+maxcolsize+col+1);
+  if(mode==0)
+    hline(ACS_URCORNER, 1);
+  else if(mode == 1)
+    hline(ACS_RTEE, 1);
+  // End of foot
+  wmove(win, y+maxrowsize+1, x+maxcolsize+col+1);
+  hline(ACS_LRCORNER, 1);
+}
+
+void Views::NCurses::display (Cell cell) {
+  //TODO: peut-etre deplacer ce calcul ?
+  //unsigned int y = (cell.y() * screenSize.height) / 100;
+  //unsigned int x = (cell.x() * screenSize.width) / 100;
+  basic b = cell.getBasic();
+  rect(b);
+
+  //print value
+  mvwprintw(stdscr, b.y+1, b.x+1, "%s", dict.translate(cell.value()).c_str());
+
+  wmove(stdscr, 0, 0);
+}
+
+void Views::NCurses::rect(basic b) {
+  WINDOW * win = stdscr;
+  const unsigned int x = b.x;
+  const unsigned int y = b.y;
+  const unsigned int width = b.width;
+  const unsigned int height = b.height;
+
+
+  wmove(win, y, x);
+  hline(ACS_ULCORNER, 1);
+  wmove(win, y, x+1);
+  hline(ACS_HLINE, width);
+  wmove(win, y, x+width+1);
+  hline(ACS_URCORNER, 1);
+  wmove(win, y+1, x);
+  vline(ACS_VLINE, height);
+  wmove(win, y+height+1, x);
+  hline(ACS_LLCORNER, 1);
+  wmove(win, y+height+1, x+1);
+  hline(ACS_HLINE, width);
+  wmove(win, y+height+1, x+width+1);
+  hline(ACS_LRCORNER, 1);
+  wmove(win, y+1, x+width+1);
+  vline(ACS_VLINE, height);
+}
+
+/*
+void Views::NCurses::tab(Table tab) {
+
+
+  //hline(ACS_TTEE, 1);
+
+}
+*/
 void Views::NCurses::keyboard () {
   unsigned char key = wgetch(stdscr);
   mvwprintw(stdscr, 3, 1, "keyboard: %d", key);

@@ -35,6 +35,9 @@ void View::display (Menu menu) {
 void View::display (Text text) {
 }
 
+void View::display (Cell c) {
+}
+
 void View::mainMenu (int keybPosition) {
 }
 

@@ -30,6 +30,7 @@ ScreenViewModel::ScreenViewModel (WorldModel worldData) {
   screens[MAIN]->resize(50,50);
   screens[MAIN]->add(new Text(MAIN, 45, 20, " Ecosystem v0.2 "));
   screens[MAIN]->add(new Menu(MAIN, 47, 30, getMenuText()));
+  screens[MAIN]->add(new Calendar(MAIN, 10, 10));
 
   screens[OPTIONS] = new Screen(OPTIONS, 10, 10);
   screens[OPTIONS]->add(new Text(OPTIONS, 1, 0, " Options "));
