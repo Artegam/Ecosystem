@@ -20,7 +20,7 @@ Calendar::Calendar (const int window, const int x, const int y): Leaf(window, x,
 
   unsigned int weekday = now->tm_wday; // nb de jours depuis dimanche 0-6
   unsigned int monthday = now->tm_mday;
-  unsigned int startweekday = (now->tm_wday+now->tm_mday)%7;
+  unsigned int startweekday = now->tm_wday-now->tm_mday%7;
 
   //_month = new Selector(window, x, y, "SEPTEMBRE");
   _month = new Selector(window, x, y, Months[imonth]);
