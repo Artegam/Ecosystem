@@ -29,6 +29,11 @@ namespace GraphicComponents {
     list<unsigned int> rowssizes;
   };
 
+  struct cursor {
+    unsigned int row = 0;
+    unsigned int col = 0;
+  };
+
   class Utils {
     public:
       const unsigned int occurences(const string str, char c);
@@ -91,7 +96,6 @@ namespace GraphicComponents {
       const int size();
   };
 
-
   // interface
   /// class View - 
   class GraphicComponent {
@@ -107,6 +111,7 @@ namespace GraphicComponents {
       int _selectedIndex = 0;
       int _selectSize;
       map<int, GraphicComponent *> _components;
+      cursor _cursor;
 
     public:
       GraphicComponent();
@@ -125,6 +130,7 @@ namespace GraphicComponents {
       const unsigned int width ();
       const basic getBasic();
       list<string> nodesToString (list<Node *> items);
+      cursor getCursor ();
   };
 
   class Leaf : public GraphicComponent {
@@ -214,6 +220,8 @@ namespace GraphicComponents {
       void setValue(unsigned int row, unsigned int col, const char * value);
       void updateLengths ();
       void select(unsigned int row, unsigned int col);
+      void setCursor(unsigned int row, unsigned int col);
+      Cell * getCursor ();
   };
 
   class ScrollBar : public Leaf {
@@ -230,6 +238,22 @@ namespace GraphicComponents {
       Selector getMonth ();
       Selector getYear ();
       Table getDaily ();
+  };
+
+  class Agenda : public Leaf {
+    private:
+      Table * _hourly;
+      Selector * _day;
+      Selector * _month;
+      Selector * _year;
+      Text * _name;
+    public:
+      Agenda (const int window, const int x, const int y);
+      Selector getDay ();
+      Selector getMonth ();
+      Selector getYear ();
+      Table getHourly ();
+      Text getName ();
   };
 
 };

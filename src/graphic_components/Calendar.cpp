@@ -56,4 +56,4 @@ Selector Calendar::getYear () {
 
 Table Calendar::getDaily () {
   return *_daily;
-} 
+}

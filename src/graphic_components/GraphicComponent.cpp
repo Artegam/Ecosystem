@@ -107,3 +107,7 @@ list<string> GraphicComponent::nodesToString (list<Node *> items) {
   }
   return lst;
 }
+
+cursor GraphicComponent::getCursor () {
+  return _cursor;
+}

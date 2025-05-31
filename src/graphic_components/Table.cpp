@@ -16,6 +16,9 @@ Table::Table (const int window, const int x, const int y, const unsigned int row
     cells.push_back(c);
   }
   updateLengths();
+  _cursor.row = 0;
+  _cursor.col = 0;
+  //setCursor(0, 0); //ça ralenti tout
 }
 
 void Table::updateLengths () {
@@ -109,4 +112,9 @@ void Table::setValue(unsigned int row, unsigned int col, const char * value) {
 void Table::select(unsigned int row, unsigned int col) {
   Cell * c = getCell(row, col);
   c->select();
+}
+
+void Table::setCursor(unsigned int row, unsigned int col) {
+  _cursor.row = row;
+  _cursor.col = col;
 }

@@ -196,6 +196,8 @@ void Views::NCurses::display () {
       display((*menu));
     } else if (Calendar * cal = dynamic_cast<Calendar*>(it->second); cal != nullptr) {
       display((*cal));
+    } else if (Agenda * age = dynamic_cast<Agenda*>(it->second); age != nullptr) {
+      display((*age));
     } else if (Table * tab = dynamic_cast<Table*>(it->second); tab != nullptr) {
       display((*tab));
     } else if (Cell * cell = dynamic_cast<Cell*>(it->second); cell != nullptr) {
@@ -284,10 +286,18 @@ void Views::NCurses::display (Table table) {
       if(cpt==0)
         tablerow (table.getRow(0), t.colssizes, x, y, cols);
       else
-        tablerow (table.getRow(cpt), t.colssizes, x, y, cols, 1);
+        tablerow (table.getRow(cpt), t.colssizes, x, y, cols, nullptr, 1);
       cpt++;
     }
   }
+}
+
+
+void Views::NCurses::display (Agenda age) {
+  Text t = age.getName();
+  display(t);
+  Table tab = age.getHourly();
+  display(tab);
 }
 
 void Views::NCurses::display (Calendar calendar) {
@@ -302,7 +312,7 @@ void Views::NCurses::display (Calendar calendar) {
 //Mode : type of row
 // 0 - A simple row
 // 1 - Last row of a table
-void Views::NCurses::tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, unsigned int mode) {
+void Views::NCurses::tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, Cell * cursor, unsigned int mode) {
   WINDOW * win = stdscr; //ATTENTION ICI !!! On ne respecte pas la fenetre selectionnee dans les donnees
   unsigned int maxcolsize = 0;
   unsigned int maxrowsize = 1;

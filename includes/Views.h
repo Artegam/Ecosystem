@@ -160,6 +160,7 @@ namespace Views {
       void display (Text text);
       void display (Selector selector);
       void display (Calendar calendar);
+      void display (Agenda age);
       void display (Table tab);
       void display (Cell c);
       bubble_data bubble (bubble_data data);
@@ -167,7 +168,7 @@ namespace Views {
       void keyboard ();
       void rect(basic b);
       //void tab(Table tab);
-      void tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, unsigned int mode = 0);
+      void tablerow (list<Cell*> lst, list<unsigned int> colssizes, unsigned int x, unsigned int y, const unsigned int cols, Cell * cursor = nullptr, unsigned int mode = 0);
   };
 
   //Texture wrapper class
