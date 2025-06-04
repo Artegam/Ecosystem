@@ -17,15 +17,13 @@ Calendar::Calendar (const int window, const int x, const int y): Leaf(window, x,
   sprintf(s, "%d", iyear);
   string str = s;
   unsigned int imonth = now->tm_mon;
-
-  unsigned int weekday = now->tm_wday; // nb de jours depuis dimanche 0-6
   unsigned int monthday = now->tm_mday;
   unsigned int startweekday = now->tm_wday-now->tm_mday%7;
 
   //_month = new Selector(window, x, y, "SEPTEMBRE");
   _month = new Selector(window, x, y, Months[imonth]);
   _year = new Selector(window, x+7, y, str);
-  _daily = new Table(window, x, y+2, 6, 7);  
+  _daily = new Table(window, x, y+2, 7, 7);  // le mois de juin 2025 a 7 lignes
   _daily->setValue(0, 1, "Lu");
   _daily->setValue(0, 2, "Ma");
   _daily->setValue(0, 3, "Me");
@@ -35,14 +33,14 @@ Calendar::Calendar (const int window, const int x, const int y): Leaf(window, x,
   _daily->setValue(0, 7, "Di");
   tab t = _daily->getTab();
   unsigned int cols = t.cols;
+  char val[3];
   for(unsigned int i = 1; i <= 31; i++) {
-    char * val;
     sprintf(val, "%02d", i);
     unsigned int r = (startweekday+i)/cols;
     unsigned int c = (startweekday+i)%cols;
-    _daily->setValue(1+r, c, val);
+    _daily->setValue(2+r, c, val);
     if(i==monthday)
-      _daily->select(1+r, c);
+      _daily->select(2+r, c);
   }
 }
 

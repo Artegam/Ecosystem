@@ -257,7 +257,7 @@ void Views::NCurses::display (Selector selector) {
   unsigned int y = (selector.y() * screenSize.height) / 100;
   unsigned int x = (selector.x() * screenSize.width) / 100;
 
-  mvwprintw(stdscr, y, x, "< %s >", dict.translate(selector.label()).c_str());
+  mvwprintw(win, y, x, "< %s >", dict.translate(selector.label()).c_str());
 }
 
 void Views::NCurses::display (Table table) {
@@ -265,19 +265,16 @@ void Views::NCurses::display (Table table) {
   tab t = table.getTab();
   wmove(stdscr, 0, 0);
 
-  WINDOW * win = stdscr;
   unsigned int x = (b.x * screenSize.width) / 100;
   unsigned int y = (b.y * screenSize.height) / 100;
   const unsigned int width = b.width;
   const unsigned int cols = t.cols;
-  unsigned int maxcolsize = 0;
   unsigned int maxrowsize = 1;
 
   if (width > 1) {
     unsigned int cpt = 0;
     list<unsigned int>::iterator rowit;
     list<unsigned int>::iterator colit;
-    unsigned int col;
 
     for(rowit = t.rowssizes.begin(); rowit != t.rowssizes.end(); rowit++) {
       x = (b.x * screenSize.width) / 100;
