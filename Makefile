@@ -28,7 +28,7 @@ OBJ_FILES = $(patsubst src/%.cpp, o/%.o, $(SRC_FILES))
 #O_TESTS_U = $(OBJECTS) test_unitaires.o TU_Loader.o TU_Moteur.o TU_MatParser.o
 
 ## Pour declarer des targets qui ne sont pas des fichiers
-.PHONY: directories clean install install-libs install-cyg-libs uninstall uninstall-libs test
+.PHONY: clean install install-libs install-cyg-libs uninstall uninstall-libs test
 
 all: Ecosystem test
 
